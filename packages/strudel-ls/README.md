@@ -19,11 +19,15 @@ parser_config.strudel = {
 }
 ```
 
-## Features (MVP)
-- Completions and hover from bundled builtins
-- Parser-backed syntax diagnostics via tree-sitter-strdl
-- Basic diagnostics: unknown transforms
-- Formatting stub (no-op)
+## Features
+- Context-aware completions:
+  - Inside `s("…")`: suggests sounds from bundled `sounds.json`
+  - Elsewhere: suggests transforms/functions with snippet placeholders
+- Hover: signature, blurb, and example when available
+- Signature help: parameters derived from builtin signatures
+- Diagnostics: unknown transform (with quick-fix), basic unterminated string check
+- Formatting: pipe/comma spacing normalization and optional line wrapping
+- Workspace: fast file discovery for `.str` and `.strdl`
 
 ## Supported filetypes and extensions
 - Filetypes: `strudel`, `strdl`, `str`
