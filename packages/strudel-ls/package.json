@@ -1,6 +1,6 @@
 {
   "name": "@strudel-tools/strudel-ls",
-  "version": "0.1.0",
+  "version": "0.1.1-next.0",
   "description": "Language Server for Strudel (.strudel .strdl .str .std) with Neovim integration.",
   "license": "MIT",
   "type": "module",
