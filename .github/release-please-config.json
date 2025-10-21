@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemata/config.json",
+  "packages": {
+    "packages/strudel-ls": {
+      "release-type": "node",
+      "changelog-path": "packages/strudel-ls/CHANGELOG.md"
+    },
+    "packages/strudel-prettier-plugin": {
+      "release-type": "node",
+      "changelog-path": "packages/strudel-prettier-plugin/CHANGELOG.md"
+    }
+  }
+}

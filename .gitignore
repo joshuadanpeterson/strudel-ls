@@ -20,3 +20,6 @@ yarn-error.log*
 PROMPT.md
 strudel-nvim-lsp-PRD.md
 WARP.md
+
+# E2E vendor (cloned in CI/local via setup script)
+packages/strudel-ls/test/e2e/vendor/
