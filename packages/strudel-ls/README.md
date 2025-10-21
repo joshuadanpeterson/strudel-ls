@@ -96,7 +96,7 @@ Configure strudel.nvim (replace with the actual repository) and lspconfig:
 
 ```lua path=null start=null
 use { 'neovim/nvim-lspconfig' }
-use { 'owner/strudel.nvim' } -- replace "owner/strudel.nvim" with the real repo
+use { 'gruvw/strudel.nvim' }
 
 require('lspconfig').strudel_ls.setup({
   cmd = { 'strudel-ls', '--stdio' },
@@ -115,7 +115,7 @@ return {
         filetypes = { 'strudel', 'strdl', 'str' },
       })
     end },
-  { 'owner/strudel.nvim' }, -- replace with the real repo
+{ 'gruvw/strudel.nvim' },
 }
 ```
 

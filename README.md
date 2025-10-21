@@ -62,7 +62,7 @@ require("lspconfig").strudel_ls.setup({
 
 ```lua path=null start=null
 use { 'neovim/nvim-lspconfig' }
-use { 'owner/strudel.nvim' } -- replace with the actual repo
+use { 'gruvw/strudel.nvim' }
 
 require('lspconfig').strudel_ls.setup({
   cmd = { 'strudel-ls', '--stdio' },
@@ -80,7 +80,7 @@ return {
         filetypes = { 'strudel', 'strdl', 'str' },
       })
     end },
-  { 'owner/strudel.nvim' }, -- replace with the actual repo
+{ 'gruvw/strudel.nvim' },
 }
 ```
 
