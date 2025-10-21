@@ -2,6 +2,8 @@
 
 Language Server for Strudel files. Designed to work seamlessly with strudel.nvim in Neovim.
 
+> Back to repo overview: [../../README.md](../../README.md)
+
 ## What is Strudel?
 Strudel is a Tidal-inspired pattern language and live-coding environment implemented in JavaScript. You write musical patterns such as `s("bd sd") |+ gain 0.8`, evaluate them live, and Strudel schedules audio via WebAudio or connected backends.
 
