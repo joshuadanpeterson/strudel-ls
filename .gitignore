@@ -1,0 +1,22 @@
+# Node / TypeScript
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS & editors
+.DS_Store
+.vscode/
+.idea/
+
+# Env & local
+.env
+.env.*
+
+# Project docs to ignore
+PROMPT.md
+strudel-nvim-lsp-PRD.md
+WARP.md

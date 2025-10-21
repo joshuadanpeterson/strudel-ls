@@ -1,0 +1,4 @@
+s("bd*4 | sn")
+fast(2, s("hh*8"))
+slow(2, s("bd sn"))
+stack([s("bd*2"), s("sn*2")])

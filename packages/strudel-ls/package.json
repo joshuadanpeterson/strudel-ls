@@ -1,0 +1,46 @@
+{
+  "name": "@strudel-tools/strudel-ls",
+  "version": "0.1.0",
+  "description": "Language Server for Strudel (.strudel .strdl .str .std) with Neovim integration.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "strudel-ls": "./dist/server.js"
+  },
+  "main": "./dist/server.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "build:data": "node ./scripts/generate-builtins-from-strudel.ts $STRUDEL_REPO && node ./scripts/generate-sounds.ts $STRUDEL_REPO",
+    "test:e2e": "nvim --headless -u NONE -c \"luafile ./test/e2e/minimal_init.lua\" +\"PlenaryBustedFile ./test/e2e/strudel_spec.lua\" +qa",
+    "test:all": "npm run test:unit && npm run test:e2e",
+    "e2e:setup": "bash ./test/e2e/setup_plenary.sh",
+    "e2e": "npm run build && npm run e2e:setup && npm run test:e2e",
+    "pack": "npm pack",
+    "start": "node ./dist/server.js --stdio"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "fast-glob": "^3.3.2",
+    "tree-sitter": "^0.22.3",
+    "tree-sitter-strdl": "github:PedroZappa/tree-sitter-strdl",
+    "vscode-languageserver": "^9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.8",
+    "vscode-uri": "^3.0.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "tsup": "^8.0.1",
+    "typescript": "^5.6.3",
+    "vitest": "^1.6.0"
+  }
+}

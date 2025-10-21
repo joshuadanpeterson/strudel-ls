@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install and test strudel-ls
+        working-directory: packages/strudel-ls
+        run: |
+          npm ci || npm i
+          npm run typecheck
+          npm run build
+          npm run test:unit
+      - name: Install and test prettier plugin
+        working-directory: packages/strudel-prettier-plugin
+        run: |
+          npm ci || npm i
+          npm test
+      - name: Install Neovim for E2E
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y neovim git
+      - name: Prepare E2E dependencies (plenary.nvim pinned)
+        working-directory: packages/strudel-ls
+        run: |
+          bash ./test/e2e/setup_plenary.sh
+      - name: Run E2E tests
+        working-directory: packages/strudel-ls
+        run: npm run test:e2e
