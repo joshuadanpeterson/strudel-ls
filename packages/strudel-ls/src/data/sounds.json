@@ -1,5 +1,6 @@
 {
   "sounds": [
+    "",
     "agogo",
     "anvil",
     "balafon",
@@ -160,5 +161,2411 @@
     "xylophone_medium_pp",
     "xylophone_soft_ff",
     "xylophone_soft_pp"
-  ]
+  ],
+  "meta": {
+    "bd": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AJKPercusyn",
+        "AkaiLinn",
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisHR16",
+        "AlesisSR16",
+        "BossDR110",
+        "BossDR220",
+        "BossDR55",
+        "BossDR550",
+        "CasioRZ1",
+        "CasioSK1",
+        "CasioVL1",
+        "DoepferMS404",
+        "EmuDrumulator",
+        "EmuModular",
+        "EmuSP12",
+        "KorgDDM110",
+        "KorgKPR77",
+        "KorgKR55",
+        "KorgKRZ",
+        "KorgM1",
+        "KorgMinipops",
+        "KorgPoly800",
+        "KorgT3",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM1",
+        "LinnLM2",
+        "MFB512",
+        "MPC1000",
+        "MoogConcertMateMG1",
+        "OberheimDMX",
+        "RhodesPolaris",
+        "RhythmAce",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm78",
+        "RolandCompurhythm8000",
+        "RolandD110",
+        "RolandD70",
+        "RolandDDR30",
+        "RolandJD990",
+        "RolandMC202",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandSH09",
+        "RolandSystem100",
+        "RolandTR505",
+        "RolandTR606",
+        "RolandTR626",
+        "RolandTR707",
+        "RolandTR808",
+        "RolandTR909",
+        "SakataDPM48",
+        "SequentialCircuitsDrumtracks",
+        "SequentialCircuitsTom",
+        "SergeModular",
+        "SimmonsSDS5",
+        "SoundmastersR88",
+        "UnivoxMicroRhythmer12",
+        "ViscoSpaceDrum",
+        "XdrumLM8953",
+        "YamahaRM50",
+        "YamahaRX21",
+        "YamahaRX5",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 428,
+      "category": "kick drum",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Kick drum · from AJKPercusyn/AkaiLinn… · (uzu-drumkit) · 428 samples"
+    },
+    "cb": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AJKPercusyn",
+        "AkaiLinn",
+        "AkaiXR10",
+        "AlesisSR16",
+        "BossDR550",
+        "CasioRZ1",
+        "EmuDrumulator",
+        "EmuSP12",
+        "KorgKR55",
+        "KorgM1",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM1",
+        "LinnLM2",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm78",
+        "RolandCompurhythm8000",
+        "RolandD110",
+        "RolandD70",
+        "RolandJD990",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandTR505",
+        "RolandTR626",
+        "RolandTR707",
+        "RolandTR808",
+        "SequentialCircuitsDrumtracks",
+        "ViscoSpaceDrum",
+        "YamahaRM50",
+        "YamahaRX5",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 50,
+      "category": "cowbell",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Cowbell · from AJKPercusyn/AkaiLinn… · (uzu-drumkit) · 50 samples"
+    },
+    "ht": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AJKPercusyn",
+        "AkaiLinn",
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisHR16",
+        "BossDR220",
+        "BossDR550",
+        "CasioRZ1",
+        "CasioSK1",
+        "EmuDrumulator",
+        "EmuSP12",
+        "KorgDDM110",
+        "KorgKR55",
+        "KorgKRZ",
+        "KorgM1",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM1",
+        "LinnLM2",
+        "MFB512",
+        "OberheimDMX",
+        "RhythmAce",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm8000",
+        "RolandDDR30",
+        "RolandJD990",
+        "RolandMC202",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandTR505",
+        "RolandTR606",
+        "RolandTR626",
+        "RolandTR707",
+        "RolandTR808",
+        "RolandTR909",
+        "SakataDPM48",
+        "SequentialCircuitsDrumtracks",
+        "SequentialCircuitsTom",
+        "SimmonsSDS400",
+        "SimmonsSDS5",
+        "ViscoSpaceDrum",
+        "XdrumLM8953",
+        "YamahaRM50",
+        "YamahaRX21",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 124,
+      "category": "high tom",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "High tom · from AJKPercusyn/AkaiLinn… · (uzu-drumkit) · 124 samples"
+    },
+    "sd": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AJKPercusyn",
+        "AkaiLinn",
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisHR16",
+        "AlesisSR16",
+        "BossDR110",
+        "BossDR220",
+        "BossDR55",
+        "BossDR550",
+        "CasioRZ1",
+        "CasioSK1",
+        "CasioVL1",
+        "DoepferMS404",
+        "EmuDrumulator",
+        "EmuSP12",
+        "KorgDDM110",
+        "KorgKPR77",
+        "KorgKR55",
+        "KorgKRZ",
+        "KorgM1",
+        "KorgMinipops",
+        "KorgT3",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM1",
+        "LinnLM2",
+        "MFB512",
+        "MPC1000",
+        "MoogConcertMateMG1",
+        "OberheimDMX",
+        "RhodesPolaris",
+        "RhythmAce",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm78",
+        "RolandCompurhythm8000",
+        "RolandD110",
+        "RolandD70",
+        "RolandDDR30",
+        "RolandJD990",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandSystem100",
+        "RolandTR505",
+        "RolandTR606",
+        "RolandTR626",
+        "RolandTR707",
+        "RolandTR808",
+        "RolandTR909",
+        "SakataDPM48",
+        "SequentialCircuitsDrumtracks",
+        "SequentialCircuitsTom",
+        "SimmonsSDS400",
+        "SimmonsSDS5",
+        "SoundmastersR88",
+        "UnivoxMicroRhythmer12",
+        "ViscoSpaceDrum",
+        "XdrumLM8953",
+        "YamahaRM50",
+        "YamahaRX21",
+        "YamahaRX5",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 451,
+      "category": "snare drum",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Snare drum · from AJKPercusyn/AkaiLinn… · (uzu-drumkit) · 451 samples"
+    },
+    "cp": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AkaiLinn",
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisHR16",
+        "AlesisSR16",
+        "BossDR110",
+        "BossDR220",
+        "BossDR550",
+        "CasioRZ1",
+        "EmuDrumulator",
+        "EmuSP12",
+        "KorgDDM110",
+        "KorgKPR77",
+        "KorgM1",
+        "KorgT3",
+        "LinnDrum",
+        "LinnLM1",
+        "LinnLM2",
+        "MFB512",
+        "MPC1000",
+        "OberheimDMX",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm8000",
+        "RolandD70",
+        "RolandJD990",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandTR505",
+        "RolandTR626",
+        "RolandTR707",
+        "RolandTR808",
+        "RolandTR909",
+        "SakataDPM48",
+        "SequentialCircuitsDrumtracks",
+        "SequentialCircuitsTom",
+        "YamahaRM50",
+        "YamahaRX21",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 59,
+      "category": "clap",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Clap · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 59 samples"
+    },
+    "cr": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AkaiLinn",
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisSR16",
+        "BossDR110",
+        "BossDR220",
+        "BossDR550",
+        "CasioRZ1",
+        "EmuDrumulator",
+        "EmuSP12",
+        "KorgDDM110",
+        "KorgKR55",
+        "KorgKRZ",
+        "KorgM1",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM2",
+        "MFB512",
+        "OberheimDMX",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm8000",
+        "RolandD110",
+        "RolandD70",
+        "RolandJD990",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandTR505",
+        "RolandTR606",
+        "RolandTR626",
+        "RolandTR707",
+        "RolandTR808",
+        "RolandTR909",
+        "SakataDPM48",
+        "SequentialCircuitsDrumtracks",
+        "SequentialCircuitsTom",
+        "SoundmastersR88",
+        "XdrumLM8953",
+        "YamahaRM50",
+        "YamahaRX21",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 102,
+      "category": "crash cymbal",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Crash cymbal · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 102 samples"
+    },
+    "hh": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AkaiLinn",
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisHR16",
+        "AlesisSR16",
+        "BossDR110",
+        "BossDR220",
+        "BossDR55",
+        "BossDR550",
+        "CasioRZ1",
+        "CasioSK1",
+        "CasioVL1",
+        "DoepferMS404",
+        "EmuDrumulator",
+        "EmuSP12",
+        "KorgDDM110",
+        "KorgKPR77",
+        "KorgKR55",
+        "KorgKRZ",
+        "KorgM1",
+        "KorgMinipops",
+        "KorgT3",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM1",
+        "LinnLM2",
+        "MFB512",
+        "MPC1000",
+        "OberheimDMX",
+        "RhythmAce",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm78",
+        "RolandCompurhythm8000",
+        "RolandD110",
+        "RolandD70",
+        "RolandJD990",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandSystem100",
+        "RolandTR505",
+        "RolandTR606",
+        "RolandTR626",
+        "RolandTR707",
+        "RolandTR808",
+        "RolandTR909",
+        "SakataDPM48",
+        "SequentialCircuitsDrumtracks",
+        "SequentialCircuitsTom",
+        "SimmonsSDS5",
+        "SoundmastersR88",
+        "UnivoxMicroRhythmer12",
+        "ViscoSpaceDrum",
+        "XdrumLM8953",
+        "YamahaRM50",
+        "YamahaRX21",
+        "YamahaRX5",
+        "YamahaRY30"
+      ],
+      "count": 125,
+      "category": "hi-hat (closed)",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Hi-hat (closed) · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 125 samples"
+    },
+    "lt": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AkaiLinn",
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisHR16",
+        "BossDR220",
+        "BossDR550",
+        "CasioRZ1",
+        "DoepferMS404",
+        "EmuDrumulator",
+        "EmuSP12",
+        "KorgDDM110",
+        "KorgKRZ",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM1",
+        "LinnLM2",
+        "MFB512",
+        "OberheimDMX",
+        "RhythmAce",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm8000",
+        "RolandD110",
+        "RolandD70",
+        "RolandDDR30",
+        "RolandJD990",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandTR505",
+        "RolandTR606",
+        "RolandTR626",
+        "RolandTR707",
+        "RolandTR808",
+        "RolandTR909",
+        "SakataDPM48",
+        "SimmonsSDS400",
+        "SimmonsSDS5",
+        "ViscoSpaceDrum",
+        "XdrumLM8953",
+        "YamahaRM50",
+        "YamahaRX21",
+        "YamahaRX5",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 151,
+      "category": "low tom",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Low tom · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 151 samples"
+    },
+    "mt": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AkaiLinn",
+        "AkaiMPC60",
+        "AkaiXR10",
+        "BossDR220",
+        "BossDR550",
+        "CasioRZ1",
+        "CasioSK1",
+        "EmuDrumulator",
+        "EmuSP12",
+        "KorgM1",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM2",
+        "MFB512",
+        "OberheimDMX",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm8000",
+        "RolandD70",
+        "RolandJD990",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandTR505",
+        "RolandTR626",
+        "RolandTR707",
+        "RolandTR808",
+        "RolandTR909",
+        "SakataDPM48",
+        "SimmonsSDS400",
+        "SimmonsSDS5",
+        "ViscoSpaceDrum",
+        "XdrumLM8953",
+        "YamahaRM50",
+        "YamahaRX21",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 114,
+      "category": "mid tom",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Mid tom · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 114 samples"
+    },
+    "oh": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AkaiLinn",
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisHR16",
+        "AlesisSR16",
+        "BossDR110",
+        "BossDR220",
+        "BossDR550",
+        "CasioSK1",
+        "DoepferMS404",
+        "EmuDrumulator",
+        "EmuSP12",
+        "KorgDDM110",
+        "KorgKPR77",
+        "KorgKR55",
+        "KorgKRZ",
+        "KorgM1",
+        "KorgMinipops",
+        "KorgT3",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM1",
+        "LinnLM2",
+        "MFB512",
+        "MPC1000",
+        "OberheimDMX",
+        "RhythmAce",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm78",
+        "RolandCompurhythm8000",
+        "RolandD110",
+        "RolandD70",
+        "RolandJD990",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandSystem100",
+        "RolandTR505",
+        "RolandTR606",
+        "RolandTR626",
+        "RolandTR707",
+        "RolandTR808",
+        "RolandTR909",
+        "SakataDPM48",
+        "SequentialCircuitsDrumtracks",
+        "SequentialCircuitsTom",
+        "SimmonsSDS5",
+        "SoundmastersR88",
+        "UnivoxMicroRhythmer12",
+        "ViscoSpaceDrum",
+        "XdrumLM8953",
+        "YamahaRM50",
+        "YamahaRX21",
+        "YamahaRX5",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 106,
+      "category": "hi-hat (open)",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Hi-hat (open) · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 106 samples"
+    },
+    "rd": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AkaiLinn",
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisSR16",
+        "BossDR110",
+        "BossDR220",
+        "BossDR550",
+        "CasioRZ1",
+        "EmuSP12",
+        "KorgKRZ",
+        "KorgM1",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM2",
+        "OberheimDMX",
+        "RolandCompurhythm1000",
+        "RolandD110",
+        "RolandD70",
+        "RolandJD990",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandTR505",
+        "RolandTR626",
+        "RolandTR909",
+        "SakataDPM48",
+        "SequentialCircuitsDrumtracks",
+        "XdrumLM8953",
+        "YamahaRM50",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 60,
+      "category": "ride cymbal",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Ride cymbal · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 60 samples"
+    },
+    "sh": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AkaiLinn",
+        "AkaiXR10",
+        "AlesisHR16",
+        "AlesisSR16",
+        "BossDR550",
+        "KorgM1",
+        "KorgT3",
+        "LinnDrum",
+        "LinnLM1",
+        "LinnLM2",
+        "MPC1000",
+        "OberheimDMX",
+        "RolandD110",
+        "RolandD70",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandTR626",
+        "RolandTR727",
+        "RolandTR808",
+        "SakataDPM48",
+        "SequentialCircuitsDrumtracks",
+        "YamahaRM50",
+        "YamahaRX5",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 53,
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "from AkaiLinn/AkaiXR10… · (uzu-drumkit) · 53 samples"
+    },
+    "tb": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AkaiLinn",
+        "AkaiXR10",
+        "AlesisSR16",
+        "BossDR550",
+        "KorgM1",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM1",
+        "LinnLM2",
+        "OberheimDMX",
+        "RolandCompurhythm78",
+        "RolandD110",
+        "RolandJD990",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandTR626",
+        "RolandTR707",
+        "SequentialCircuitsDrumtracks",
+        "XdrumLM8953",
+        "YamahaRM50",
+        "YamahaRX5",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 33,
+      "category": "tambourine",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Tambourine · from AkaiLinn/AkaiXR10… · (uzu-drumkit) · 33 samples"
+    },
+    "misc": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisSR16",
+        "BossDR550",
+        "EmuModular",
+        "EmuSP12",
+        "KorgKRZ",
+        "KorgM1",
+        "KorgMinipops",
+        "KorgT3",
+        "RhodesPolaris",
+        "RolandCompurhythm78",
+        "RolandJD990",
+        "RolandMC303",
+        "RolandS50",
+        "RolandSystem100",
+        "SergeModular",
+        "ViscoSpaceDrum",
+        "YamahaRM50",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 135,
+      "category": "misc",
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Misc · from AkaiMPC60/AkaiXR10… · (uzu-drumkit) · 135 samples"
+    },
+    "perc": {
+      "sources": [
+        "tidal-drum-machines"
+      ],
+      "banks": [
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisHR16",
+        "AlesisSR16",
+        "BossDR220",
+        "BossDR550",
+        "EmuDrumulator",
+        "EmuModular",
+        "EmuSP12",
+        "KorgKR55",
+        "KorgM1",
+        "KorgT3",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM1",
+        "MPC1000",
+        "RhythmAce",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm78",
+        "RolandCompurhythm8000",
+        "RolandD110",
+        "RolandD70",
+        "RolandJD990",
+        "RolandMC202",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandS50",
+        "RolandSystem100",
+        "RolandTR505",
+        "RolandTR626",
+        "RolandTR727",
+        "RolandTR808",
+        "SakataDPM48",
+        "SergeModular",
+        "ViscoSpaceDrum",
+        "YamahaRM50",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 327,
+      "category": "percussion",
+      "desc": "Percussion · from AkaiMPC60/AkaiXR10… · 327 samples"
+    },
+    "rim": {
+      "sources": [
+        "tidal-drum-machines",
+        "uzu-drumkit"
+      ],
+      "banks": [
+        "AkaiMPC60",
+        "AkaiXR10",
+        "AlesisHR16",
+        "AlesisSR16",
+        "BossDR55",
+        "BossDR550",
+        "CasioRZ1",
+        "EmuDrumulator",
+        "EmuSP12",
+        "KorgDDM110",
+        "KorgKR55",
+        "KorgM1",
+        "KorgT3",
+        "Linn9000",
+        "LinnDrum",
+        "LinnLM1",
+        "LinnLM2",
+        "OberheimDMX",
+        "RolandCompurhythm1000",
+        "RolandCompurhythm8000",
+        "RolandD110",
+        "RolandD70",
+        "RolandMC303",
+        "RolandMT32",
+        "RolandR8",
+        "RolandTR505",
+        "RolandTR626",
+        "RolandTR707",
+        "RolandTR808",
+        "RolandTR909",
+        "SakataDPM48",
+        "SequentialCircuitsDrumtracks",
+        "SimmonsSDS5",
+        "ViscoSpaceDrum",
+        "XdrumLM8953",
+        "YamahaRX5",
+        "YamahaRY30",
+        "YamahaTG33"
+      ],
+      "count": 61,
+      "category": "rim",
+      "tags": [
+        "rim"
+      ],
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "desc": "Rim · from AkaiMPC60/AkaiXR10… · (uzu-drumkit) · 61 samples"
+    },
+    "fx": {
+      "sources": [
+        "tidal-drum-machines"
+      ],
+      "banks": [
+        "KorgKRZ",
+        "RolandMC303",
+        "YamahaRX5",
+        "YamahaTG33"
+      ],
+      "count": 6,
+      "desc": "from KorgKRZ/RolandMC303… · 6 samples"
+    },
+    "": {
+      "sources": [
+        "tidal-drum-machines"
+      ],
+      "banks": [
+        "OberheimDMX"
+      ],
+      "count": 3,
+      "desc": "from OberheimDMX · 3 samples"
+    },
+    "brk": {
+      "sources": [
+        "uzu-drumkit"
+      ],
+      "packs": [
+        "uzu-drumkit"
+      ],
+      "count": 1,
+      "desc": "(uzu-drumkit) · 1 sample"
+    },
+    "mridangam_gumki": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 14,
+      "desc": "Percussion · (mridangam) · 14 samples"
+    },
+    "mridangam_ka": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 12,
+      "desc": "Percussion · (mridangam) · 12 samples"
+    },
+    "mridangam_nam": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 8,
+      "desc": "Percussion · (mridangam) · 8 samples"
+    },
+    "mridangam_ta": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 9,
+      "desc": "Percussion · (mridangam) · 9 samples"
+    },
+    "mridangam_ki": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 7,
+      "desc": "Percussion · (mridangam) · 7 samples"
+    },
+    "mridangam_dhin": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 8,
+      "desc": "Percussion · (mridangam) · 8 samples"
+    },
+    "mridangam_na": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 12,
+      "desc": "Percussion · (mridangam) · 12 samples"
+    },
+    "mridangam_chaapu": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 13,
+      "desc": "Percussion · (mridangam) · 13 samples"
+    },
+    "mridangam_dhum": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 7,
+      "desc": "Percussion · (mridangam) · 7 samples"
+    },
+    "mridangam_ardha": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 20,
+      "desc": "Percussion · (mridangam) · 20 samples"
+    },
+    "mridangam_thom": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 7,
+      "desc": "Percussion · (mridangam) · 7 samples"
+    },
+    "mridangam_dhi": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 7,
+      "desc": "Percussion · (mridangam) · 7 samples"
+    },
+    "mridangam_tha": {
+      "sources": [
+        "mridangam"
+      ],
+      "packs": [
+        "mridangam"
+      ],
+      "category": "Percussion",
+      "count": 7,
+      "desc": "Percussion · (mridangam) · 7 samples"
+    },
+    "piano": {
+      "sources": [
+        "piano"
+      ],
+      "packs": [
+        "piano"
+      ],
+      "category": "Keyboard",
+      "count": 29,
+      "desc": "Keyboard · (piano) · 29 samples"
+    },
+    "ballwhistle": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Aerophones",
+      "family": "Edge-blown%20Aerophones",
+      "count": 2,
+      "desc": "Aerophones · (vcsl) · 2 samples"
+    },
+    "bassdrum1": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 8,
+      "desc": "Membranophones · (vcsl) · 8 samples"
+    },
+    "bassdrum2": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 30,
+      "desc": "Membranophones · (vcsl) · 30 samples"
+    },
+    "bongo": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 28,
+      "desc": "Membranophones · (vcsl) · 28 samples"
+    },
+    "conga": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 34,
+      "desc": "Membranophones · (vcsl) · 34 samples"
+    },
+    "darbuka": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 20,
+      "desc": "Membranophones · (vcsl) · 20 samples"
+    },
+    "framedrum": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 18,
+      "desc": "Membranophones · (vcsl) · 18 samples"
+    },
+    "snare_modern": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 72,
+      "desc": "Membranophones · (vcsl) · 72 samples"
+    },
+    "snare_hi": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 8,
+      "desc": "Membranophones · (vcsl) · 8 samples"
+    },
+    "snare_low": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 20,
+      "desc": "Membranophones · (vcsl) · 20 samples"
+    },
+    "snare_rim": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 4,
+      "desc": "Membranophones · (vcsl) · 4 samples"
+    },
+    "timpani": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 30,
+      "desc": "Membranophones · (vcsl) · 30 samples"
+    },
+    "timpani_roll": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 10,
+      "desc": "Membranophones · (vcsl) · 10 samples"
+    },
+    "timpani2": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 204,
+      "desc": "Membranophones · (vcsl) · 204 samples"
+    },
+    "tom_mallet": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Struck%20Membranophones",
+      "family": "Tom%201",
+      "count": 8,
+      "desc": "Struck%20Membranophones · (vcsl) · 8 samples"
+    },
+    "tom_stick": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 8,
+      "desc": "Membranophones · (vcsl) · 8 samples"
+    },
+    "tom_rim": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 6,
+      "desc": "Membranophones · (vcsl) · 6 samples"
+    },
+    "tom2_mallet": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 8,
+      "desc": "Membranophones · (vcsl) · 8 samples"
+    },
+    "tom2_stick": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 8,
+      "desc": "Membranophones · (vcsl) · 8 samples"
+    },
+    "tom2_rim": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Struck%20Membranophones",
+      "count": 6,
+      "desc": "Membranophones · (vcsl) · 6 samples"
+    },
+    "recorder_alto_stacc": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "recorder_alto_vib": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "recorder_alto_sus": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "recorder_bass_stacc": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "recorder_bass_vib": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "recorder_bass_sus": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "recorder_soprano_stacc": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "recorder_soprano_sus": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "recorder_tenor_stacc": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "recorder_tenor_vib": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "recorder_tenor_sus": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "ocarina_small_stacc": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "ocarina_small": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "ocarina": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "ocarina_vib": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "pipeorgan_loud_pedal": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "pipeorgan_loud": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "pipeorgan_quiet_pedal": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "pipeorgan_quiet": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "organ_4inch": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "organ_8inch": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "organ_full": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "trainwhistle": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Aerophones",
+      "family": "Edge-blown%20Aerophones",
+      "count": 6,
+      "desc": "Aerophones · (vcsl) · 6 samples"
+    },
+    "harmonica": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "harmonica_soft": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "harmonica_vib": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "super64": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "super64_acc": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "super64_vib": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "siren": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Aerophones",
+      "family": "Free%20Aerophones",
+      "count": 5,
+      "desc": "Aerophones · (vcsl) · 5 samples"
+    },
+    "didgeridoo": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Aerophones",
+      "family": "Lip%20Aerophones",
+      "count": 12,
+      "desc": "Aerophones · (vcsl) · 12 samples"
+    },
+    "saxello": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "saxello_stacc": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "saxello_vib": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "sax": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "sax_stacc": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "sax_vib": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "harp": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "folkharp": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "strumstick": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "dantranh": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "dantranh_tremolo": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "dantranh_vibrato": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "kawai": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "steinway": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "psaltery_pluck": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "psaltery_spiccato": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "psaltery_bow": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "clavisynth": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "fmpiano": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "piano1": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "wineglass": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "wineglass_slow": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "agogo": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 5,
+      "desc": "Idiophones · (vcsl) · 5 samples"
+    },
+    "anvil": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 9,
+      "desc": "Idiophones · (vcsl) · 9 samples"
+    },
+    "brakedrum": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 17,
+      "desc": "Idiophones · (vcsl) · 17 samples"
+    },
+    "balafon_hard": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "balafon_soft": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "balafon": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "belltree": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "cabasa": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 6,
+      "desc": "Idiophones · (vcsl) · 6 samples"
+    },
+    "cajon": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 18,
+      "desc": "Idiophones · (vcsl) · 18 samples"
+    },
+    "clap": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 10,
+      "desc": "Idiophones · (vcsl) · 10 samples"
+    },
+    "clash": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 10,
+      "desc": "Idiophones · (vcsl) · 10 samples"
+    },
+    "clash2": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 5,
+      "desc": "Idiophones · (vcsl) · 5 samples"
+    },
+    "clave": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 6,
+      "desc": "Idiophones · (vcsl) · 6 samples"
+    },
+    "cowbell": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 13,
+      "desc": "Idiophones · (vcsl) · 13 samples"
+    },
+    "fingercymbal": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 1,
+      "desc": "Idiophones · (vcsl) · 1 sample"
+    },
+    "flexatone": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 8,
+      "desc": "Idiophones · (vcsl) · 8 samples"
+    },
+    "gong": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 7,
+      "desc": "Idiophones · (vcsl) · 7 samples"
+    },
+    "gong2": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 6,
+      "desc": "Idiophones · (vcsl) · 6 samples"
+    },
+    "guiro": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 5,
+      "desc": "Idiophones · (vcsl) · 5 samples"
+    },
+    "glockenspiel": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "handbells": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 3,
+      "desc": "Idiophones · (vcsl) · 3 samples"
+    },
+    "handchimes": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "hihat": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 15,
+      "desc": "Idiophones · (vcsl) · 15 samples"
+    },
+    "kalimba": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "kalimba2": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "kalimba3": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "kalimba4": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "kalimba5": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "marimba": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "marktrees": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 6,
+      "desc": "Idiophones · (vcsl) · 6 samples"
+    },
+    "oceandrum": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Membranophones",
+      "family": "Other%20Membranophones",
+      "count": 3,
+      "desc": "Membranophones · (vcsl) · 3 samples"
+    },
+    "ratchet": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 8,
+      "desc": "Idiophones · (vcsl) · 8 samples"
+    },
+    "shaker_large": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 6,
+      "desc": "Idiophones · (vcsl) · 6 samples"
+    },
+    "shaker_small": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 16,
+      "desc": "Idiophones · (vcsl) · 16 samples"
+    },
+    "slapstick": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 5,
+      "desc": "Idiophones · (vcsl) · 5 samples"
+    },
+    "sleighbells": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 6,
+      "desc": "Idiophones · (vcsl) · 6 samples"
+    },
+    "slitdrum": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 6,
+      "desc": "Idiophones · (vcsl) · 6 samples"
+    },
+    "sus_cymbal": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 25,
+      "desc": "Idiophones · (vcsl) · 25 samples"
+    },
+    "sus_cymbal2": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 23,
+      "desc": "Idiophones · (vcsl) · 23 samples"
+    },
+    "tambourine": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 7,
+      "desc": "Idiophones · (vcsl) · 7 samples"
+    },
+    "tambourine2": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 7,
+      "desc": "Idiophones · (vcsl) · 7 samples"
+    },
+    "triangles": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 37,
+      "desc": "Idiophones · (vcsl) · 37 samples"
+    },
+    "tubularbells": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "tubularbells2": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "vibraphone": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "vibraphone_soft": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "vibraphone_bowed": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "vibraslap": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 4,
+      "desc": "Idiophones · (vcsl) · 4 samples"
+    },
+    "woodblock": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "category": "Idiophones",
+      "family": "Struck%20Idiophones",
+      "count": 10,
+      "desc": "Idiophones · (vcsl) · 10 samples"
+    },
+    "xylophone_hard_pp": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "xylophone_hard_ff": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "xylophone_medium_ff": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "xylophone_medium_pp": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "xylophone_soft_pp": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    },
+    "xylophone_soft_ff": {
+      "sources": [
+        "vcsl"
+      ],
+      "packs": [
+        "vcsl"
+      ],
+      "desc": "(vcsl)"
+    }
+  }
 }

@@ -12,3 +12,15 @@ export interface Builtin {
   synonyms?: string[];
   aliasOf?: string;
 }
+
+export interface SoundMeta {
+  banks?: string[];  // e.g. drum machine or library bank membership
+  packs?: string[];  // e.g. mridangam, piano, vcsl, uzu-drumkit
+  aliases?: string[];
+  tags?: string[];   // e.g. vibrato, sustain, staccato, rim, etc.
+  sources?: string[]; // source datasets used
+  count?: number;     // number of available samples
+  category?: string;  // high-level category (e.g., Membranophones, kick drum, Keyboard)
+  family?: string;    // subcategory/family when available (e.g., Struck Membranophones)
+  desc?: string;      // synthesized one-line description
+}

@@ -3,7 +3,7 @@ import { CompletionItemKind, InsertTextFormat } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { getWordAtPosition } from '../analyzer/utils';
 import type { Builtin } from '../data/types';
-import sounds from '../data/sounds.json' assert { type: 'json' };
+import soundsData from '../data/sounds.json' assert { type: 'json' };
 
 function isInsideSoundCall(doc: TextDocument, position: Position): boolean {
   const text = doc.getText();
@@ -46,15 +46,55 @@ export function provideCompletions(
     // Require at least one typed character to avoid flooding suggestions
     if (!prefix || prefix.length < 1) return [];
     const items: CompletionItem[] = [];
-    const list = (sounds as any).sounds as string[];
+    const list = (soundsData as any).sounds as string[];
+    const meta = (soundsData as any).meta || {};
+
+    function soundDoc(name: string): string | undefined {
+      const m = meta[name] || {};
+      const parts: string[] = [];
+      const sectionLines: string[] = [];
+      // If we have a synthesized description (shown in detail), avoid repeating it here; keep only Tags and Aliases
+      if (m.desc) {
+        const tags  = Array.isArray(m.tags)  && m.tags.length  ? `Tags: ${m.tags.join(', ')}`   : '';
+        const aliases = Array.isArray(m.aliases) && m.aliases.length ? `Aliases: ${m.aliases.join(', ')}` : '';
+        for (const l of [tags, aliases]) if (l) sectionLines.push(l);
+      } else {
+        const banks = Array.isArray(m.banks) && m.banks.length ? `Banks: ${m.banks.join(', ')}` : '';
+        const packs = Array.isArray(m.packs) && m.packs.length ? `Packs: ${m.packs.join(', ')}` : '';
+        const category = m.category ? `Category: ${m.category}${m.family ? ` (${m.family})` : ''}` : '';
+        const count = typeof m.count === 'number' ? `Samples: ${m.count}` : '';
+        const tags  = Array.isArray(m.tags)  && m.tags.length  ? `Tags: ${m.tags.join(', ')}`   : '';
+        const aliases = Array.isArray(m.aliases) && m.aliases.length ? `Aliases: ${m.aliases.join(', ')}` : '';
+        for (const l of [category, banks, packs, count, tags, aliases]) if (l) sectionLines.push(l);
+      }
+
+      if (sectionLines.length) {
+        if (parts.length) parts.push(''); // blank line between desc and sections
+        parts.push(sectionLines.join('\n'));
+      }
+      return parts.length ? parts.join('\n') : undefined;
+    }
+
     for (const s of list) {
       if (!s.toLowerCase().startsWith(prefix)) continue;
+      const docStr = soundDoc(s);
       items.push({
         label: s,
         kind: CompletionItemKind.Constant,
         insertText: s,
         insertTextFormat: InsertTextFormat.Snippet,
         sortText: s,
+        detail: (() => {
+          const m = meta[s] || {};
+          if (typeof m.desc === 'string' && m.desc.length > 0) {
+            const d = m.desc as string;
+            return d.length > 80 ? d.slice(0, 79) + '…' : d;
+          }
+          // fallback minimal summary
+          if (m.category) return m.category as string;
+          return undefined;
+        })(),
+        documentation: docStr ? { kind: 'markdown', value: docStr } as any : undefined,
       });
       // Do not cap sound results; return all prefix matches
     }
