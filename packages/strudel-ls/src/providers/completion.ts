@@ -9,8 +9,8 @@ function isInsideSoundCall(doc: TextDocument, position: Position): boolean {
   const text = doc.getText();
   const offset = doc.offsetAt(position);
   const before = text.slice(0, offset);
-  // heuristics: last unmatched s( " or s ( " pattern
-  return /s\s*\(\s*["'][^"']*$/.test(before);
+  // heuristics: last unmatched s(" or sound(") pattern
+  return /(?:^|[^A-Za-z0-9_])(s|sound)\s*\(\s*["'][^"']*$/.test(before);
 }
 
 function buildSnippet(name: string, signature?: string): string {

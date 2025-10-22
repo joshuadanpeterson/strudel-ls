@@ -35,7 +35,7 @@ parser_config.strudel = {
 
 ## Features
 - Context-aware completions:
-  - Inside `s("…")`: suggests sounds from bundled `sounds.json` (requires typing ≥ 1 character to reduce noise; e.g. `s("k` → `kalimba`, `kick`, etc.)
+  - Inside `s("…")` or `sound("…")`: suggests sounds from bundled `sounds.json` (requires typing ≥ 1 character to reduce noise; e.g. `s("k` → `kalimba`, `kick`, etc.)
   - Elsewhere: suggests transforms/functions with snippet placeholders
 - Hover: signature, blurb, example, and alias information when available
 - Completion docs: blurb, example (fenced as `strudel`), plus `Aliases: …` or `Alias of: …`

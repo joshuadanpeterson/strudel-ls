@@ -37,6 +37,23 @@ describe("provideCompletions", () => {
     for (const it of items) expect((it.label as string).toLowerCase().startsWith('k')).toBe(true);
   });
 
+  it("sound(...) behaves like s(...) gating (no prefix => none)", () => {
+    const d = doc('sound("")');
+    // position inside quotes with no prefix
+    const pos = { line: 0, character: d.getText().indexOf('""') + 1 } as any;
+    const items = provideCompletions(d, pos, builtins, true, 200);
+    expect(items.length).toBe(0);
+  });
+
+  it("sound(...) returns matches for 1-char prefix", () => {
+    const d = doc('sound("k")');
+    const kIndex = d.getText().indexOf('k') + 1;
+    const pos = d.positionAt(kIndex);
+    const items = provideCompletions(d, pos, builtins, true, 50);
+    expect(items.length).toBeGreaterThan(0);
+    for (const it of items) expect((it.label as string).toLowerCase().startsWith('k')).toBe(true);
+  });
+
   it("includes example and alias info in builtin docs", () => {
     const localBuiltinsArr: Builtin[] = [
       { name: "segment", kind: "transform", signature: "segment(n: number)", blurb: "desc", example: 'note("a").segment(2)', synonyms: ["seg"] },
