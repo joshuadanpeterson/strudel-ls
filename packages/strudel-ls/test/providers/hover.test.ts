@@ -5,6 +5,8 @@ import type { Builtin } from "../../src/data/types";
 
 const builtinsArr: Builtin[] = [
   { name: "fast", kind: "transform", signature: "fast(n: number, pattern)", blurb: "Speed up pattern." },
+  { name: "segment", kind: "transform", signature: "segment(n: number)", blurb: "desc", example: 'note("a").segment(2)', synonyms: ["seg"] },
+  { name: "seg", kind: "transform", signature: "segment(n: number)", blurb: "desc", example: 'note("a").segment(2)', aliasOf: "segment" },
 ];
 const builtins = new Map(builtinsArr.map((b) => [b.name, b]));
 
@@ -18,5 +20,19 @@ describe("provideHover", () => {
     const h = provideHover(d, { line: 0, character: 1 }, builtins);
     expect(h).toBeTruthy();
     expect((h as any).contents.value).toContain("fast(");
+  });
+
+  it("shows aliases for canonical builtin", () => {
+    const d = doc("segment(2)");
+    const h = provideHover(d, { line: 0, character: 1 }, builtins)!;
+    expect((h as any).contents.value).toContain("Aliases: seg");
+    expect((h as any).contents.value).toContain("```strudel");
+  });
+
+  it("shows alias-of for alias builtin", () => {
+    const d = doc("seg(2)");
+    const h = provideHover(d, { line: 0, character: 1 }, builtins)!;
+    expect((h as any).contents.value).toContain("Alias of: `segment`");
+    expect((h as any).contents.value).toContain("```strudel");
   });
 });

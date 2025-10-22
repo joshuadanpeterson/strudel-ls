@@ -22,6 +22,15 @@ function buildSnippet(name: string, signature?: string): string {
   return `${name}(${snips})`;
 }
 
+function buildMarkdownDoc(b: Builtin): string {
+  const parts: string[] = [];
+  if (b.blurb) parts.push(b.blurb);
+  if (b.example) parts.push(`\n\n\`\`\`strudel\n${b.example}\n\`\`\``);
+  if (b.aliasOf) parts.push(`\n\nAlias of: \`${b.aliasOf}\``);
+  else if (b.synonyms && b.synonyms.length) parts.push(`\n\nAliases: ${b.synonyms.join(', ')}`);
+  return parts.join('');
+}
+
 export function provideCompletions(
   doc: TextDocument,
   position: Position,
@@ -29,14 +38,17 @@ export function provideCompletions(
   snippets = true,
   maxItems = 50,
 ): CompletionItem[] {
-  const prefix = (getWordAtPosition(doc, position) || '').toLowerCase();
+  const prefixRaw = getWordAtPosition(doc, position) || '';
+  const prefix = prefixRaw.toLowerCase();
 
   // Context-aware: inside s("...") suggest sounds
   if (isInsideSoundCall(doc, position)) {
+    // Require at least one typed character to avoid flooding suggestions
+    if (!prefix || prefix.length < 1) return [];
     const items: CompletionItem[] = [];
     const list = (sounds as any).sounds as string[];
     for (const s of list) {
-      if (prefix && !s.toLowerCase().startsWith(prefix)) continue;
+      if (!s.toLowerCase().startsWith(prefix)) continue;
       items.push({
         label: s,
         kind: CompletionItemKind.Constant,
@@ -44,7 +56,7 @@ export function provideCompletions(
         insertTextFormat: InsertTextFormat.Snippet,
         sortText: s,
       });
-      if (items.length >= maxItems) break;
+      // Do not cap sound results; return all prefix matches
     }
     return items;
   }
@@ -63,7 +75,7 @@ export function provideCompletions(
       label: name,
       kind: (kindMap as any)[b.kind] ?? CompletionItemKind.Text,
       detail: b.signature,
-      documentation: b.blurb,
+      documentation: { kind: 'markdown', value: buildMarkdownDoc(b) },
       sortText: name,
     };
     if (snippets) {

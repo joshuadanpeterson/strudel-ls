@@ -7,7 +7,15 @@ function stripHtml(html: string | undefined): string | undefined {
   return html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 }
 
-type Builtin = { name: string; kind: string; signature?: string; blurb?: string; example?: string };
+type Builtin = {
+  name: string;
+  kind: string;
+  signature?: string;
+  blurb?: string;
+  example?: string;
+  synonyms?: string[];
+  aliasOf?: string;
+};
 
 function extractBuiltinsFromPattern(filePath: string) {
   const src = readFileSync(filePath, "utf8");
@@ -45,10 +53,16 @@ function loadDocs(docPath: string): Record<string, Builtin> {
     const signature = params.length ? `${name}(${params.join(', ')})` : `${name}()`;
     const blurb = stripHtml(d.description);
     const example = (d.examples && d.examples[0]) || undefined;
-    out[name] = { name, kind: 'transform', signature, blurb, example };
-    const synonyms: string[] = d.synonyms || [];
-    for (const syn of synonyms) {
-      if (!out[syn]) out[syn] = { name: syn, kind: 'transform', signature, blurb, example };
+
+    // Collect synonyms/aliases from docs (support "synonyms" or legacy "aliases")
+    const syns: string[] = Array.from(new Set([...(d.synonyms || []), ...(d.aliases || [])])).filter(Boolean);
+
+    // Canonical entry with synonyms
+    out[name] = { name, kind: 'transform', signature, blurb, example, synonyms: syns.length ? syns : undefined };
+
+    // Alias entries mirror docs and point back to canonical via aliasOf
+    for (const syn of syns) {
+      if (!out[syn]) out[syn] = { name: syn, kind: 'transform', signature, blurb, example, aliasOf: name };
     }
   }
   return out;
@@ -74,7 +88,7 @@ function main() {
     const d = docs[c.name];
     if (d) mergedMap.set(c.name, { ...c, ...d, name: c.name }); else mergedMap.set(c.name, c);
   }
-  // Also include any docs entries not present from pattern scan
+  // Also include any docs entries not present from pattern scan (including alias entries)
   for (const [k, v] of Object.entries(docs)) if (!mergedMap.has(k)) mergedMap.set(k, v);
 
   const out = resolve(process.cwd(), "src/data/builtins.json");

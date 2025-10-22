@@ -8,4 +8,7 @@ export interface Builtin {
   example?: string;
   // Optional richer param metadata when available from doc.json
   params?: { name: string; type?: string; optional?: boolean; doc?: string }[];
+  // Aliasing metadata (populated by data generator when available)
+  synonyms?: string[];
+  aliasOf?: string;
 }
