@@ -4,7 +4,11 @@ export function getServerCapabilities(): ServerCapabilities {
   return {
     textDocumentSync: 2, // Incremental
     completionProvider: {
-      triggerCharacters: [' ', '"', '(', ',', ':'],
+      // Include common characters users type in Strudel contexts to eagerly surface items
+      // - quotes (single/double) for s("…")/s('…') sound names
+      // - pipe and greater-than for combinators like |> and |+ etc.
+      // - paren/comma/colon for function calls and key-value style args
+      triggerCharacters: [' ', '"', "'", '(', ',', ':', '|', '>'],
       resolveProvider: false,
     },
     hoverProvider: true,
