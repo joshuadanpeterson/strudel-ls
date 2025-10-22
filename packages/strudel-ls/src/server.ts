@@ -9,7 +9,7 @@ import {
   SignatureHelpParams,
   CodeActionParams,
   InitializeParams,
-} from 'vscode-languageserver/node';
+} from 'vscode-languageserver/node.js';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { makeInitializeResult, getServerCapabilities } from './lsp/capabilities';
 import { DefaultSettings, DiagnosticSeverityByName } from './lsp/config';
