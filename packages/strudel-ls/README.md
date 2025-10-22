@@ -48,6 +48,20 @@ parser_config.strudel = {
 - Sound suggestions are intentionally gated to ≥ 1 typed character inside `s("…")` to avoid overwhelming results.
 - Builtins carry synonyms/aliases; hover and completion docs show either `Aliases: …` (canonical) or `Alias of: …` (alias entry).
 
+### Completions and hover behavior
+- Sounds
+  - Inside `s("…")`/`sound("…")`: offers sound names from bundled data. Item detail shows a concise description; docs include Tags and Aliases, and a Source link when available.
+- Banks
+  - Inside `.bank("…")`: suggests banks available for the nearest `s("…")`/`sound("…")`; if unknown, falls back to the union of all banks. Hover lists banks for the selected sound.
+- Functions (argument-aware)
+  - If the called function has known enum choices (parsed from Strudel’s API Reference), only those choices are suggested inside the parentheses.
+  - Otherwise, unrelated suggestions are suppressed inside the parens to keep focus on parameters; use signature help + hover for guidance.
+- Hover content
+  - Functions: signature, blurb, Parameters (name/type/optional/doc), Choices (when available), example, and alias information.
+  - Sounds: synthesized description, then Tags/Aliases (and Source link), without duplication.
+- Ranking and resolve
+  - Canonical builtins rank before aliases; sound items group by category; fuzzy fallback when no direct prefix match. Completion resolve is enabled.
+
 ## Supported filetypes and extensions
 - Filetypes: `strudel`, `strdl`, `str`
 - Extensions: `.strudel`, `.strdl`, `.str`, `.std`
