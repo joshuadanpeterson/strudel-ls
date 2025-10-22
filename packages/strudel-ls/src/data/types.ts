@@ -23,4 +23,5 @@ export interface SoundMeta {
   category?: string;  // high-level category (e.g., Membranophones, kick drum, Keyboard)
   family?: string;    // subcategory/family when available (e.g., Struck Membranophones)
   desc?: string;      // synthesized one-line description
+  baseUrls?: string[]; // source base URLs, if known (e.g., pack repositories)
 }

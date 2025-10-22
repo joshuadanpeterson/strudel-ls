@@ -44,13 +44,20 @@ export function provideHover(
       if (m.desc) parts.push(m.desc);
       const lines: string[] = [];
       if (m.desc) {
-        // With desc present, avoid repeating; show only Tags and Aliases
+        // With desc present, avoid repeating; show only Source, Tags and Aliases
+        const pack = Array.isArray(m.packs) && m.packs[0];
+        const url = Array.isArray(m.baseUrls) && m.baseUrls[0];
+        if (pack && url) lines.push(`Source: [${pack}](${url})`);
+        else if (pack) lines.push(`Source: ${pack}`);
         if (Array.isArray(m.tags) && m.tags.length) lines.push(`Tags: ${m.tags.join(', ')}`);
         if (Array.isArray(m.aliases) && m.aliases.length) lines.push(`Aliases: ${m.aliases.join(', ')}`);
       } else {
         if (m.category) lines.push(`Category: ${m.category}${m.family ? ` (${m.family})` : ''}`);
         if (Array.isArray(m.banks) && m.banks.length) lines.push(`Banks: ${m.banks.join(', ')}`);
         if (Array.isArray(m.packs) && m.packs.length) lines.push(`Packs: ${m.packs.join(', ')}`);
+        const pack = Array.isArray(m.packs) && m.packs[0];
+        const url = Array.isArray(m.baseUrls) && m.baseUrls[0];
+        if (pack && url) lines.push(`Source: [${pack}](${url})`);
         if (typeof m.count === 'number') lines.push(`Samples: ${m.count}`);
         if (Array.isArray(m.tags) && m.tags.length) lines.push(`Tags: ${m.tags.join(', ')}`);
         if (Array.isArray(m.aliases) && m.aliases.length) lines.push(`Aliases: ${m.aliases.join(', ')}`);

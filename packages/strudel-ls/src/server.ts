@@ -73,6 +73,9 @@ connection.onHover((params: HoverParams) => {
   return provideHover(doc, params.position, builtins);
 });
 
+// Provide completion resolve for clients that request it (items are already rich)
+connection.onCompletionResolve((item) => item);
+
 connection.onSignatureHelp((params: SignatureHelpParams) => {
   const doc = documents.get(params.textDocument.uri);
   if (!doc) return null;

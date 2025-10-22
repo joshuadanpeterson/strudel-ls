@@ -45,7 +45,7 @@ export function provideCompletions(
   if (isInsideSoundCall(doc, position)) {
     // Require at least one typed character to avoid flooding suggestions
     if (!prefix || prefix.length < 1) return [];
-    const items: CompletionItem[] = [];
+    let items: CompletionItem[] = [];
     const list = (soundsData as any).sounds as string[];
     const meta = (soundsData as any).meta || {};
 
@@ -57,7 +57,15 @@ export function provideCompletions(
       if (m.desc) {
         const tags  = Array.isArray(m.tags)  && m.tags.length  ? `Tags: ${m.tags.join(', ')}`   : '';
         const aliases = Array.isArray(m.aliases) && m.aliases.length ? `Aliases: ${m.aliases.join(', ')}` : '';
-        for (const l of [tags, aliases]) if (l) sectionLines.push(l);
+        // Optional source line (first pack + base URL if available)
+        const source = (() => {
+          const pack = Array.isArray(m.packs) && m.packs[0];
+          const url = Array.isArray(m.baseUrls) && m.baseUrls[0];
+          if (pack && url) return `Source: [${pack}](${url})`;
+          if (pack) return `Source: ${pack}`;
+          return '';
+        })();
+        for (const l of [source, tags, aliases]) if (l) sectionLines.push(l);
       } else {
         const banks = Array.isArray(m.banks) && m.banks.length ? `Banks: ${m.banks.join(', ')}` : '';
         const packs = Array.isArray(m.packs) && m.packs.length ? `Packs: ${m.packs.join(', ')}` : '';
@@ -65,7 +73,15 @@ export function provideCompletions(
         const count = typeof m.count === 'number' ? `Samples: ${m.count}` : '';
         const tags  = Array.isArray(m.tags)  && m.tags.length  ? `Tags: ${m.tags.join(', ')}`   : '';
         const aliases = Array.isArray(m.aliases) && m.aliases.length ? `Aliases: ${m.aliases.join(', ')}` : '';
-        for (const l of [category, banks, packs, count, tags, aliases]) if (l) sectionLines.push(l);
+        // Optional source line (first pack + base URL if available)
+        const source = (() => {
+          const pack = Array.isArray(m.packs) && m.packs[0];
+          const url = Array.isArray(m.baseUrls) && m.baseUrls[0];
+          if (pack && url) return `Source: [${pack}](${url})`;
+          if (pack) return `Source: ${pack}`;
+          return '';
+        })();
+        for (const l of [category, banks, packs, count, source, tags, aliases]) if (l) sectionLines.push(l);
       }
 
       if (sectionLines.length) {
@@ -78,14 +94,14 @@ export function provideCompletions(
     for (const s of list) {
       if (!s.toLowerCase().startsWith(prefix)) continue;
       const docStr = soundDoc(s);
+      const m = (meta as any)[s] || {};
       items.push({
         label: s,
         kind: CompletionItemKind.Constant,
         insertText: s,
         insertTextFormat: InsertTextFormat.Snippet,
-        sortText: s,
+        sortText: `${m.category ? m.category + '~' : ''}${s}`,
         detail: (() => {
-          const m = meta[s] || {};
           if (typeof m.desc === 'string' && m.desc.length > 0) {
             const d = m.desc as string;
             return d.length > 80 ? d.slice(0, 79) + '…' : d;
@@ -97,6 +113,37 @@ export function provideCompletions(
         documentation: docStr ? { kind: 'markdown', value: docStr } as any : undefined,
       });
       // Do not cap sound results; return all prefix matches
+    }
+    // Fuzzy fallback if no prefix matches
+    if (items.length === 0) {
+      function subseqScore(name: string, q: string): number | null {
+        let i = 0, j = 0, gaps = 0;
+        const n = name.toLowerCase(), qq = q.toLowerCase();
+        while (i < n.length && j < qq.length) {
+          if (n[i] === qq[j]) { i++; j++; } else { i++; gaps++; }
+        }
+        if (j < qq.length) return null;
+        return gaps + (n.length - qq.length); // lower is better
+      }
+      const scored: Array<{ s: string; score: number }> = [];
+      for (const s of list) {
+        const sc = subseqScore(s, prefix);
+        if (sc !== null) scored.push({ s, score: sc });
+      }
+      scored.sort((a, b) => a.score - b.score || a.s.localeCompare(b.s));
+      for (const { s } of scored.slice(0, Math.min(20, maxItems))) {
+        const docStr = soundDoc(s);
+        const m = (meta as any)[s] || {};
+        items.push({
+          label: s,
+          kind: CompletionItemKind.Constant,
+          insertText: s,
+          insertTextFormat: InsertTextFormat.Snippet,
+          sortText: `${m.category ? m.category + '~' : ''}${s}`,
+          detail: (m.category as string) || undefined,
+          documentation: docStr ? { kind: 'markdown', value: docStr } as any : undefined,
+        });
+      }
     }
     return items;
   }
@@ -116,7 +163,7 @@ export function provideCompletions(
       kind: (kindMap as any)[b.kind] ?? CompletionItemKind.Text,
       detail: b.signature,
       documentation: { kind: 'markdown', value: buildMarkdownDoc(b) },
-      sortText: name,
+      sortText: `${b.aliasOf ? 'z~' : 'a~'}${name}`,
     };
     if (snippets) {
       item.insertTextFormat = InsertTextFormat.Snippet;

@@ -108,7 +108,8 @@ function main() {
   const pub = resolve(repo, "website/public");
 
   const sounds = new Set<string>();
-const meta: Record<string, { banks?: string[]; packs?: string[]; aliases?: string[]; tags?: string[]; sources?: string[]; count?: number; category?: string; family?: string; desc?: string }> = {};
+const meta: Record<string, { banks?: string[]; packs?: string[]; aliases?: string[]; tags?: string[]; sources?: string[]; count?: number; category?: string; family?: string; desc?: string; baseUrls?: string[] }> = {};
+const packBases: Record<string, string> = {};
 
   function ensure(name: string) {
     if (!meta[name]) meta[name] = {};
@@ -119,6 +120,12 @@ const meta: Record<string, { banks?: string[]; packs?: string[]; aliases?: strin
     try {
       const p = join(pub, f);
       const data = JSON.parse(readFileSync(p, "utf8"));
+      // Remember pack base URLs when present
+      const baseUrl = typeof data._base === 'string' ? data._base : undefined;
+      if (baseUrl) {
+        const pack = f.replace(/\.json$/, "");
+        packBases[pack] = baseUrl;
+      }
 if (f.startsWith("tidal-drum-machines")) {
         for (const [key, arr] of Object.entries<any>(data)) {
           const idx = key.indexOf('_');
@@ -142,6 +149,7 @@ if (f.startsWith("tidal-drum-machines")) {
           const m = ensure(c);
           m.sources = Array.from(new Set([...(m.sources || []), "uzu-drumkit"]));
           m.packs = Array.from(new Set([...(m.packs || []), "uzu-drumkit"]));
+          if (packBases['uzu-drumkit']) m.baseUrls = Array.from(new Set([...(m.baseUrls || []), packBases['uzu-drumkit']]));
           m.count = (m.count || 0) + (Array.isArray(arr) ? arr.length : 0);
           m.category = m.category || categoryFromCode(c);
           const tags = classifyTags(c);
@@ -155,6 +163,7 @@ if (f.startsWith("tidal-drum-machines")) {
           const m = ensure(c);
           m.sources = Array.from(new Set([...(m.sources || []), packName]));
           m.packs = Array.from(new Set([...(m.packs || []), packName]));
+          if (packBases[packName]) m.baseUrls = Array.from(new Set([...(m.baseUrls || []), packBases[packName]]));
           if (packName === 'vcsl' && Array.isArray(arr) && arr[0]) {
             const cat = categoryFromVcslPath(arr[0]);
             if (cat.category) m.category = m.category || cat.category;

@@ -9,7 +9,7 @@ export function getServerCapabilities(): ServerCapabilities {
       // - pipe and greater-than for combinators like |> and |+ etc.
       // - paren/comma/colon for function calls and key-value style args
       triggerCharacters: [' ', '"', "'", '(', ',', ':', '|', '>'],
-      resolveProvider: false,
+      resolveProvider: true,
     },
     hoverProvider: true,
     signatureHelpProvider: { triggerCharacters: ['(', ','] },
