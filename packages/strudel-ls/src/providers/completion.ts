@@ -13,6 +13,25 @@ function isInsideSoundCall(doc: TextDocument, position: Position): boolean {
   return /(?:^|[^A-Za-z0-9_])(s|sound)\s*\(\s*["'][^"']*$/.test(before);
 }
 
+function isInsideBankArg(doc: TextDocument, position: Position): boolean {
+  const text = doc.getText();
+  const offset = doc.offsetAt(position);
+  const before = text.slice(0, offset);
+  return /\.bank\s*\(\s*["'][^"']*$/.test(before);
+}
+
+function getNearestSound(doc: TextDocument, position: Position): string | undefined {
+  const textBefore = doc.getText().slice(0, doc.offsetAt(position));
+  const re = /(s|sound)\s*\(\s*['"]([^'"\)]+)['"]/g;
+  let m: RegExpExecArray | null;
+  let last: string | undefined;
+  while ((m = re.exec(textBefore))) last = m[2];
+  if (!last) return undefined;
+  // Heuristic: take the last token-like segment
+  const parts = last.trim().split(/[^A-Za-z0-9_]+/).filter(Boolean);
+  return parts.length ? parts[parts.length - 1] : undefined;
+}
+
 function buildSnippet(name: string, signature?: string): string {
   if (!signature || !signature.includes('(')) return name;
   const paramsPart = signature.match(/\((.*)\)/)?.[1] ?? '';
@@ -40,6 +59,30 @@ export function provideCompletions(
 ): CompletionItem[] {
   const prefixRaw = getWordAtPosition(doc, position) || '';
   const prefix = prefixRaw.toLowerCase();
+
+  // Context-aware: inside bank("...") suggest banks available for the nearest sound
+  if (isInsideBankArg(doc, position)) {
+    const meta = (soundsData as any).meta || {};
+    const sound = getNearestSound(doc, position);
+    if (!sound) return [];
+    const info = (meta as any)[sound] || {};
+    const banks: string[] = Array.isArray(info.banks) ? info.banks : [];
+    const items: CompletionItem[] = [];
+    const lcPrefix = prefix.toLowerCase();
+    for (const b of banks) {
+      if (lcPrefix && !b.toLowerCase().startsWith(lcPrefix)) continue;
+      items.push({
+        label: b,
+        kind: CompletionItemKind.EnumMember,
+        insertText: b,
+        insertTextFormat: InsertTextFormat.Snippet,
+        sortText: b,
+        detail: `Bank for ${sound}`,
+        documentation: info.baseUrls?.length ? { kind: 'markdown', value: `Source: ${info.baseUrls[0]}` } as any : undefined,
+      });
+    }
+    return items;
+  }
 
   // Context-aware: inside s("...") suggest sounds
   if (isInsideSoundCall(doc, position)) {

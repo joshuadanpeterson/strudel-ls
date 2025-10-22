@@ -11,6 +11,24 @@ function isInsideSoundCall(doc: TextDocument, position: Position): boolean {
   return /(?:^|[^A-Za-z0-9_])(s|sound)\s*\(\s*["'][^"']*$/.test(before);
 }
 
+function isInsideBankArg(doc: TextDocument, position: Position): boolean {
+  const text = doc.getText();
+  const offset = doc.offsetAt(position);
+  const before = text.slice(0, offset);
+  return /\.bank\s*\(\s*["'][^"']*$/.test(before);
+}
+
+function getNearestSound(doc: TextDocument, position: Position): string | undefined {
+  const textBefore = doc.getText().slice(0, doc.offsetAt(position));
+  const re = /(s|sound)\s*\(\s*['"]([^'"\)]+)['"]/g;
+  let m: RegExpExecArray | null;
+  let last: string | undefined;
+  while ((m = re.exec(textBefore))) last = m[2];
+  if (!last) return undefined;
+  const parts = last.trim().split(/[^A-Za-z0-9_]+/).filter(Boolean);
+  return parts.length ? parts[parts.length - 1] : undefined;
+}
+
 export function provideHover(
   doc: TextDocument,
   position: Position,
@@ -35,7 +53,22 @@ export function provideHover(
     return { contents: { kind: 'markdown', value: mdParts.join('') }, range };
   }
 
-  // 2) Sound-name hover when inside s("…") or sound("…")
+  // 2) bank("…") hover: list available banks for the nearest sound
+  if (isInsideBankArg(doc, position)) {
+    const meta = (soundsData as any).meta || {};
+    const sound = getNearestSound(doc, position);
+    if (sound) {
+      const info = (meta as any)[sound] || {};
+      const banks: string[] = Array.isArray(info.banks) ? info.banks : [];
+      if (banks.length) {
+        const list = banks.map((b: string) => `- ${b}`).join('\n');
+        const header = `Banks for \`${sound}\`:`;
+        return { contents: { kind: 'markdown', value: `${header}\n\n${list}` }, range };
+      }
+    }
+  }
+
+  // 3) Sound-name hover when inside s("…") or sound("…")
   if (isInsideSoundCall(doc, position)) {
     const meta = (soundsData as any).meta || {};
     const m = meta[word];
