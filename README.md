@@ -160,6 +160,12 @@ npm -w packages/strudel-ls run e2e:setup  # vendors pinned plenary.nvim for E2E
 
 Data generation (uses upstream Strudel docs and sound sets):
 
+- Upstream Strudel repository: https://codeberg.org/uzu/strudel
+- Data generation depends on having a local clone of the upstream Strudel repo. Most users do not need this: builtins.json and sounds.json are prebuilt and ship with the language server, so completions and hovers work out of the box.
+- Maintainers: to regenerate data, clone Strudel locally and run:
+  - cd packages/strudel-ls
+  - STRUDEL_REPO=/path/to/your/local/strudel npm run build:data
+
 ```sh path=null start=null
 # Set your local Strudel repo path to enrich builtins/hover/signatures
 STRUDEL_REPO=/absolute/path/to/strudel \
