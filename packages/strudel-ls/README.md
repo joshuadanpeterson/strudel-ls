@@ -35,13 +35,18 @@ parser_config.strudel = {
 
 ## Features
 - Context-aware completions:
-  - Inside `s("…")`: suggests sounds from bundled `sounds.json`
+  - Inside `s("…")`: suggests sounds from bundled `sounds.json` (requires typing ≥ 1 character to reduce noise; e.g. `s("k` → `kalimba`, `kick`, etc.)
   - Elsewhere: suggests transforms/functions with snippet placeholders
-- Hover: signature, blurb, and example when available
+- Hover: signature, blurb, example, and alias information when available
+- Completion docs: blurb, example (fenced as `strudel`), plus `Aliases: …` or `Alias of: …`
 - Signature help: parameters derived from builtin signatures
 - Diagnostics: unknown transform (with quick-fix), basic unterminated string check
 - Formatting: pipe/comma spacing normalization and optional line wrapping
 - Workspace: fast file discovery for `.str` and `.strdl`
+
+### Behavior notes
+- Sound suggestions are intentionally gated to ≥ 1 typed character inside `s("…")` to avoid overwhelming results.
+- Builtins carry synonyms/aliases; hover and completion docs show either `Aliases: …` (canonical) or `Alias of: …` (alias entry).
 
 ## Supported filetypes and extensions
 - Filetypes: `strudel`, `strdl`, `str`
@@ -160,11 +165,19 @@ See examples under `examples/basic-strudel-project/` for `main.strdl` and `main.
 ## E2E tests
 To run headless E2E locally with a pinned plenary.nvim:
 
-```sh path=null start=null
+```sh
 npm run -w packages/strudel-ls e2e
 ```
 
 This will build the server, vendor plenary at a pinned SHA, and run the test suite with isolated runtimepath.
+
+## Quick command reference
+- Build server bundle: `npm run build`
+- Typecheck: `npm run typecheck`
+- Unit/integration tests: `npm test`
+- E2E: `npm run e2e:setup && npm run e2e`
+- Regenerate builtins/sounds (requires STRUDEL_REPO):
+  `STRUDEL_REPO=/path/to/strudel npm run build:data`
 
 ## Mason registry (example)
 See `mason-registry/packages/strudel-ls/init.lua`.
