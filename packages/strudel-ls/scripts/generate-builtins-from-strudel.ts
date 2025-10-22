@@ -13,6 +13,8 @@ type Builtin = {
   signature?: string;
   blurb?: string;
   example?: string;
+  params?: { name: string; type?: string; optional?: boolean; doc?: string }[];
+  enums?: string[];
   synonyms?: string[];
   aliasOf?: string;
 };
@@ -46,21 +48,52 @@ function loadDocs(docPath: string): Record<string, Builtin> {
   const raw = JSON.parse(readFileSync(docPath, 'utf8'));
   const out: Record<string, Builtin> = {};
   const entries: any[] = raw.docs || [];
+
+  function extractEnums(text?: string): string[] | undefined {
+    if (!text) return undefined;
+    const m = /options? (?:are|:)[^\n\.]*/i.exec(text);
+    if (m) {
+      const frag = m[0].replace(/options? (?:are|:)/i, '');
+      const parts = frag
+        .split(/[\s,\/]+/)
+        .map((s) => s.trim())
+        .filter((s) => s && /^[a-z0-9_\-]+$/i.test(s));
+      const uniq = Array.from(new Set(parts));
+      if (uniq.length) return uniq;
+    }
+    return undefined;
+  }
+
   for (const d of entries) {
     const name = d.name as string;
     if (!name) continue;
-    const params = (d.params || []).map((p: any) => `${p.name}: ${(p.type?.names?.[0] || 'any')}`);
-    const signature = params.length ? `${name}(${params.join(', ')})` : `${name}()`;
+
+    const paramObjs = (d.params || []).map((p: any) => ({
+      name: p.name as string,
+      type: p.type?.names?.[0] as string | undefined,
+      optional: !!p.optional,
+      doc: p.description ? stripHtml(p.description) : undefined,
+    }));
+    const sigParams = paramObjs.map((p: any) => `${p.name}: ${p.type || 'any'}`);
+    const signature = sigParams.length ? `${name}(${sigParams.join(', ')})` : `${name}()`;
     const blurb = stripHtml(d.description);
     const example = (d.examples && d.examples[0]) || undefined;
 
-    // Collect synonyms/aliases from docs (support "synonyms" or legacy "aliases")
     const syns: string[] = Array.from(new Set([...(d.synonyms || []), ...(d.aliases || [])])).filter(Boolean);
 
-    // Canonical entry with synonyms
-    out[name] = { name, kind: 'transform', signature, blurb, example, synonyms: syns.length ? syns : undefined };
+    const enums = extractEnums(blurb);
 
-    // Alias entries mirror docs and point back to canonical via aliasOf
+    out[name] = {
+      name,
+      kind: 'transform',
+      signature,
+      blurb,
+      example,
+      params: paramObjs.length ? paramObjs : undefined,
+      enums: enums,
+      synonyms: syns.length ? syns : undefined,
+    };
+
     for (const syn of syns) {
       if (!out[syn]) out[syn] = { name: syn, kind: 'transform', signature, blurb, example, aliasOf: name };
     }

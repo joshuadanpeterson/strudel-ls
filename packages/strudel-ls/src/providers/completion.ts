@@ -45,6 +45,17 @@ function buildSnippet(name: string, signature?: string): string {
 function buildMarkdownDoc(b: Builtin): string {
   const parts: string[] = [];
   if (b.blurb) parts.push(b.blurb);
+  if (b.params && b.params.length) {
+    parts.push('\n\nParameters:\n');
+    for (const p of b.params) {
+      const line = `- \`${p.name}\`${p.type ? `: ${p.type}` : ''}${p.optional ? ' (optional)' : ''}${p.doc ? ` — ${p.doc}` : ''}`;
+      parts.push(line);
+    }
+  }
+  if (b.enums && b.enums.length) {
+    parts.push('\n\nChoices:\n');
+    parts.push(b.enums.map((e: string) => `- \`${e}\``).join('\n'));
+  }
   if (b.example) parts.push(`\n\n\`\`\`strudel\n${b.example}\n\`\`\``);
   if (b.aliasOf) parts.push(`\n\nAlias of: \`${b.aliasOf}\``);
   else if (b.synonyms && b.synonyms.length) parts.push(`\n\nAliases: ${b.synonyms.join(', ')}`);
@@ -198,6 +209,31 @@ export function provideCompletions(
       }
     }
     return items;
+  }
+
+  // Inside function call with known enums: propose enum choices
+  {
+    const text = doc.getText().slice(0, doc.offsetAt(position));
+    const m = /([A-Za-z_][A-Za-z0-9_]*)\s*\([^)]*$/m.exec(text);
+    if (m) {
+      const fname = m[1];
+      const b = builtins.get(fname);
+      if (b && b.enums && b.enums.length) {
+        const items: CompletionItem[] = [];
+        for (const val of b.enums) {
+          if (prefix && !val.toLowerCase().startsWith(prefix)) continue;
+          items.push({
+            label: val,
+            kind: CompletionItemKind.EnumMember,
+            insertText: val,
+            insertTextFormat: InsertTextFormat.Snippet,
+            detail: `Choice for ${fname}`,
+            sortText: val,
+          });
+        }
+        if (items.length) return items;
+      }
+    }
   }
 
   // Elsewhere: suggest transforms/functions from builtins

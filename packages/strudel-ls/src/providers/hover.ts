@@ -29,6 +29,30 @@ function getNearestSound(doc: TextDocument, position: Position): string | undefi
   return parts.length ? parts[parts.length - 1] : undefined;
 }
 
+function buildFnHover(b: Builtin): string | undefined {
+  const parts: string[] = [];
+  parts.push(b.signature ? `\`\`${b.signature}\`\`` : `\`\`${b.name}\`\``);
+  if (b.blurb) parts.push(`\n\n${b.blurb}`);
+  if (b.params && b.params.length) {
+    parts.push('\n\nParameters:\n');
+    for (const p of b.params) {
+      const line = `- \`${p.name}\`${p.type ? `: ${p.type}` : ''}${p.optional ? ' (optional)' : ''}${p.doc ? ` — ${p.doc}` : ''}`;
+      parts.push(line);
+    }
+  }
+  if (b.enums && b.enums.length) {
+    parts.push('\n\nChoices:\n');
+    parts.push(b.enums.map((e: string) => `- \`${e}\``).join('\n'));
+  }
+  if (b.example) parts.push(`\n\nExample:\n\n\`\`\`strudel\n${b.example}\n\`\`\``);
+  if (b.aliasOf) {
+    parts.push(`\n\nAlias of: \`${b.aliasOf}\``);
+  } else if (b.synonyms && b.synonyms.length) {
+    parts.push(`\n\nAliases: ${b.synonyms.join(', ')}`);
+  }
+  return parts.join('');
+}
+
 export function provideHover(
   doc: TextDocument,
   position: Position,
@@ -38,19 +62,11 @@ export function provideHover(
   if (!range) return null;
   const word = doc.getText(range);
 
-  // 1) Builtin hover (existing behavior)
+  // 1) Builtin hover (enhanced)
   const b = builtins.get(word);
   if (b) {
-    const mdParts: string[] = [];
-    mdParts.push(b.signature ? `\`\`${b.signature}\`\`` : `\`\`${b.name}\`\``);
-    if (b.blurb) mdParts.push(`\n\n${b.blurb}`);
-    if (b.example) mdParts.push(`\n\nExample:\n\n\`\`\`strudel\n${b.example}\n\`\`\``);
-    if (b.aliasOf) {
-      mdParts.push(`\n\nAlias of: \`${b.aliasOf}\``);
-    } else if (b.synonyms && b.synonyms.length) {
-      mdParts.push(`\n\nAliases: ${b.synonyms.join(', ')}`);
-    }
-    return { contents: { kind: 'markdown', value: mdParts.join('') }, range };
+    const val = buildFnHover(b);
+    if (val) return { contents: { kind: 'markdown', value: val }, range };
   }
 
   // 2) bank("…") hover: list available banks for the nearest sound
@@ -68,7 +84,21 @@ export function provideHover(
     }
   }
 
-  // 3) Sound-name hover when inside s("…") or sound("…")
+  // 3) Function call hover: show parameter docs and choices for the called function
+  {
+    const text = doc.getText().slice(0, doc.offsetAt(position));
+    const m = /([A-Za-z_][A-Za-z0-9_]*)\s*\([^)]*$/m.exec(text);
+    if (m) {
+      const fname = m[1];
+      const b = builtins.get(fname);
+      if (b) {
+        const val = buildFnHover(b);
+        if (val) return { contents: { kind: 'markdown', value: val }, range };
+      }
+    }
+  }
+
+  // 4) Sound-name hover when inside s("…") or sound("…")
   if (isInsideSoundCall(doc, position)) {
     const meta = (soundsData as any).meta || {};
     const m = meta[word];
