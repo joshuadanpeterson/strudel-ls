@@ -233,6 +233,9 @@ export function provideCompletions(
         }
         if (items.length) return items;
       }
+      // If we're inside a known function call but there are no enum choices,
+      // avoid suggesting unrelated items (keep parens focused on parameters)
+      if (b) return [];
     }
   }
 
