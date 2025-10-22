@@ -117,6 +117,7 @@ prettier --plugin=@strudel-tools/prettier-plugin-strudel "**/*.{strudel,strdl,st
 - Completions
   - Inside `s("…")`: suggests sounds from bundled `sounds.json`
   - Elsewhere: suggests transforms/functions with snippet placeholders
+  - Data source for completions: Strudel's API Reference and built-in sound library (bundled via `builtins.json` and `sounds.json`)
 - Hover: signature, blurb, and example when available
 - Signature help: parameters derived from builtin signatures
 - Diagnostics: unknown transform (with quick-fix), basic unterminated string check
@@ -172,7 +173,7 @@ STRUDEL_REPO=/absolute/path/to/strudel \
   npm -w packages/strudel-ls run build:data
 ```
 
-This parses `doc.json` and sound metadata to produce `builtins.json` and `sounds.json` bundled with the server.
+This parses Strudel's API Reference (`doc.json`) and built-in sound library metadata to produce `builtins.json` and `sounds.json` bundled with the server.
 
 ## E2E tests and pinned dependency
 The E2E suite depends on `plenary.nvim` pinned to a known commit for stability. The setup script vendors it at the expected SHA before tests.
