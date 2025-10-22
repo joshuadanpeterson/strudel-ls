@@ -17,7 +17,8 @@ function isInsideBankArg(doc: TextDocument, position: Position): boolean {
   const text = doc.getText();
   const offset = doc.offsetAt(position);
   const before = text.slice(0, offset);
-  return /\.bank\s*\(\s*["'][^"']*$/.test(before);
+  // Consider inside bank if we're after ".bank(" and before its closing ")" (quotes optional)
+  return /\.bank\s*\([^)]*$/.test(before);
 }
 
 function getNearestSound(doc: TextDocument, position: Position): string | undefined {
@@ -64,9 +65,17 @@ export function provideCompletions(
   if (isInsideBankArg(doc, position)) {
     const meta = (soundsData as any).meta || {};
     const sound = getNearestSound(doc, position);
-    if (!sound) return [];
-    const info = (meta as any)[sound] || {};
-    const banks: string[] = Array.isArray(info.banks) ? info.banks : [];
+    const info = sound ? (meta as any)[sound] || {} : {};
+    let banks: string[] = Array.isArray(info.banks) ? info.banks : [];
+    if (!banks.length) {
+      // Fallback: union of all banks (unique)
+      const set = new Set<string>();
+      for (const k of Object.keys(meta)) {
+        const bs = (meta as any)[k]?.banks as string[] | undefined;
+        if (Array.isArray(bs)) for (const b of bs) set.add(b);
+      }
+      banks = Array.from(set).sort();
+    }
     const items: CompletionItem[] = [];
     const lcPrefix = prefix.toLowerCase();
     for (const b of banks) {
