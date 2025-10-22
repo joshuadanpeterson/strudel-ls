@@ -182,5 +182,88 @@ See `mason-registry/packages/strudel-ls/init.lua`.
 - [ ] Formatting rules (beyond stub)
 - [ ] Code actions/rename/semantic tokens (later milestone)
 
+## Neovim 0.11: Filetype and LSP attachment fallback
+
+If your `*.str`, `*.strdl`, or `*.strudel` files are detected as `javascript` by another plugin and the server doesn't attach, use the following fallback patterns for NVIM ≥ 0.11 with the built-in `vim.lsp` APIs.
+
+1) Force filetype mapping (ftdetect)
+
+```lua path=null start=null
+-- ~/.config/nvim/ftdetect/strudel.lua
+vim.filetype.add({
+  extension = {
+    strudel = 'strudel',
+    strdl   = 'strudel',
+    str     = 'strudel',
+    std     = 'strudel',
+  },
+})
+
+-- If something later forces javascript, re-map matching buffers back to strudel
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'javascript', 'javascriptreact' },
+  callback = function()
+    local name = vim.api.nvim_buf_get_name(0)
+    if name:match('%.str$') or name:match('%.strdl$') or name:match('%.strudel$') or name:match('%.std$') then
+      vim.schedule(function()
+        vim.bo.filetype = 'strudel'
+      end)
+    end
+  end,
+})
+```
+
+2) Configure and autostart the server with `vim.lsp` (NVIM ≥ 0.11)
+
+```lua path=null start=null
+-- In your LSP config module
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+-- Primary config (registers the server definition)
+vim.lsp.config('strudel_ls', {
+  cmd = { vim.fn.exepath('node'), '/absolute/path/to/packages/strudel-ls/dist/server.js', '--stdio' },
+  filetypes = { 'strudel', 'strdl', 'str' },
+  capabilities = capabilities,
+  settings = {
+    strudel = {
+      diagnostics = { enable = true, unknownTransform = 'warning' },
+      completions = { snippets = true, builtinsOnly = true, maxItems = 50 },
+      formatting = { enable = true, lineWidth = 100 },
+      telemetry = { enable = false },
+    },
+  },
+})
+vim.lsp.enable('strudel_ls')
+
+-- Autostart on FileType, with robust root detection
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'strudel', 'strdl', 'str' },
+  callback = function(args)
+    local bufnr = args.buf
+    if #vim.lsp.get_clients({ bufnr = bufnr, name = 'strudel_ls' }) > 0 then return end
+    local fname = vim.api.nvim_buf_get_name(bufnr)
+    local start_dir = (fname ~= '' and vim.fs.dirname(fname)) or vim.loop.cwd()
+    local mark = vim.fs.find({ '.git', 'package.json', '.strudelrc' }, { path = start_dir, upward = true })[1]
+    local root = mark and vim.fs.dirname(mark) or start_dir
+    vim.lsp.start({
+      name = 'strudel_ls',
+      cmd = { vim.fn.exepath('node'), '/absolute/path/to/packages/strudel-ls/dist/server.js', '--stdio' },
+      root_dir = root,
+      capabilities = capabilities,
+      filetypes = { 'strudel', 'strdl', 'str' },
+    })
+  end,
+})
+```
+
+3) Verify in Neovim
+- `:echo &filetype` → `strudel`
+- `:LspInfo` → `strudel_ls` attached
+- Trigger completion (`<C-Space>`), especially inside `s("…")` or after `|>`
+
+Notes
+- Always use an absolute path to `node` (e.g., `vim.fn.exepath('node')`) and to `dist/server.js` during local development.
+- If you generated new builtins/sounds data, rebuild the server so the `dist/` bundle embeds the latest JSON.
+
 ## License
 MIT
