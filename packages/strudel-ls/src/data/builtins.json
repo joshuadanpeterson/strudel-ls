@@ -39,6 +39,14 @@
     "signature": "slow(factor: number)",
     "blurb": "Slow down a pattern over the given number of cycles. Like the &quot;/&quot; operator in mini notation.",
     "example": "s(\"bd hh sd hh\").slow(2) // s(\"[bd hh sd hh]/2\")",
+    "params": [
+      {
+        "name": "factor",
+        "type": "number",
+        "optional": false,
+        "doc": "slow down factor"
+      }
+    ],
     "synonyms": [
       "sparsity"
     ]
@@ -56,14 +64,42 @@
     "kind": "transform",
     "signature": "firstOf(n: number, func: function)",
     "blurb": "Applies the given function every n cycles, starting from the first cycle.",
-    "example": "note(\"c3 d3 e3 g3\").firstOf(4, x=>x.rev())"
+    "example": "note(\"c3 d3 e3 g3\").firstOf(4, x=>x.rev())",
+    "params": [
+      {
+        "name": "n",
+        "type": "number",
+        "optional": false,
+        "doc": "how many cycles"
+      },
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "function to apply"
+      }
+    ]
   },
   {
     "name": "every",
     "kind": "transform",
     "signature": "every(n: number, func: function)",
     "blurb": "An alias for firstOf",
-    "example": "note(\"c3 d3 e3 g3\").every(4, x=>x.rev())"
+    "example": "note(\"c3 d3 e3 g3\").every(4, x=>x.rev())",
+    "params": [
+      {
+        "name": "n",
+        "type": "number",
+        "optional": false,
+        "doc": "how many cycles"
+      },
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "function to apply"
+      }
+    ]
   },
   {
     "name": "zoomArc",
@@ -79,6 +115,14 @@
     "signature": "segment(segments: number)",
     "blurb": "Samples the pattern at a rate of n events per cycle. Useful for turning a continuous pattern into a discrete one.",
     "example": "note(saw.range(40,52).segment(24))",
+    "params": [
+      {
+        "name": "segments",
+        "type": "number",
+        "optional": false,
+        "doc": "number of segments per cycle"
+      }
+    ],
     "synonyms": [
       "seg"
     ]
@@ -151,6 +195,20 @@
     "signature": "ribbon(offset: number, cycles: number)",
     "blurb": "Loops the pattern inside an offset for cycles. If you think of the entire span of time in cycles as a ribbon, you can cut a single piece and loop it.",
     "example": "note(\"<c d e f>\").ribbon(1, 2)",
+    "params": [
+      {
+        "name": "offset",
+        "type": "number",
+        "optional": false,
+        "doc": "start point of loop in cycles"
+      },
+      {
+        "name": "cycles",
+        "type": "number",
+        "optional": false,
+        "doc": "loop length in cycles"
+      }
+    ],
     "synonyms": [
       "rib"
     ]
@@ -307,7 +365,21 @@
     "kind": "transform",
     "signature": "lastOf(n: number, func: function)",
     "blurb": "Applies the given function every n cycles, starting from the last cycle.",
-    "example": "note(\"c3 d3 e3 g3\").lastOf(4, x=>x.rev())"
+    "example": "note(\"c3 d3 e3 g3\").lastOf(4, x=>x.rev())",
+    "params": [
+      {
+        "name": "n",
+        "type": "number",
+        "optional": false,
+        "doc": "how many cycles"
+      },
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "function to apply"
+      }
+    ]
   },
   {
     "name": "apply",
@@ -328,14 +400,30 @@
     "kind": "transform",
     "signature": "early(cycles: number)",
     "blurb": "Nudge a pattern to start earlier in time. Equivalent of Tidal's &lt;~ operator",
-    "example": "\"bd ~\".stack(\"hh ~\".early(.1)).s()"
+    "example": "\"bd ~\".stack(\"hh ~\".early(.1)).s()",
+    "params": [
+      {
+        "name": "cycles",
+        "type": "number",
+        "optional": false,
+        "doc": "number of cycles to nudge left"
+      }
+    ]
   },
   {
     "name": "late",
     "kind": "transform",
     "signature": "late(cycles: number)",
     "blurb": "Nudge a pattern to start later in time. Equivalent of Tidal's ~&gt; operator",
-    "example": "\"bd ~\".stack(\"hh ~\".late(.1)).s()"
+    "example": "\"bd ~\".stack(\"hh ~\".late(.1)).s()",
+    "params": [
+      {
+        "name": "cycles",
+        "type": "number",
+        "optional": false,
+        "doc": "number of cycles to nudge right"
+      }
+    ]
   },
   {
     "name": "zoom",
@@ -349,42 +437,109 @@
     "kind": "transform",
     "signature": "bite(number: number, slices: number)",
     "blurb": "Splits a pattern into the given number of slices, and plays them according to a pattern of slice numbers. Similar to slice, but slices up patterns rather than sound samples.",
-    "example": "note(\"0 1 2 3 4 5 6 7\".scale('c:mixolydian'))\n.bite(4, \"3 2 1 0\")"
+    "example": "note(\"0 1 2 3 4 5 6 7\".scale('c:mixolydian'))\n.bite(4, \"3 2 1 0\")",
+    "params": [
+      {
+        "name": "number",
+        "type": "number",
+        "optional": false,
+        "doc": "of slices"
+      },
+      {
+        "name": "slices",
+        "type": "number",
+        "optional": false,
+        "doc": "to play"
+      }
+    ]
   },
   {
     "name": "linger",
     "kind": "transform",
     "signature": "linger(fraction: number)",
     "blurb": "Selects the given fraction of the pattern and repeats that part to fill the remainder of the cycle.",
-    "example": "s(\"lt ht mt cp, [hh oh]*2\").linger(\"<1 .5 .25 .125>\")"
+    "example": "s(\"lt ht mt cp, [hh oh]*2\").linger(\"<1 .5 .25 .125>\")",
+    "params": [
+      {
+        "name": "fraction",
+        "type": "number",
+        "optional": false,
+        "doc": "fraction to select"
+      }
+    ]
   },
   {
     "name": "swingBy",
     "kind": "transform",
     "signature": "swingBy(subdivision: number, offset: number)",
     "blurb": "The function swingBy x n breaks each cycle into n slices, and then delays events in the second half of each slice by the amount x, which is relative to the size of the (half) slice. So if x is 0 it does nothing, 0.5 delays for half the note duration, and 1 will wrap around to doing nothing again. The end result is a shuffle or swing-like rhythm",
-    "example": "s(\"hh*8\").swingBy(1/3, 4)"
+    "example": "s(\"hh*8\").swingBy(1/3, 4)",
+    "params": [
+      {
+        "name": "subdivision",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "offset",
+        "type": "number",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "swing",
     "kind": "transform",
     "signature": "swing(subdivision: number)",
     "blurb": "Shorthand for swingBy with 1/3:",
-    "example": "s(\"hh*8\").swing(4)\n// s(\"hh*8\").swingBy(1/3, 4)"
+    "example": "s(\"hh*8\").swing(4)\n// s(\"hh*8\").swingBy(1/3, 4)",
+    "params": [
+      {
+        "name": "subdivision",
+        "type": "number",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "when",
     "kind": "transform",
     "signature": "when(binary_pat: Pattern, func: function)",
     "blurb": "Applies the given function whenever the given pattern is in a true state.",
-    "example": "\"c3 eb3 g3\".when(\"<0 1>/2\", x=>x.sub(\"5\")).note()"
+    "example": "\"c3 eb3 g3\".when(\"<0 1>/2\", x=>x.sub(\"5\")).note()",
+    "params": [
+      {
+        "name": "binary_pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "off",
     "kind": "transform",
     "signature": "off(time: Pattern, func: function)",
     "blurb": "Superimposes the function result on top of the original pattern, delayed by the given time.",
-    "example": "\"c3 eb3 g3\".off(1/8, x=>x.add(7)).note()"
+    "example": "\"c3 eb3 g3\".off(1/8, x=>x.add(7)).note()",
+    "params": [
+      {
+        "name": "time",
+        "type": "Pattern",
+        "optional": false,
+        "doc": "offset time"
+      },
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "function to apply"
+      }
+    ]
   },
   {
     "name": "brak",
@@ -432,14 +587,54 @@
     "kind": "transform",
     "signature": "echo(times: number, time: number, feedback: number)",
     "blurb": "Superimpose and offset multiple times, gradually decreasing the velocity",
-    "example": "s(\"bd sd\").echo(3, 1/6, .8)"
+    "example": "s(\"bd sd\").echo(3, 1/6, .8)",
+    "params": [
+      {
+        "name": "times",
+        "type": "number",
+        "optional": false,
+        "doc": "how many times to repeat"
+      },
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "cycle offset between iterations"
+      },
+      {
+        "name": "feedback",
+        "type": "number",
+        "optional": false,
+        "doc": "velocity multiplicator for each iteration"
+      }
+    ]
   },
   {
     "name": "stut",
     "kind": "transform",
     "signature": "stut(times: number, feedback: number, time: number)",
     "blurb": "Deprecated. Like echo, but the last 2 parameters are flipped.",
-    "example": "s(\"bd sd\").stut(3, .8, 1/6)"
+    "example": "s(\"bd sd\").stut(3, .8, 1/6)",
+    "params": [
+      {
+        "name": "times",
+        "type": "number",
+        "optional": false,
+        "doc": "how many times to repeat"
+      },
+      {
+        "name": "feedback",
+        "type": "number",
+        "optional": false,
+        "doc": "velocity multiplicator for each iteration"
+      },
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "cycle offset between iterations"
+      }
+    ]
   },
   {
     "name": "applyN",
@@ -469,19 +664,55 @@
     "kind": "transform",
     "signature": "filter(test: function)",
     "blurb": "Filters haps using the given function",
-    "example": "s(\"hh!7 oh\").filter(hap => hap.value.s==='hh')"
+    "example": "s(\"hh!7 oh\").filter(hap => hap.value.s==='hh')",
+    "params": [
+      {
+        "name": "test",
+        "type": "function",
+        "optional": false,
+        "doc": "function to test Hap"
+      }
+    ]
   },
   {
     "name": "filterWhen",
     "kind": "transform",
     "signature": "filterWhen(test: function)",
-    "blurb": "Filters haps by their begin time"
+    "blurb": "Filters haps by their begin time",
+    "params": [
+      {
+        "name": "test",
+        "type": "function",
+        "optional": false,
+        "doc": "function to test Hap.whole.begin"
+      }
+    ]
   },
   {
     "name": "within",
     "kind": "transform",
     "signature": "within(start: number, end: number, func: function)",
-    "blurb": "Use within to apply a function to only a part of a pattern."
+    "blurb": "Use within to apply a function to only a part of a pattern.",
+    "params": [
+      {
+        "name": "start",
+        "type": "number",
+        "optional": false,
+        "doc": "start within cycle (0 - 1)"
+      },
+      {
+        "name": "end",
+        "type": "number",
+        "optional": false,
+        "doc": "end within cycle (0 - 1). Must be &gt; start"
+      },
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "function to be applied to the sub-pattern"
+      }
+    ]
   },
   {
     "name": "pace",
@@ -550,7 +781,33 @@
     "name": "slider",
     "kind": "transform",
     "signature": "slider(value: number, min: number, max: number, step: number)",
-    "blurb": "Displays a slider widget to allow the user manipulate a value"
+    "blurb": "Displays a slider widget to allow the user manipulate a value",
+    "params": [
+      {
+        "name": "value",
+        "type": "number",
+        "optional": false,
+        "doc": "Initial value"
+      },
+      {
+        "name": "min",
+        "type": "number",
+        "optional": false,
+        "doc": "Minimum value - optional, defaults to 0"
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "optional": false,
+        "doc": "Maximum value - optional, defaults to 1"
+      },
+      {
+        "name": "step",
+        "type": "number",
+        "optional": false,
+        "doc": "Step size - optional"
+      }
+    ]
   },
   {
     "name": "s",
@@ -558,6 +815,14 @@
     "signature": "s(sound: string)",
     "blurb": "Select a sound / sample by name. When using mininotation, you can also optionally supply 'n' and 'gain' parameters separated by ':'.",
     "example": "s(\"bd hh\")",
+    "params": [
+      {
+        "name": "sound",
+        "type": "string",
+        "optional": false,
+        "doc": "The sound / pattern of sounds to pick"
+      }
+    ],
     "synonyms": [
       "sound"
     ]
@@ -576,6 +841,14 @@
     "signature": "wt(position: number)",
     "blurb": "Position in the wavetable of the wavetable oscillator",
     "example": "s(\"squelch\").bank(\"wt_digital\").seg(8).note(\"F1\").wt(\"0 0.25 0.5 0.75 1\")",
+    "params": [
+      {
+        "name": "position",
+        "type": "number",
+        "optional": false,
+        "doc": "Position in the wavetable from 0 to 1"
+      }
+    ],
     "synonyms": [
       "wavetablePosition"
     ]
@@ -592,13 +865,29 @@
     "name": "wtenv",
     "kind": "transform",
     "signature": "wtenv(amount: number)",
-    "blurb": "Amount of envelope applied wavetable oscillator's position envelope"
+    "blurb": "Amount of envelope applied wavetable oscillator's position envelope",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1"
+      }
+    ]
   },
   {
     "name": "wtattack",
     "kind": "transform",
     "signature": "wtattack(time: number)",
     "blurb": "Attack time of the wavetable oscillator's position envelope",
+    "params": [
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "attack time in seconds"
+      }
+    ],
     "synonyms": [
       "wtatt"
     ]
@@ -615,6 +904,14 @@
     "kind": "transform",
     "signature": "wtdecay(time: number)",
     "blurb": "Decay time of the wavetable oscillator's position envelope",
+    "params": [
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "decay time in seconds"
+      }
+    ],
     "synonyms": [
       "wtdec"
     ]
@@ -631,6 +928,14 @@
     "kind": "transform",
     "signature": "wtsustain(gain: number)",
     "blurb": "Sustain time of the wavetable oscillator's position envelope",
+    "params": [
+      {
+        "name": "gain",
+        "type": "number",
+        "optional": false,
+        "doc": "sustain level (0 to 1)"
+      }
+    ],
     "synonyms": [
       "wtsus"
     ]
@@ -647,6 +952,14 @@
     "kind": "transform",
     "signature": "wtrelease(time: number)",
     "blurb": "Release time of the wavetable oscillator's position envelope",
+    "params": [
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "release time in seconds"
+      }
+    ],
     "synonyms": [
       "wtrel"
     ]
@@ -662,37 +975,85 @@
     "name": "wtrate",
     "kind": "transform",
     "signature": "wtrate(rate: number)",
-    "blurb": "Rate of the LFO for the wavetable oscillator's position"
+    "blurb": "Rate of the LFO for the wavetable oscillator's position",
+    "params": [
+      {
+        "name": "rate",
+        "type": "number",
+        "optional": false,
+        "doc": "rate in hertz"
+      }
+    ]
   },
   {
     "name": "wtsync",
     "kind": "transform",
     "signature": "wtsync(rate: number)",
-    "blurb": "cycle synced rate of the LFO for the wavetable oscillator's position"
+    "blurb": "cycle synced rate of the LFO for the wavetable oscillator's position",
+    "params": [
+      {
+        "name": "rate",
+        "type": "number",
+        "optional": false,
+        "doc": "rate in cycles"
+      }
+    ]
   },
   {
     "name": "wtdepth",
     "kind": "transform",
     "signature": "wtdepth(depth: number)",
-    "blurb": "Depth of the LFO for the wavetable oscillator's position"
+    "blurb": "Depth of the LFO for the wavetable oscillator's position",
+    "params": [
+      {
+        "name": "depth",
+        "type": "number",
+        "optional": false,
+        "doc": "depth of modulation"
+      }
+    ]
   },
   {
     "name": "wtshape",
     "kind": "transform",
     "signature": "wtshape(shape: number)",
-    "blurb": "Shape of the LFO for the wavetable oscillator's position"
+    "blurb": "Shape of the LFO for the wavetable oscillator's position",
+    "params": [
+      {
+        "name": "shape",
+        "type": "number",
+        "optional": false,
+        "doc": "Shape of the lfo (0, 1, 2, ..)"
+      }
+    ]
   },
   {
     "name": "wtdc",
     "kind": "transform",
     "signature": "wtdc(dcoffset: number)",
-    "blurb": "DC offset of the LFO for the wavetable oscillator's position"
+    "blurb": "DC offset of the LFO for the wavetable oscillator's position",
+    "params": [
+      {
+        "name": "dcoffset",
+        "type": "number",
+        "optional": false,
+        "doc": "dc offset. set to 0 for unipolar"
+      }
+    ]
   },
   {
     "name": "wtskew",
     "kind": "transform",
     "signature": "wtskew(skew: number)",
-    "blurb": "Skew of the LFO for the wavetable oscillator's position"
+    "blurb": "Skew of the LFO for the wavetable oscillator's position",
+    "params": [
+      {
+        "name": "skew",
+        "type": "number",
+        "optional": false,
+        "doc": "How much to bend the LFO shape"
+      }
+    ]
   },
   {
     "name": "warp",
@@ -700,6 +1061,14 @@
     "signature": "warp(amount: number)",
     "blurb": "Amount of warp (alteration of the waveform) to apply to the wavetable oscillator",
     "example": "s(\"basique\").bank(\"wt_digital\").seg(8).note(\"F1\").warp(\"0 0.25 0.5 0.75 1\")\n  .warpmode(\"spin\")",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false,
+        "doc": "Warp of the wavetable from 0 to 1"
+      }
+    ],
     "synonyms": [
       "wavetableWarp"
     ]
@@ -717,6 +1086,14 @@
     "kind": "transform",
     "signature": "warpattack(time: number)",
     "blurb": "Attack time of the wavetable oscillator's warp envelope",
+    "params": [
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "attack time in seconds"
+      }
+    ],
     "synonyms": [
       "warpatt"
     ]
@@ -733,6 +1110,14 @@
     "kind": "transform",
     "signature": "warpdecay(time: number)",
     "blurb": "Decay time of the wavetable oscillator's warp envelope",
+    "params": [
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "decay time in seconds"
+      }
+    ],
     "synonyms": [
       "warpdec"
     ]
@@ -749,6 +1134,14 @@
     "kind": "transform",
     "signature": "warpsustain(gain: number)",
     "blurb": "Sustain time of the wavetable oscillator's warp envelope",
+    "params": [
+      {
+        "name": "gain",
+        "type": "number",
+        "optional": false,
+        "doc": "sustain level (0 to 1)"
+      }
+    ],
     "synonyms": [
       "warpsus"
     ]
@@ -765,6 +1158,14 @@
     "kind": "transform",
     "signature": "warprelease(time: number)",
     "blurb": "Release time of the wavetable oscillator's warp envelope",
+    "params": [
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "release time in seconds"
+      }
+    ],
     "synonyms": [
       "warprel"
     ]
@@ -780,31 +1181,71 @@
     "name": "warprate",
     "kind": "transform",
     "signature": "warprate(rate: number)",
-    "blurb": "Rate of the LFO for the wavetable oscillator's warp"
+    "blurb": "Rate of the LFO for the wavetable oscillator's warp",
+    "params": [
+      {
+        "name": "rate",
+        "type": "number",
+        "optional": false,
+        "doc": "rate in hertz"
+      }
+    ]
   },
   {
     "name": "warpdepth",
     "kind": "transform",
     "signature": "warpdepth(depth: number)",
-    "blurb": "Depth of the LFO for the wavetable oscillator's warp"
+    "blurb": "Depth of the LFO for the wavetable oscillator's warp",
+    "params": [
+      {
+        "name": "depth",
+        "type": "number",
+        "optional": false,
+        "doc": "depth of modulation"
+      }
+    ]
   },
   {
     "name": "warpshape",
     "kind": "transform",
     "signature": "warpshape(shape: number)",
-    "blurb": "Shape of the LFO for the wavetable oscillator's warp"
+    "blurb": "Shape of the LFO for the wavetable oscillator's warp",
+    "params": [
+      {
+        "name": "shape",
+        "type": "number",
+        "optional": false,
+        "doc": "Shape of the lfo (0, 1, 2, ..)"
+      }
+    ]
   },
   {
     "name": "warpdc",
     "kind": "transform",
     "signature": "warpdc(dcoffset: number)",
-    "blurb": "DC offset of the LFO for the wavetable oscillator's warp"
+    "blurb": "DC offset of the LFO for the wavetable oscillator's warp",
+    "params": [
+      {
+        "name": "dcoffset",
+        "type": "number",
+        "optional": false,
+        "doc": "dc offset. set to 0 for unipolar"
+      }
+    ]
   },
   {
     "name": "warpskew",
     "kind": "transform",
     "signature": "warpskew(skew: number)",
-    "blurb": "Skew of the LFO for the wavetable oscillator's warp"
+    "blurb": "Skew of the LFO for the wavetable oscillator's warp",
+    "params": [
+      {
+        "name": "skew",
+        "type": "number",
+        "optional": false,
+        "doc": "How much to bend the LFO shape"
+      }
+    ]
   },
   {
     "name": "warpmode",
@@ -812,6 +1253,37 @@
     "signature": "warpmode(mode: number)",
     "blurb": "Type of warp (alteration of the waveform) to apply to the wavetable oscillator. The current options are: none, asym, bendp, bendm, bendmp, sync, quant, fold, pwm, orbit, spin, chaos, primes, binary, brownian, reciprocal, wormhole, logistic, sigmoid, fractal, flip",
     "example": "s(\"morgana\").bank(\"wt_digital\").seg(8).note(\"F1\").warp(\"0 0.25 0.5 0.75 1\")\n  .warpmode(\"<asym bendp spin logistic sync wormhole brownian>*2\")",
+    "params": [
+      {
+        "name": "mode",
+        "type": "number",
+        "optional": false,
+        "doc": "Warp mode"
+      }
+    ],
+    "enums": [
+      "none",
+      "asym",
+      "bendp",
+      "bendm",
+      "bendmp",
+      "sync",
+      "quant",
+      "fold",
+      "pwm",
+      "orbit",
+      "spin",
+      "chaos",
+      "primes",
+      "binary",
+      "brownian",
+      "reciprocal",
+      "wormhole",
+      "logistic",
+      "sigmoid",
+      "fractal",
+      "flip"
+    ],
     "synonyms": [
       "wavetableWarpMode"
     ]
@@ -830,6 +1302,14 @@
     "signature": "wtphaserand(amount: number)",
     "blurb": "Amount of randomness of the initial phase of the wavetable oscillator.",
     "example": "s(\"basique\").bank(\"wt_digital\").seg(16).wtphaserand(\"<0 1>\")",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false,
+        "doc": "Randomness of the initial phase. Between 0 (not random) and 1 (fully random)"
+      }
+    ],
     "synonyms": [
       "wavetablePhaseRand"
     ]
@@ -846,19 +1326,42 @@
     "name": "warpenv",
     "kind": "transform",
     "signature": "warpenv(amount: number)",
-    "blurb": "Amount of envelope applied wavetable oscillator's position envelope"
+    "blurb": "Amount of envelope applied wavetable oscillator's position envelope",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1"
+      }
+    ]
   },
   {
     "name": "warpsync",
     "kind": "transform",
     "signature": "warpsync(rate: number)",
-    "blurb": "cycle synced rate of the LFO for the wavetable warp position"
+    "blurb": "cycle synced rate of the LFO for the wavetable warp position",
+    "params": [
+      {
+        "name": "rate",
+        "type": "number",
+        "optional": false,
+        "doc": "rate in cycles"
+      }
+    ]
   },
   {
     "name": "source",
     "kind": "transform",
     "signature": "source(getSource: function)",
     "blurb": "Define a custom webaudio node to use as a sound source.",
+    "params": [
+      {
+        "name": "getSource",
+        "type": "function",
+        "optional": false
+      }
+    ],
     "synonyms": [
       "src"
     ]
@@ -875,7 +1378,15 @@
     "kind": "transform",
     "signature": "n(value: number)",
     "blurb": "Selects the given index from the sample map. Numbers too high will wrap around. n can also be used to play midi numbers, but it is recommended to use note instead.",
-    "example": "s(\"bd sd [~ bd] sd,hh*6\").n(\"<0 1>\")"
+    "example": "s(\"bd sd [~ bd] sd,hh*6\").n(\"<0 1>\")",
+    "params": [
+      {
+        "name": "value",
+        "type": "number",
+        "optional": false,
+        "doc": "sample index starting from 0"
+      }
+    ]
   },
   {
     "name": "note",
@@ -887,7 +1398,15 @@
     "kind": "transform",
     "signature": "accelerate(amount: number)",
     "blurb": "A pattern of numbers that speed up (or slow down) samples while they play. Currently only supported by osc / superdirt.",
-    "example": "s(\"sax\").accelerate(\"<0 1 2 4 8 16>\").slow(2).osc()"
+    "example": "s(\"sax\").accelerate(\"<0 1 2 4 8 16>\").slow(2).osc()",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false,
+        "doc": "acceleration."
+      }
+    ]
   },
   {
     "name": "velocity",
@@ -901,7 +1420,15 @@
     "kind": "transform",
     "signature": "gain(amount: number)",
     "blurb": "Controls the gain by an exponential amount.",
-    "example": "s(\"hh*8\").gain(\".4!2 1 .4!2 1 .4 1\").fast(2)"
+    "example": "s(\"hh*8\").gain(\".4!2 1 .4!2 1 .4 1\").fast(2)",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false,
+        "doc": "gain."
+      }
+    ]
   },
   {
     "name": "postgain",
@@ -915,7 +1442,15 @@
     "kind": "transform",
     "signature": "amp(amount: number)",
     "blurb": "Like gain, but linear.",
-    "example": "s(\"bd*8\").amp(\".1*2 .5 .1*2 .5 .1 .5\").osc()"
+    "example": "s(\"bd*8\").amp(\".1*2 .5 .1*2 .5 .1 .5\").osc()",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false,
+        "doc": "gain."
+      }
+    ]
   },
   {
     "name": "attack",
@@ -941,6 +1476,14 @@
     "signature": "fm(brightness: number)",
     "blurb": "Sets the Frequency Modulation of the synth. Controls the modulation index, which defines the brightness of the sound.",
     "example": "note(\"c e g b g e\")\n.fm(\"<0 1 2 8 32>\")\n._scope()",
+    "params": [
+      {
+        "name": "brightness",
+        "type": "number",
+        "optional": false,
+        "doc": "modulation index"
+      }
+    ],
     "synonyms": [
       "fmi"
     ]
@@ -955,7 +1498,15 @@
     "kind": "transform",
     "signature": "fmenv(type: number)",
     "blurb": "Ramp type of fm envelope. Exp might be a bit broken..",
-    "example": "note(\"c e g b g e\")\n.fm(4)\n.fmdecay(.2)\n.fmsustain(0)\n.fmenv(\"<exp lin>\")\n._scope()"
+    "example": "note(\"c e g b g e\")\n.fm(4)\n.fmdecay(.2)\n.fmsustain(0)\n.fmenv(\"<exp lin>\")\n._scope()",
+    "params": [
+      {
+        "name": "type",
+        "type": "number",
+        "optional": false,
+        "doc": "lin | exp"
+      }
+    ]
   },
   {
     "name": "fmattack",
@@ -967,7 +1518,15 @@
     "kind": "transform",
     "signature": "fmwave(wave: number)",
     "blurb": "Waveform of the fm modulator",
-    "example": "n(\"0 1 2 3\".fast(4)).scale(\"d:minor\").s(\"sine\").fmwave(\"<sine square sawtooth crackle>\").fm(4).fmh(2.01)"
+    "example": "n(\"0 1 2 3\".fast(4)).scale(\"d:minor\").s(\"sine\").fmwave(\"<sine square sawtooth crackle>\").fm(4).fmh(2.01)",
+    "params": [
+      {
+        "name": "wave",
+        "type": "number",
+        "optional": false,
+        "doc": "waveform"
+      }
+    ]
   },
   {
     "name": "fmdecay",
@@ -984,14 +1543,30 @@
     "kind": "transform",
     "signature": "bank(bank: string)",
     "blurb": "Select the sound bank to use. To be used together with s. The bank name (+ &quot;_&quot;) will be prepended to the value of s.",
-    "example": "s(\"bd sd [~ bd] sd\").bank('RolandTR909') // = s(\"RolandTR909_bd RolandTR909_sd\")"
+    "example": "s(\"bd sd [~ bd] sd\").bank('RolandTR909') // = s(\"RolandTR909_bd RolandTR909_sd\")",
+    "params": [
+      {
+        "name": "bank",
+        "type": "string",
+        "optional": false,
+        "doc": "the name of the bank"
+      }
+    ]
   },
   {
     "name": "chorus",
     "kind": "transform",
     "signature": "chorus(chorus: string)",
     "blurb": "mix control for the chorus effect",
-    "example": "note(\"d d a# a\").s(\"sawtooth\").chorus(.5)"
+    "example": "note(\"d d a# a\").s(\"sawtooth\").chorus(.5)",
+    "params": [
+      {
+        "name": "chorus",
+        "type": "string",
+        "optional": false,
+        "doc": "mix amount between 0 and 1"
+      }
+    ]
   },
   {
     "name": "decay",
@@ -1038,6 +1613,14 @@
     "signature": "bpf(frequency: number)",
     "blurb": "Sets the center frequency of the band-pass filter. When using mininotation, you can also optionally supply the 'bpq' parameter separated by ':'.",
     "example": "s(\"bd sd [~ bd] sd,hh*6\").bpf(\"<1000 2000 4000 8000>\")",
+    "params": [
+      {
+        "name": "frequency",
+        "type": "number",
+        "optional": false,
+        "doc": "center frequency"
+      }
+    ],
     "synonyms": [
       "bandf",
       "bp"
@@ -1062,6 +1645,14 @@
     "signature": "bpq(q: number)",
     "blurb": "Sets the band-pass q-factor (resonance).",
     "example": "s(\"bd sd [~ bd] sd\").bpf(500).bpq(\"<0 1 2 3>\")",
+    "params": [
+      {
+        "name": "q",
+        "type": "number",
+        "optional": false,
+        "doc": "q factor"
+      }
+    ],
     "synonyms": [
       "bandq"
     ]
@@ -1079,21 +1670,45 @@
     "kind": "transform",
     "signature": "begin(amount: number)",
     "blurb": "A pattern of numbers from 0 to 1. Skips the beginning of each sample, e.g. 0.25 to cut off the first quarter from each sample.",
-    "example": "samples({ rave: 'rave/AREUREADY.wav' }, 'github:tidalcycles/dirt-samples')\ns(\"rave\").begin(\"<0 .25 .5 .75>\").fast(2)"
+    "example": "samples({ rave: 'rave/AREUREADY.wav' }, 'github:tidalcycles/dirt-samples')\ns(\"rave\").begin(\"<0 .25 .5 .75>\").fast(2)",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1, where 1 is the length of the sample"
+      }
+    ]
   },
   {
     "name": "end",
     "kind": "transform",
     "signature": "end(length: number)",
     "blurb": "The same as .begin, but cuts off the end off each sample.",
-    "example": "s(\"bd*2,oh*4\").end(\"<.1 .2 .5 1>\").fast(2)"
+    "example": "s(\"bd*2,oh*4\").end(\"<.1 .2 .5 1>\").fast(2)",
+    "params": [
+      {
+        "name": "length",
+        "type": "number",
+        "optional": false,
+        "doc": "1 = whole sample, .5 = half sample, .25 = quarter sample etc.."
+      }
+    ]
   },
   {
     "name": "loop",
     "kind": "transform",
     "signature": "loop(on: number)",
     "blurb": "Loops the sample. Note that the tempo of the loop is not synced with the cycle tempo. To change the loop region, use loopBegin / loopEnd.",
-    "example": "s(\"casio\").loop(1)"
+    "example": "s(\"casio\").loop(1)",
+    "params": [
+      {
+        "name": "on",
+        "type": "number",
+        "optional": false,
+        "doc": "If 1, the sample is looped"
+      }
+    ]
   },
   {
     "name": "loopBegin",
@@ -1101,6 +1716,14 @@
     "signature": "loopBegin(time: number)",
     "blurb": "Begin to loop at a specific point in the sample (inbetween begin and end). Note that the loop point must be inbetween begin and end, and before loopEnd! Note: Samples starting with wt_ will automatically loop! (wt = wavetable)",
     "example": "s(\"space\").loop(1)\n.loopBegin(\"<0 .125 .25>\")._scope()",
+    "params": [
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1, where 1 is the length of the sample"
+      }
+    ],
     "synonyms": [
       "loopb"
     ]
@@ -1119,6 +1742,14 @@
     "signature": "loopEnd(time: number)",
     "blurb": "End the looping section at a specific point in the sample (inbetween begin and end). Note that the loop point must be inbetween begin and end, and after loopBegin!",
     "example": "s(\"space\").loop(1)\n.loopEnd(\"<1 .75 .5 .25>\")._scope()",
+    "params": [
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1, where 1 is the length of the sample"
+      }
+    ],
     "synonyms": [
       "loope"
     ]
@@ -1147,6 +1778,14 @@
     "signature": "tremolo(speed: number)",
     "blurb": "Modulate the amplitude of a sound with a continuous waveform",
     "example": "note(\"d d d# d\".fast(4)).s(\"supersaw\").tremolo(\"<3 2 100> \").tremoloskew(\"<.5>\")",
+    "params": [
+      {
+        "name": "speed",
+        "type": "number",
+        "optional": false,
+        "doc": "modulation speed in HZ"
+      }
+    ],
     "synonyms": [
       "trem"
     ]
@@ -1165,6 +1804,14 @@
     "signature": "tremolosync(cycles: number)",
     "blurb": "Modulate the amplitude of a sound with a continuous waveform",
     "example": "note(\"d d d# d\".fast(4)).s(\"supersaw\").tremolosync(\"4\").tremoloskew(\"<1 .5 0>\")",
+    "params": [
+      {
+        "name": "cycles",
+        "type": "number",
+        "optional": false,
+        "doc": "modulation speed in cycles"
+      }
+    ],
     "synonyms": [
       "tremsync"
     ]
@@ -1183,6 +1830,13 @@
     "signature": "tremolodepth(depth: number)",
     "blurb": "Depth of amplitude modulation",
     "example": "note(\"a1 a1 a#1 a1\".fast(4)).s(\"pulse\").tremsync(4).tremolodepth(\"<1 2 .7>\")",
+    "params": [
+      {
+        "name": "depth",
+        "type": "number",
+        "optional": false
+      }
+    ],
     "synonyms": [
       "tremdepth"
     ]
@@ -1201,6 +1855,14 @@
     "signature": "tremoloskew(amount: number)",
     "blurb": "Alter the shape of the modulation waveform",
     "example": "note(\"{f a c e}%16\").s(\"sawtooth\").tremsync(4).tremoloskew(\"<.5 0 1>\")",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 &amp; 1, the shape of the waveform"
+      }
+    ],
     "synonyms": [
       "tremskew"
     ]
@@ -1219,6 +1881,14 @@
     "signature": "tremolophase(offset: number)",
     "blurb": "Alter the phase of the modulation waveform",
     "example": "note(\"{f a c e}%16\").s(\"sawtooth\").tremsync(4).tremolophase(\"<0 .25 .66>\")",
+    "params": [
+      {
+        "name": "offset",
+        "type": "number",
+        "optional": false,
+        "doc": "the offset in cycles of the modulation"
+      }
+    ],
     "synonyms": [
       "tremphase"
     ]
@@ -1237,6 +1907,14 @@
     "signature": "tremoloshape(shape: number)",
     "blurb": "Shape of amplitude modulation",
     "example": "note(\"{f g c d}%16\").tremsync(4).tremoloshape(\"<sine tri square>\").s(\"sawtooth\")",
+    "params": [
+      {
+        "name": "shape",
+        "type": "number",
+        "optional": false,
+        "doc": "tri | square | sine | saw | ramp"
+      }
+    ],
     "synonyms": [
       "tremshape"
     ]
@@ -1254,7 +1932,14 @@
     "kind": "transform",
     "signature": "drive(amount: number)",
     "blurb": "Filter overdrive for supported filter types",
-    "example": "note(\"{f g g c d a a#}%16\".sub(17)).s(\"supersaw\").lpenv(8).lpf(150).lpq(.8).ftype('ladder').drive(\"<.5 4>\")"
+    "example": "note(\"{f g g c d a a#}%16\".sub(17)).s(\"supersaw\").lpenv(8).lpf(150).lpq(.8).ftype('ladder').drive(\"<.5 4>\")",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "duckorbit",
@@ -1262,6 +1947,14 @@
     "signature": "duckorbit(orbit: number)",
     "blurb": "Modulate the amplitude of an orbit to create a &quot;sidechain&quot; like effect. Can be applied to multiple orbits with the ':' mininotation, e.g. duckorbit(&quot;2:3&quot;)",
     "example": "$: n(run(16)).scale(\"c:minor:pentatonic\").s(\"sawtooth\").delay(.7).orbit(2)\n$: s(\"bd:4!4\").beat(\"0,4,8,11,14\",16).duckorbit(2).duckattack(0.2).duckdepth(1)",
+    "params": [
+      {
+        "name": "orbit",
+        "type": "number",
+        "optional": false,
+        "doc": "target orbit"
+      }
+    ],
     "synonyms": [
       "duck"
     ]
@@ -1279,7 +1972,15 @@
     "kind": "transform",
     "signature": "duckdepth(depth: number)",
     "blurb": "The amount of ducking applied to target orbit Can vary across orbits with the ':' mininotation, e.g. duckdepth(&quot;0.3:0.1&quot;). Note: this requires first applying the effect to multiple orbits with e.g. duckorbit(&quot;2:3&quot;).",
-    "example": "stack( n(run(8)).scale(\"c:minor\").s(\"sawtooth\").delay(.7).orbit(2), s(\"bd:4!4\").beat(\"0,4,8,11,14\",16).duckorbit(2).duckattack(0.2).duckdepth(\"<1 .9 .6 0>\"))"
+    "example": "stack( n(run(8)).scale(\"c:minor\").s(\"sawtooth\").delay(.7).orbit(2), s(\"bd:4!4\").beat(\"0,4,8,11,14\",16).duckorbit(2).duckattack(0.2).duckdepth(\"<1 .9 .6 0>\"))",
+    "params": [
+      {
+        "name": "depth",
+        "type": "number",
+        "optional": false,
+        "doc": "depth of modulation from 0 to 1"
+      }
+    ]
   },
   {
     "name": "duckonset",
@@ -1287,6 +1988,14 @@
     "signature": "duckonset(time: number)",
     "blurb": "The time required for the ducked signal(s) to reach their lowest volume. Can be used to prevent clicking or for creative rhythmic effects. Can vary across orbits with the ':' mininotation, e.g. duckonset(&quot;0:0.003&quot;). Note: this requires first applying the effect to multiple orbits with e.g. duckorbit(&quot;2:3&quot;).",
     "example": "// Clicks\nsound: freq(\"63.2388\").s(\"sine\").orbit(2).gain(4)\nduckerWithClick: s(\"bd*4\").duckorbit(2).duckattack(0.3).duckonset(0).postgain(0)",
+    "params": [
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "The onset time in seconds"
+      }
+    ],
     "synonyms": [
       "duckons"
     ]
@@ -1305,6 +2014,14 @@
     "signature": "duckattack(time: number)",
     "blurb": "The time required for the ducked signal(s) to return to their normal volume. Can vary across orbits with the ':' mininotation, e.g. duckonset(&quot;0:0.003&quot;). Note: this requires first applying the effect to multiple orbits with e.g. duckorbit(&quot;2:3&quot;).",
     "example": "sound: n(run(8)).scale(\"c:minor\").s(\"sawtooth\").delay(.7).orbit(2)\nducker: s(\"bd:4!4\").beat(\"0,4,8,11,14\",16).duckorbit(2).duckattack(\"<0.2 0 0.4>\").duckdepth(1)",
+    "params": [
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "The attack time in seconds"
+      }
+    ],
     "synonyms": [
       "duckatt"
     ]
@@ -1323,6 +2040,14 @@
     "signature": "byteBeatExpression(byteBeatExpression: number)",
     "blurb": "Create byte beats with custom expressions",
     "example": "s(\"bytebeat\").bbexpr('t*(t>>15^t>>66)')",
+    "params": [
+      {
+        "name": "byteBeatExpression",
+        "type": "number",
+        "optional": false,
+        "doc": "bitwise expression for creating bytebeat"
+      }
+    ],
     "synonyms": [
       "bbexpr"
     ]
@@ -1341,6 +2066,14 @@
     "signature": "byteBeatStartTime(byteBeatStartTime: number)",
     "blurb": "Create byte beats with custom expressions",
     "example": "note(\"c3!8\".add(\"{0 0 12 0 7 5 3}%8\")).s(\"bytebeat:5\").bbst(\"<3 1>\".mul(10000))._scope()",
+    "params": [
+      {
+        "name": "byteBeatStartTime",
+        "type": "number",
+        "optional": false,
+        "doc": "in samples (t)"
+      }
+    ],
     "synonyms": [
       "bbst"
     ]
@@ -1359,6 +2092,14 @@
     "signature": "channels(channels: number)",
     "blurb": "Allows you to set the output channels on the interface",
     "example": "note(\"e a d b g\").channels(\"3:4\")",
+    "params": [
+      {
+        "name": "channels",
+        "type": "number",
+        "optional": false,
+        "doc": "pattern the output channels"
+      }
+    ],
     "synonyms": [
       "ch"
     ]
@@ -1376,21 +2117,42 @@
     "kind": "transform",
     "signature": "pw(pulsewidth: number)",
     "blurb": "Controls the pulsewidth of the pulse oscillator",
-    "example": "note(\"{f a c e}%16\").s(\"pulse\").pw(\".8:1:.2\")"
+    "example": "note(\"{f a c e}%16\").s(\"pulse\").pw(\".8:1:.2\")",
+    "params": [
+      {
+        "name": "pulsewidth",
+        "type": "number",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "pwrate",
     "kind": "transform",
     "signature": "pwrate(rate: number)",
     "blurb": "Controls the lfo rate for the pulsewidth of the pulse oscillator",
-    "example": "n(run(8)).scale(\"D:pentatonic\").s(\"pulse\").pw(\"0.5\").pwrate(\"<5 .1 25>\").pwsweep(\"<0.3 .8>\")"
+    "example": "n(run(8)).scale(\"D:pentatonic\").s(\"pulse\").pw(\"0.5\").pwrate(\"<5 .1 25>\").pwsweep(\"<0.3 .8>\")",
+    "params": [
+      {
+        "name": "rate",
+        "type": "number",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "pwsweep",
     "kind": "transform",
     "signature": "pwsweep(sweep: number)",
     "blurb": "Controls the lfo sweep for the pulsewidth of the pulse oscillator",
-    "example": "n(run(8)).scale(\"D:pentatonic\").s(\"pulse\").pw(\"0.5\").pwrate(\"<5 .1 25>\").pwsweep(\"<0.3 .8>\")"
+    "example": "n(run(8)).scale(\"D:pentatonic\").s(\"pulse\").pw(\"0.5\").pwrate(\"<5 .1 25>\").pwsweep(\"<0.3 .8>\")",
+    "params": [
+      {
+        "name": "sweep",
+        "type": "number",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "phaser",
@@ -1398,6 +2160,14 @@
     "signature": "phaser(speed: number)",
     "blurb": "Phaser audio effect that approximates popular guitar pedals.",
     "example": "n(run(8)).scale(\"D:pentatonic\").s(\"sawtooth\").release(0.5)\n.phaser(\"<1 2 4 8>\")",
+    "params": [
+      {
+        "name": "speed",
+        "type": "number",
+        "optional": false,
+        "doc": "speed of modulation"
+      }
+    ],
     "synonyms": [
       "ph"
     ]
@@ -1416,6 +2186,14 @@
     "signature": "phasersweep(phasersweep: number)",
     "blurb": "The frequency sweep range of the lfo for the phaser effect. Defaults to 2000",
     "example": "n(run(8)).scale(\"D:pentatonic\").s(\"sawtooth\").release(0.5)\n.phaser(2).phasersweep(\"<800 2000 4000>\")",
+    "params": [
+      {
+        "name": "phasersweep",
+        "type": "number",
+        "optional": false,
+        "doc": "most useful values are between 0 and 4000"
+      }
+    ],
     "synonyms": [
       "phs"
     ]
@@ -1434,6 +2212,14 @@
     "signature": "phasercenter(centerfrequency: number)",
     "blurb": "The center frequency of the phaser in HZ. Defaults to 1000",
     "example": "n(run(8)).scale(\"D:pentatonic\").s(\"sawtooth\").release(0.5)\n.phaser(2).phasercenter(\"<800 2000 4000>\")",
+    "params": [
+      {
+        "name": "centerfrequency",
+        "type": "number",
+        "optional": false,
+        "doc": "in HZ"
+      }
+    ],
     "synonyms": [
       "phc"
     ]
@@ -1452,6 +2238,14 @@
     "signature": "phaserdepth(depth: number)",
     "blurb": "The amount the signal is affected by the phaser effect. Defaults to 0.75",
     "example": "n(run(8)).scale(\"D:pentatonic\").s(\"sawtooth\").release(0.5)\n.phaser(2).phaserdepth(\"<0 .5 .75 1>\")",
+    "params": [
+      {
+        "name": "depth",
+        "type": "number",
+        "optional": false,
+        "doc": "number between 0 and 1"
+      }
+    ],
     "synonyms": [
       "phd",
       "phasdp"
@@ -1477,14 +2271,30 @@
     "name": "channel",
     "kind": "transform",
     "signature": "channel(channel: number)",
-    "blurb": "Choose the channel the pattern is sent to in superdirt"
+    "blurb": "Choose the channel the pattern is sent to in superdirt",
+    "params": [
+      {
+        "name": "channel",
+        "type": "number",
+        "optional": false,
+        "doc": "channel number"
+      }
+    ]
   },
   {
     "name": "cut",
     "kind": "transform",
     "signature": "cut(group: number)",
     "blurb": "In the style of classic drum-machines, cut will stop a playing sample as soon as another samples with in same cutgroup is to be played. An example would be an open hi-hat followed by a closed one, essentially muting the open.",
-    "example": "s(\"[oh hh]*4\").cut(1)"
+    "example": "s(\"[oh hh]*4\").cut(1)",
+    "params": [
+      {
+        "name": "group",
+        "type": "number",
+        "optional": false,
+        "doc": "cut group number"
+      }
+    ]
   },
   {
     "name": "lpf",
@@ -1492,6 +2302,14 @@
     "signature": "lpf(frequency: number)",
     "blurb": "Applies the cutoff frequency of the low-pass filter. When using mininotation, you can also optionally add the 'lpq' parameter, separated by ':'.",
     "example": "s(\"bd sd [~ bd] sd,hh*6\").lpf(\"<4000 2000 1000 500 200 100>\")",
+    "params": [
+      {
+        "name": "frequency",
+        "type": "number",
+        "optional": false,
+        "doc": "audible between 0 and 20000"
+      }
+    ],
     "synonyms": [
       "cutoff",
       "ctf",
@@ -1525,6 +2343,14 @@
     "signature": "lpenv(modulation: number)",
     "blurb": "Sets the lowpass filter envelope modulation depth.",
     "example": "note(\"c2 e2 f2 g2\")\n.sound('sawtooth')\n.lpf(300)\n.lpa(.5)\n.lpenv(\"<4 2 1 0 -1 -2 -4>/4\")",
+    "params": [
+      {
+        "name": "modulation",
+        "type": "number",
+        "optional": false,
+        "doc": "depth of the lowpass filter envelope between 0 and n"
+      }
+    ],
     "synonyms": [
       "lpe"
     ]
@@ -1724,14 +2550,30 @@
     "kind": "transform",
     "signature": "ftype(type: number)",
     "blurb": "Sets the filter type. The ladder filter is more aggressive. More types might be added in the future.",
-    "example": "note(\"{f g g c d a a#}%8\").s(\"sawtooth\").lpenv(4).lpf(500).ftype(\"<0 1 2>\").lpq(1)"
+    "example": "note(\"{f g g c d a a#}%8\").s(\"sawtooth\").lpenv(4).lpf(500).ftype(\"<0 1 2>\").lpq(1)",
+    "params": [
+      {
+        "name": "type",
+        "type": "number",
+        "optional": false,
+        "doc": "12db (0), ladder (1), or 24db (2)"
+      }
+    ]
   },
   {
     "name": "fanchor",
     "kind": "transform",
     "signature": "fanchor(center: number)",
     "blurb": "controls the center of the filter envelope. 0 is unipolar positive, .5 is bipolar, 1 is unipolar negative",
-    "example": "note(\"{f g g c d a a#}%8\").s(\"sawtooth\").lpf(\"{1000}%2\")\n.lpenv(8).fanchor(\"<0 .5 1>\")"
+    "example": "note(\"{f g g c d a a#}%8\").s(\"sawtooth\").lpf(\"{1000}%2\")\n.lpenv(8).fanchor(\"<0 .5 1>\")",
+    "params": [
+      {
+        "name": "center",
+        "type": "number",
+        "optional": false,
+        "doc": "0 to 1"
+      }
+    ]
   },
   {
     "name": "hpf",
@@ -1739,6 +2581,14 @@
     "signature": "hpf(frequency: number)",
     "blurb": "Applies the cutoff frequency of the high-pass filter. When using mininotation, you can also optionally add the 'hpq' parameter, separated by ':'.",
     "example": "s(\"bd sd [~ bd] sd,hh*8\").hpf(\"<4000 2000 1000 500 200 100>\")",
+    "params": [
+      {
+        "name": "frequency",
+        "type": "number",
+        "optional": false,
+        "doc": "audible between 0 and 20000"
+      }
+    ],
     "synonyms": [
       "hp",
       "hcutoff"
@@ -1783,7 +2633,15 @@
     "kind": "transform",
     "signature": "noise(wet: number)",
     "blurb": "Adds pink noise to the mix",
-    "example": "sound(\"<white pink brown>/2\")"
+    "example": "sound(\"<white pink brown>/2\")",
+    "params": [
+      {
+        "name": "wet",
+        "type": "number",
+        "optional": false,
+        "doc": "wet amount"
+      }
+    ]
   },
   {
     "name": "vibmod",
@@ -1804,6 +2662,14 @@
     "signature": "hpq(q: number)",
     "blurb": "Controls the high-pass q-value.",
     "example": "s(\"bd sd [~ bd] sd,hh*8\").hpf(2000).hpq(\"<0 10 20 30>\")",
+    "params": [
+      {
+        "name": "q",
+        "type": "number",
+        "optional": false,
+        "doc": "resonance factor between 0 and 50"
+      }
+    ],
     "synonyms": [
       "hresonance"
     ]
@@ -1822,6 +2688,14 @@
     "signature": "lpq(q: number)",
     "blurb": "Controls the low-pass q-value.",
     "example": "s(\"bd sd [~ bd] sd,hh*8\").lpf(2000).lpq(\"<0 10 20 30>\")",
+    "params": [
+      {
+        "name": "q",
+        "type": "number",
+        "optional": false,
+        "doc": "resonance factor between 0 and 50"
+      }
+    ],
     "synonyms": [
       "resonance"
     ]
@@ -1839,14 +2713,30 @@
     "kind": "transform",
     "signature": "djf(cutoff: number)",
     "blurb": "DJ filter, below 0.5 is low pass filter, above is high pass filter.",
-    "example": "n(irand(16).seg(8)).scale(\"d:phrygian\").s(\"supersaw\").djf(\"<.5 .3 .2 .75>\")"
+    "example": "n(irand(16).seg(8)).scale(\"d:phrygian\").s(\"supersaw\").djf(\"<.5 .3 .2 .75>\")",
+    "params": [
+      {
+        "name": "cutoff",
+        "type": "number",
+        "optional": false,
+        "doc": "below 0.5 is low pass filter, above is high pass filter"
+      }
+    ]
   },
   {
     "name": "delay",
     "kind": "transform",
     "signature": "delay(level: number)",
     "blurb": "Sets the level of the delay signal. When using mininotation, you can also optionally add the 'delaytime' and 'delayfeedback' parameter, separated by ':'.",
-    "example": "s(\"bd bd\").delay(\"<0 .25 .5 1>\")"
+    "example": "s(\"bd bd\").delay(\"<0 .25 .5 1>\")",
+    "params": [
+      {
+        "name": "level",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1"
+      }
+    ]
   },
   {
     "name": "delayfeedback",
@@ -1854,6 +2744,14 @@
     "signature": "delayfeedback(feedback: number)",
     "blurb": "Sets the level of the signal that is fed back into the delay. Caution: Values &gt;= 1 will result in a signal that gets louder and louder! Don't do it",
     "example": "s(\"bd\").delay(.25).delayfeedback(\"<.25 .5 .75 1>\")",
+    "params": [
+      {
+        "name": "feedback",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1"
+      }
+    ],
     "synonyms": [
       "delayfb",
       "dfb"
@@ -1881,6 +2779,14 @@
     "signature": "delayspeed(delayspeed: number)",
     "blurb": "Sets the time of the delay effect.",
     "example": "note(\"d d a# a\".fast(2)).s(\"sawtooth\").delay(.8).delaytime(1/2).delayspeed(\"<2 .5 -1 -2>\")",
+    "params": [
+      {
+        "name": "delayspeed",
+        "type": "number",
+        "optional": false,
+        "doc": "controls the pitch of the delay feedback"
+      }
+    ],
     "synonyms": [
       "delayt",
       "dt"
@@ -1908,6 +2814,14 @@
     "signature": "delaysync(cycles: number)",
     "blurb": "Sets the time of the delay effect in cycles.",
     "example": "s(\"bd bd\").delay(.25).delaysync(\"<1 2 3 5>\".div(8))",
+    "params": [
+      {
+        "name": "cycles",
+        "type": "number",
+        "optional": false,
+        "doc": "delay length in cycles"
+      }
+    ],
     "synonyms": [
       "delayt",
       "dt"
@@ -1918,7 +2832,15 @@
     "kind": "transform",
     "signature": "lock(enable: number)",
     "blurb": "Specifies whether delaytime is calculated relative to cps.",
-    "example": "s(\"sd\").delay().lock(1).osc()"
+    "example": "s(\"sd\").delay().lock(1).osc()",
+    "params": [
+      {
+        "name": "enable",
+        "type": "number",
+        "optional": false,
+        "doc": "When set to 1, delaytime is a direct multiple of a cycle."
+      }
+    ]
   },
   {
     "name": "detune",
@@ -1926,6 +2848,13 @@
     "signature": "detune(amount: number)",
     "blurb": "Set detune for stacked voices of supported oscillators",
     "example": "note(\"d f a a# a d3\").fast(2).s(\"supersaw\").detune(\"<.1 .2 .5 24.1>\")",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false
+      }
+    ],
     "synonyms": [
       "det"
     ]
@@ -1943,21 +2872,44 @@
     "kind": "transform",
     "signature": "unison(numvoices: number)",
     "blurb": "Set number of stacked voices for supported oscillators",
-    "example": "note(\"d f a a# a d3\").fast(2).s(\"supersaw\").unison(\"<1 2 7>\")"
+    "example": "note(\"d f a a# a d3\").fast(2).s(\"supersaw\").unison(\"<1 2 7>\")",
+    "params": [
+      {
+        "name": "numvoices",
+        "type": "number",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "spread",
     "kind": "transform",
     "signature": "spread(spread: number)",
     "blurb": "Set the stereo pan spread for supported oscillators",
-    "example": "note(\"d f a a# a d3\").fast(2).s(\"supersaw\").spread(\"<0 .3 1>\")"
+    "example": "note(\"d f a a# a d3\").fast(2).s(\"supersaw\").spread(\"<0 .3 1>\")",
+    "params": [
+      {
+        "name": "spread",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1"
+      }
+    ]
   },
   {
     "name": "dry",
     "kind": "transform",
     "signature": "dry(dry: number)",
     "blurb": "Set dryness of reverb. See room and size for more information about reverb.",
-    "example": "n(\"[0,3,7](3,8)\").s(\"superpiano\").room(.7).dry(\"<0 .5 .75 1>\").osc()"
+    "example": "n(\"[0,3,7](3,8)\").s(\"superpiano\").room(.7).dry(\"<0 .5 .75 1>\").osc()",
+    "params": [
+      {
+        "name": "dry",
+        "type": "number",
+        "optional": false,
+        "doc": "0 = wet, 1 = dry"
+      }
+    ]
   },
   {
     "name": "freq",
@@ -2013,69 +2965,148 @@
     "kind": "transform",
     "signature": "pcurve(type: number)",
     "blurb": "Curve of envelope. Defaults to linear. exponential is good for kicks",
-    "example": "note(\"g1*4\")\n.s(\"sine\").pdec(.5)\n.penv(32)\n.pcurve(\"<0 1>\")"
+    "example": "note(\"g1*4\")\n.s(\"sine\").pdec(.5)\n.penv(32)\n.pcurve(\"<0 1>\")",
+    "params": [
+      {
+        "name": "type",
+        "type": "number",
+        "optional": false,
+        "doc": "0 = linear, 1 = exponential"
+      }
+    ]
   },
   {
     "name": "panchor",
     "kind": "transform",
     "signature": "panchor(anchor: number)",
     "blurb": "Sets the range anchor of the envelope: anchor 0: range = [note, note + penv] anchor 1: range = [note - penv, note] If you don't set an anchor, the value will default to the psustain value.",
-    "example": "note(\"c c4\").penv(12).panchor(\"<0 .5 1 .5>\")"
+    "example": "note(\"c c4\").penv(12).panchor(\"<0 .5 1 .5>\")",
+    "params": [
+      {
+        "name": "anchor",
+        "type": "number",
+        "optional": false,
+        "doc": "anchor offset"
+      }
+    ]
   },
   {
     "name": "leslie",
     "kind": "transform",
     "signature": "leslie(wet: number)",
     "blurb": "Emulation of a Leslie speaker: speakers rotating in a wooden amplified cabinet.",
-    "example": "n(\"0,4,7\").s(\"supersquare\").leslie(\"<0 .4 .6 1>\").osc()"
+    "example": "n(\"0,4,7\").s(\"supersquare\").leslie(\"<0 .4 .6 1>\").osc()",
+    "params": [
+      {
+        "name": "wet",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1"
+      }
+    ]
   },
   {
     "name": "lrate",
     "kind": "transform",
     "signature": "lrate(rate: number)",
     "blurb": "Rate of modulation / rotation for leslie effect",
-    "example": "n(\"0,4,7\").s(\"supersquare\").leslie(1).lrate(\"<1 2 4 8>\").osc()"
+    "example": "n(\"0,4,7\").s(\"supersquare\").leslie(1).lrate(\"<1 2 4 8>\").osc()",
+    "params": [
+      {
+        "name": "rate",
+        "type": "number",
+        "optional": false,
+        "doc": "6.7 for fast, 0.7 for slow"
+      }
+    ]
   },
   {
     "name": "lsize",
     "kind": "transform",
     "signature": "lsize(meters: number)",
     "blurb": "Physical size of the cabinet in meters. Be careful, it might be slightly larger than your computer. Affects the Doppler amount (pitch warble)",
-    "example": "n(\"0,4,7\").s(\"supersquare\").leslie(1).lrate(2).lsize(\"<.1 .5 1>\").osc()"
+    "example": "n(\"0,4,7\").s(\"supersquare\").leslie(1).lrate(2).lsize(\"<.1 .5 1>\").osc()",
+    "params": [
+      {
+        "name": "meters",
+        "type": "number",
+        "optional": false,
+        "doc": "somewhere between 0 and 1"
+      }
+    ]
   },
   {
     "name": "label",
     "kind": "transform",
     "signature": "label(label: string)",
-    "blurb": "Sets the displayed text for an event on the pianoroll"
+    "blurb": "Sets the displayed text for an event on the pianoroll",
+    "params": [
+      {
+        "name": "label",
+        "type": "string",
+        "optional": false,
+        "doc": "text to display"
+      }
+    ]
   },
   {
     "name": "octave",
     "kind": "transform",
     "signature": "octave(octave: number)",
     "blurb": "Sets the default octave of a synth.",
-    "example": "n(\"0,4,7\").s('supersquare').octave(\"<3 4 5 6>\").osc()"
+    "example": "n(\"0,4,7\").s('supersquare').octave(\"<3 4 5 6>\").osc()",
+    "params": [
+      {
+        "name": "octave",
+        "type": "number",
+        "optional": false,
+        "doc": "octave number"
+      }
+    ]
   },
   {
     "name": "orbit",
     "kind": "transform",
     "signature": "orbit(number: number)",
     "blurb": "An orbit is a global parameter context for patterns. Patterns with the same orbit will share the same global effects.",
-    "example": "stack(\n  s(\"hh*6\").delay(.5).delaytime(.25).orbit(1),\n  s(\"~ sd ~ sd\").delay(.5).delaytime(.125).orbit(2)\n)"
+    "example": "stack(\n  s(\"hh*6\").delay(.5).delaytime(.25).orbit(1),\n  s(\"~ sd ~ sd\").delay(.5).delaytime(.125).orbit(2)\n)",
+    "params": [
+      {
+        "name": "number",
+        "type": "number",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "pan",
     "kind": "transform",
     "signature": "pan(pan: number)",
     "blurb": "Sets position in stereo.",
-    "example": "s(\"[bd hh]*2\").pan(\"<.5 1 .5 0>\")"
+    "example": "s(\"[bd hh]*2\").pan(\"<.5 1 .5 0>\")",
+    "params": [
+      {
+        "name": "pan",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1, from left to right (assuming stereo), once round a circle (assuming multichannel)"
+      }
+    ]
   },
   {
     "name": "room",
     "kind": "transform",
     "signature": "room(level: number)",
     "blurb": "Sets the level of reverb. When using mininotation, you can also optionally add the 'size' parameter, separated by ':'.",
-    "example": "s(\"bd sd [~ bd] sd\").room(\"<0 .2 .4 .6 .8 1>\")"
+    "example": "s(\"bd sd [~ bd] sd\").room(\"<0 .2 .4 .6 .8 1>\")",
+    "params": [
+      {
+        "name": "level",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1"
+      }
+    ]
   },
   {
     "name": "roomlp",
@@ -2083,6 +3114,14 @@
     "signature": "roomlp(frequency: number)",
     "blurb": "Reverb lowpass starting frequency (in hertz). When this property is changed, the reverb will be recaculated, so only change this sparsely..",
     "example": "s(\"bd sd [~ bd] sd\").room(0.5).rlp(10000)",
+    "params": [
+      {
+        "name": "frequency",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 20000hz"
+      }
+    ],
     "synonyms": [
       "rlp"
     ]
@@ -2101,6 +3140,14 @@
     "signature": "roomdim(frequency: number)",
     "blurb": "Reverb lowpass frequency at -60dB (in hertz). When this property is changed, the reverb will be recaculated, so only change this sparsely..",
     "example": "s(\"bd sd [~ bd] sd\").room(0.5).rlp(10000).rdim(8000)",
+    "params": [
+      {
+        "name": "frequency",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 20000hz"
+      }
+    ],
     "synonyms": [
       "rdim"
     ]
@@ -2119,6 +3166,14 @@
     "signature": "roomfade(seconds: number)",
     "blurb": "Reverb fade time (in seconds). When this property is changed, the reverb will be recaculated, so only change this sparsely..",
     "example": "s(\"bd sd [~ bd] sd\").room(0.5).rlp(10000).rfade(0.5)",
+    "params": [
+      {
+        "name": "seconds",
+        "type": "number",
+        "optional": false,
+        "doc": "for the reverb to fade"
+      }
+    ],
     "synonyms": [
       "rfade"
     ]
@@ -2137,6 +3192,14 @@
     "signature": "iresponse(sample: string)",
     "blurb": "Sets the sample to use as an impulse response for the reverb.",
     "example": "s(\"bd sd [~ bd] sd\").room(.8).ir(\"<shaker_large:0 shaker_large:2>\")",
+    "params": [
+      {
+        "name": "sample",
+        "type": "string",
+        "optional": false,
+        "doc": "to use as an impulse response"
+      }
+    ],
     "synonyms": [
       "ir"
     ]
@@ -2154,7 +3217,14 @@
     "kind": "transform",
     "signature": "irspeed(speed: string)",
     "blurb": "Sets speed of the sample for the impulse response.",
-    "example": "samples('github:switchangel/pad')\n$: s(\"brk/2\").fit().scrub(irand(16).div(16).seg(8)).ir(\"swpad:4\").room(.2).irspeed(\"<2 1 .5>/2\").irbegin(.5).roomsize(.5)"
+    "example": "samples('github:switchangel/pad')\n$: s(\"brk/2\").fit().scrub(irand(16).div(16).seg(8)).ir(\"swpad:4\").room(.2).irspeed(\"<2 1 .5>/2\").irbegin(.5).roomsize(.5)",
+    "params": [
+      {
+        "name": "speed",
+        "type": "string",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "irbegin",
@@ -2162,6 +3232,14 @@
     "signature": "irbegin(begin: string)",
     "blurb": "Sets the beginning of the IR response sample",
     "example": "samples('github:switchangel/pad')\n$: s(\"brk/2\").fit().scrub(irand(16).div(16).seg(8)).ir(\"swpad:4\").room(.65).irspeed(\"-2\").irbegin(\"<0 .5 .75>/2\").roomsize(.6)",
+    "params": [
+      {
+        "name": "begin",
+        "type": "string",
+        "optional": false,
+        "doc": "between 0 and 1"
+      }
+    ],
     "synonyms": [
       "ir"
     ]
@@ -2172,6 +3250,14 @@
     "signature": "roomsize(size: number)",
     "blurb": "Sets the room size of the reverb, see room. When this property is changed, the reverb will be recaculated, so only change this sparsely..",
     "example": "s(\"bd sd [~ bd] sd\").room(.8).rsize(1)",
+    "params": [
+      {
+        "name": "size",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 10"
+      }
+    ],
     "synonyms": [
       "rsize",
       "sz",
@@ -2207,7 +3293,15 @@
     "kind": "transform",
     "signature": "shape(distortion: number)",
     "blurb": "(Deprecated) Wave shaping distortion. WARNING: can suddenly get unpredictably loud. Please use distort instead, which has a more predictable response curve second option in optional array syntax (ex: &quot;.9:.5&quot;) applies a postgain to the output",
-    "example": "s(\"bd sd [~ bd] sd,hh*8\").shape(\"<0 .2 .4 .6 .8>\")"
+    "example": "s(\"bd sd [~ bd] sd,hh*8\").shape(\"<0 .2 .4 .6 .8>\")",
+    "params": [
+      {
+        "name": "distortion",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and 1"
+      }
+    ]
   },
   {
     "name": "distort",
@@ -2228,6 +3322,14 @@
     "signature": "distortvol(volume: number)",
     "blurb": "Postgain for waveshaping distortion.",
     "example": "s(\"bd*4\").bank(\"tr909\").distort(2).distortvol(0.8)",
+    "params": [
+      {
+        "name": "volume",
+        "type": "number",
+        "optional": false,
+        "doc": "linear postgain of the distortion"
+      }
+    ],
     "synonyms": [
       "distvol"
     ]
@@ -2246,6 +3348,14 @@
     "signature": "distorttype(type: number)",
     "blurb": "Type of waveshaping distortion to apply.",
     "example": "s(\"bd*4\").bank(\"tr909\").distort(2).distorttype(\"<0 1 2>\")",
+    "params": [
+      {
+        "name": "type",
+        "type": "number",
+        "optional": false,
+        "doc": "type of distortion to apply"
+      }
+    ],
     "synonyms": [
       "disttype"
     ]
@@ -2270,14 +3380,30 @@
     "kind": "transform",
     "signature": "speed(speed: number)",
     "blurb": "Changes the speed of sample playback, i.e. a cheap way of changing pitch.",
-    "example": "s(\"bd*6\").speed(\"1 2 4 1 -2 -4\")"
+    "example": "s(\"bd*6\").speed(\"1 2 4 1 -2 -4\")",
+    "params": [
+      {
+        "name": "speed",
+        "type": "number",
+        "optional": false,
+        "doc": "inf to inf, negative numbers play the sample backwards."
+      }
+    ]
   },
   {
     "name": "stretch",
     "kind": "transform",
     "signature": "stretch(factor: number)",
     "blurb": "Changes the speed of sample playback, i.e. a cheap way of changing pitch.",
-    "example": "s(\"gm_flute\").stretch(\"1 2 .5\")"
+    "example": "s(\"gm_flute\").stretch(\"1 2 .5\")",
+    "params": [
+      {
+        "name": "factor",
+        "type": "number",
+        "optional": false,
+        "doc": "inf to inf, negative numbers play the sample backwards."
+      }
+    ]
   },
   {
     "name": "unit",
@@ -2289,21 +3415,45 @@
     "kind": "transform",
     "signature": "squiz(squiz: number)",
     "blurb": "Made by Calum Gunn. Reminiscent of some weird mixture of filter, ring-modulator and pitch-shifter. The SuperCollider manual defines Squiz as: &quot;A simplistic pitch-raising algorithm. It's not meant to sound natural; its sound is reminiscent of some weird mixture of filter, ring-modulator and pitch-shifter, depending on the input. The algorithm works by cutting the signal into fragments (delimited by upwards-going zero-crossings) and squeezing those fragments in the time domain (i.e. simply playing them back faster than they came in), leaving silences inbetween. All the parameters apart from memlen can be modulated.&quot;",
-    "example": "squiz(\"2 4/2 6 [8 16]\").s(\"bd\").osc()"
+    "example": "squiz(\"2 4/2 6 [8 16]\").s(\"bd\").osc()",
+    "params": [
+      {
+        "name": "squiz",
+        "type": "number",
+        "optional": false,
+        "doc": "Try passing multiples of 2 to it - 2, 4, 8 etc."
+      }
+    ]
   },
   {
     "name": "vowel",
     "kind": "transform",
     "signature": "vowel(vowel: string)",
     "blurb": "Formant filter to make things sound like vowels.",
-    "example": "note(\"[c2 <eb2 <g2 g1>>]*2\").s('sawtooth')\n.vowel(\"<a e i <o u>>\")"
+    "example": "note(\"[c2 <eb2 <g2 g1>>]*2\").s('sawtooth')\n.vowel(\"<a e i <o u>>\")",
+    "params": [
+      {
+        "name": "vowel",
+        "type": "string",
+        "optional": false,
+        "doc": "You can use a e i o u ae aa oe ue y uh un en an on, corresponding to [a] [e] [i] [o] [u] [æ] [ɑ] [ø] [y] [ɯ] [ʌ] [œ̃] [ɛ̃] [ɑ̃] [ɔ̃]. Aliases: aa = å = ɑ, oe = ø = ö, y = ı, ae = æ."
+      }
+    ]
   },
   {
     "name": "density",
     "kind": "transform",
     "signature": "density(density: number)",
     "blurb": "Noise crackle density",
-    "example": "s(\"crackle*4\").density(\"<0.01 0.04 0.2 0.5>\".slow(4))"
+    "example": "s(\"crackle*4\").density(\"<0.01 0.04 0.2 0.5>\".slow(4))",
+    "params": [
+      {
+        "name": "density",
+        "type": "number",
+        "optional": false,
+        "doc": "between 0 and x"
+      }
+    ]
   },
   {
     "name": "clip",
@@ -2311,6 +3461,14 @@
     "signature": "clip(factor: number)",
     "blurb": "Multiplies the duration with the given number. Also cuts samples off at the end if they exceed the duration.",
     "example": "note(\"c a f e\").s(\"piano\").clip(\"<.5 1 2>\")",
+    "params": [
+      {
+        "name": "factor",
+        "type": "number",
+        "optional": false,
+        "doc": "= 0"
+      }
+    ],
     "synonyms": [
       "legato"
     ]
@@ -2329,6 +3487,14 @@
     "signature": "duration(seconds: number)",
     "blurb": "Sets the duration of the event in cycles. Similar to clip / legato, it also cuts samples off at the end if they exceed the duration.",
     "example": "note(\"c a f e\").s(\"piano\").dur(\"<.5 1 2>\")",
+    "params": [
+      {
+        "name": "seconds",
+        "type": "number",
+        "optional": false,
+        "doc": "= 0"
+      }
+    ],
     "synonyms": [
       "dur"
     ]
@@ -2346,6 +3512,14 @@
     "kind": "transform",
     "signature": "color(color: string)",
     "blurb": "Sets the color of the hap in visualizations like pianoroll or highlighting.",
+    "params": [
+      {
+        "name": "color",
+        "type": "string",
+        "optional": false,
+        "doc": "Hexadecimal or CSS color name"
+      }
+    ],
     "synonyms": [
       "colour"
     ]
@@ -2362,109 +3536,267 @@
     "kind": "transform",
     "signature": "adsr(time: number, time: number, gain: number, time: number)",
     "blurb": "ADSR envelope: Combination of Attack, Decay, Sustain, and Release.",
-    "example": "note(\"[c3 bb2 f3 eb3]*2\").sound(\"sawtooth\").lpf(600).adsr(\".1:.1:.5:.2\")"
+    "example": "note(\"[c3 bb2 f3 eb3]*2\").sound(\"sawtooth\").lpf(600).adsr(\".1:.1:.5:.2\")",
+    "params": [
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "attack time in seconds"
+      },
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "decay time in seconds"
+      },
+      {
+        "name": "gain",
+        "type": "number",
+        "optional": false,
+        "doc": "sustain level (0 to 1)"
+      },
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "release time in seconds"
+      }
+    ]
   },
   {
     "name": "midichan",
     "kind": "transform",
     "signature": "midichan(channel: number)",
     "blurb": "MIDI channel: Sets the MIDI channel for the event.",
-    "example": "note(\"c4\").midichan(1).midi()"
+    "example": "note(\"c4\").midichan(1).midi()",
+    "params": [
+      {
+        "name": "channel",
+        "type": "number",
+        "optional": false,
+        "doc": "MIDI channel number (0-15)"
+      }
+    ]
   },
   {
     "name": "midiport",
     "kind": "transform",
     "signature": "midiport(port: number)",
     "blurb": "MIDI port: Sets the MIDI port for the event.",
-    "example": "note(\"c a f e\").midiport(\"<0 1 2 3>\").midi()"
+    "example": "note(\"c a f e\").midiport(\"<0 1 2 3>\").midi()",
+    "params": [
+      {
+        "name": "port",
+        "type": "number",
+        "optional": false,
+        "doc": "MIDI port"
+      }
+    ]
   },
   {
     "name": "midicmd",
     "kind": "transform",
     "signature": "midicmd(command: number)",
     "blurb": "MIDI command: Sends a MIDI command message.",
-    "example": "midicmd(\"clock*48,<start stop>/2\").midi()"
+    "example": "midicmd(\"clock*48,<start stop>/2\").midi()",
+    "params": [
+      {
+        "name": "command",
+        "type": "number",
+        "optional": false,
+        "doc": "MIDI command"
+      }
+    ]
   },
   {
     "name": "control",
     "kind": "transform",
     "signature": "control(MIDI: number, MIDI: number)",
-    "blurb": "MIDI control: Sends a MIDI control change message."
+    "blurb": "MIDI control: Sends a MIDI control change message.",
+    "params": [
+      {
+        "name": "MIDI",
+        "type": "number",
+        "optional": false,
+        "doc": "control number (0-127)"
+      },
+      {
+        "name": "MIDI",
+        "type": "number",
+        "optional": false,
+        "doc": "controller value (0-127)"
+      }
+    ]
   },
   {
     "name": "ccn",
     "kind": "transform",
     "signature": "ccn(MIDI: number)",
-    "blurb": "MIDI control number: Sends a MIDI control change message."
+    "blurb": "MIDI control number: Sends a MIDI control change message.",
+    "params": [
+      {
+        "name": "MIDI",
+        "type": "number",
+        "optional": false,
+        "doc": "control number (0-127)"
+      }
+    ]
   },
   {
     "name": "ccv",
     "kind": "transform",
     "signature": "ccv(MIDI: number)",
-    "blurb": "MIDI control value: Sends a MIDI control change message."
+    "blurb": "MIDI control value: Sends a MIDI control change message.",
+    "params": [
+      {
+        "name": "MIDI",
+        "type": "number",
+        "optional": false,
+        "doc": "control value (0-127)"
+      }
+    ]
   },
   {
     "name": "nrpnn",
     "kind": "transform",
     "signature": "nrpnn(nrpnn: number)",
     "blurb": "MIDI NRPN non-registered parameter number: Sends a MIDI NRPN non-registered parameter number message.",
-    "example": "note(\"c4\").nrpnn(\"1:8\").nrpv(\"123\").midichan(1).midi()"
+    "example": "note(\"c4\").nrpnn(\"1:8\").nrpv(\"123\").midichan(1).midi()",
+    "params": [
+      {
+        "name": "nrpnn",
+        "type": "number",
+        "optional": false,
+        "doc": "MIDI NRPN non-registered parameter number (0-127)"
+      }
+    ]
   },
   {
     "name": "nrpv",
     "kind": "transform",
     "signature": "nrpv(nrpv: number)",
     "blurb": "MIDI NRPN non-registered parameter value: Sends a MIDI NRPN non-registered parameter value message.",
-    "example": "note(\"c4\").nrpnn(\"1:8\").nrpv(\"123\").midichan(1).midi()"
+    "example": "note(\"c4\").nrpnn(\"1:8\").nrpv(\"123\").midichan(1).midi()",
+    "params": [
+      {
+        "name": "nrpv",
+        "type": "number",
+        "optional": false,
+        "doc": "MIDI NRPN non-registered parameter value (0-127)"
+      }
+    ]
   },
   {
     "name": "progNum",
     "kind": "transform",
     "signature": "progNum(program: number)",
     "blurb": "MIDI program number: Sends a MIDI program change message.",
-    "example": "note(\"c4\").progNum(10).midichan(1).midi()"
+    "example": "note(\"c4\").progNum(10).midichan(1).midi()",
+    "params": [
+      {
+        "name": "program",
+        "type": "number",
+        "optional": false,
+        "doc": "MIDI program number (0-127)"
+      }
+    ]
   },
   {
     "name": "sysex",
     "kind": "transform",
     "signature": "sysex(id: number, data: number)",
     "blurb": "MIDI sysex: Sends a MIDI sysex message.",
-    "example": "note(\"c4\").sysex([\"0x77\", \"0x01:0x02:0x03:0x04\"]).midichan(1).midi()"
+    "example": "note(\"c4\").sysex([\"0x77\", \"0x01:0x02:0x03:0x04\"]).midichan(1).midi()",
+    "params": [
+      {
+        "name": "id",
+        "type": "number",
+        "optional": false,
+        "doc": "Sysex ID"
+      },
+      {
+        "name": "data",
+        "type": "number",
+        "optional": false,
+        "doc": "Sysex data"
+      }
+    ]
   },
   {
     "name": "sysexid",
     "kind": "transform",
     "signature": "sysexid(id: number)",
     "blurb": "MIDI sysex ID: Sends a MIDI sysex identifier message.",
-    "example": "note(\"c4\").sysexid(\"0x77\").sysexdata(\"0x01:0x02:0x03:0x04\").midichan(1).midi()"
+    "example": "note(\"c4\").sysexid(\"0x77\").sysexdata(\"0x01:0x02:0x03:0x04\").midichan(1).midi()",
+    "params": [
+      {
+        "name": "id",
+        "type": "number",
+        "optional": false,
+        "doc": "Sysex ID"
+      }
+    ]
   },
   {
     "name": "sysexdata",
     "kind": "transform",
     "signature": "sysexdata(data: number)",
     "blurb": "MIDI sysex data: Sends a MIDI sysex message.",
-    "example": "note(\"c4\").sysexid(\"0x77\").sysexdata(\"0x01:0x02:0x03:0x04\").midichan(1).midi()"
+    "example": "note(\"c4\").sysexid(\"0x77\").sysexdata(\"0x01:0x02:0x03:0x04\").midichan(1).midi()",
+    "params": [
+      {
+        "name": "data",
+        "type": "number",
+        "optional": false,
+        "doc": "Sysex data"
+      }
+    ]
   },
   {
     "name": "midibend",
     "kind": "transform",
     "signature": "midibend(midibend: number)",
     "blurb": "MIDI pitch bend: Sends a MIDI pitch bend message.",
-    "example": "note(\"c4\").midibend(sine.slow(4).range(-0.4,0.4)).midi()"
+    "example": "note(\"c4\").midibend(sine.slow(4).range(-0.4,0.4)).midi()",
+    "params": [
+      {
+        "name": "midibend",
+        "type": "number",
+        "optional": false,
+        "doc": "MIDI pitch bend (-1 - 1)"
+      }
+    ]
   },
   {
     "name": "miditouch",
     "kind": "transform",
     "signature": "miditouch(miditouch: number)",
     "blurb": "MIDI key after touch: Sends a MIDI key after touch message.",
-    "example": "note(\"c4\").miditouch(sine.slow(4).range(0,1)).midi()"
+    "example": "note(\"c4\").miditouch(sine.slow(4).range(0,1)).midi()",
+    "params": [
+      {
+        "name": "miditouch",
+        "type": "number",
+        "optional": false,
+        "doc": "MIDI key after touch (0-1)"
+      }
+    ]
   },
   {
     "name": "as",
     "kind": "transform",
     "signature": "as(mapping: String)",
     "blurb": "Sets properties in a batch.",
-    "example": "\"c:.5 a:1 f:.25 e:.8\".as(\"note:clip\")"
+    "example": "\"c:.5 a:1 f:.25 e:.8\".as(\"note:clip\")",
+    "params": [
+      {
+        "name": "mapping",
+        "type": "String",
+        "optional": false,
+        "doc": "the control names that are set"
+      }
+    ]
   },
   {
     "name": "scrub",
@@ -2478,21 +3810,69 @@
     "kind": "transform",
     "signature": "drawLine(pattern: Pattern, chars: number)",
     "blurb": "Intended for a debugging, drawLine renders the pattern as a string, where each character represents the same time span. Should only be used with single characters as values, otherwise the character slots will be messed up. Character legend: &quot;|&quot; cycle separator &quot;-&quot; hold previous value &quot;.&quot; silence",
-    "example": "const line = drawLine(\"0 [1 2 3]\", 10); // |0--123|0--123\nconsole.log(line);\nsilence;"
+    "example": "const line = drawLine(\"0 [1 2 3]\", 10); // |0--123|0--123\nconsole.log(line);\nsilence;",
+    "params": [
+      {
+        "name": "pattern",
+        "type": "Pattern",
+        "optional": false,
+        "doc": "the pattern to use"
+      },
+      {
+        "name": "chars",
+        "type": "number",
+        "optional": false,
+        "doc": "max number of characters (approximately)"
+      }
+    ]
   },
   {
     "name": "euclid",
     "kind": "transform",
     "signature": "euclid(pulses: number, steps: number)",
     "blurb": "Changes the structure of the pattern to form an Euclidean rhythm. Euclidean rhythms are rhythms obtained using the greatest common divisor of two numbers. They were described in 2004 by Godfried Toussaint, a Canadian computer scientist. Euclidean rhythms are really useful for computer/algorithmic music because they can describe a large number of rhythms with a couple of numbers.",
-    "example": "// The Cuban tresillo pattern.\nnote(\"c3\").euclid(3,8)"
+    "example": "// The Cuban tresillo pattern.\nnote(\"c3\").euclid(3,8)",
+    "params": [
+      {
+        "name": "pulses",
+        "type": "number",
+        "optional": false,
+        "doc": "the number of onsets/beats"
+      },
+      {
+        "name": "steps",
+        "type": "number",
+        "optional": false,
+        "doc": "the number of steps to fill"
+      }
+    ]
   },
   {
     "name": "euclidRot",
     "kind": "transform",
     "signature": "euclidRot(pulses: number, steps: number, rotation: number)",
     "blurb": "Like euclid, but has an additional parameter for 'rotating' the resulting sequence.",
-    "example": "// A Samba rhythm necklace from Brazil\nnote(\"c3\").euclidRot(3,16,14)"
+    "example": "// A Samba rhythm necklace from Brazil\nnote(\"c3\").euclidRot(3,16,14)",
+    "params": [
+      {
+        "name": "pulses",
+        "type": "number",
+        "optional": false,
+        "doc": "the number of onsets/beats"
+      },
+      {
+        "name": "steps",
+        "type": "number",
+        "optional": false,
+        "doc": "the number of steps to fill"
+      },
+      {
+        "name": "rotation",
+        "type": "number",
+        "optional": false,
+        "doc": "offset in steps"
+      }
+    ]
   },
   {
     "name": "_euclidRot",
@@ -2505,14 +3885,57 @@
     "kind": "transform",
     "signature": "euclidLegato(pulses: number, steps: number, rotation: any, pat: any)",
     "blurb": "Similar to euclid, but each pulse is held until the next pulse, so there will be no gaps.",
-    "example": "note(\"c3\").euclidLegato(3,8)"
+    "example": "note(\"c3\").euclidLegato(3,8)",
+    "params": [
+      {
+        "name": "pulses",
+        "type": "number",
+        "optional": false,
+        "doc": "the number of onsets/beats"
+      },
+      {
+        "name": "steps",
+        "type": "number",
+        "optional": false,
+        "doc": "the number of steps to fill"
+      },
+      {
+        "name": "rotation",
+        "optional": false,
+        "doc": "offset in steps"
+      },
+      {
+        "name": "pat",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "euclidLegatoRot",
     "kind": "transform",
     "signature": "euclidLegatoRot(pulses: number, steps: number, rotation: number)",
     "blurb": "Similar to euclid, but each pulse is held until the next pulse, so there will be no gaps, and has an additional parameter for 'rotating' the resulting sequence",
-    "example": "note(\"c3\").euclidLegatoRot(3,5,2)"
+    "example": "note(\"c3\").euclidLegatoRot(3,5,2)",
+    "params": [
+      {
+        "name": "pulses",
+        "type": "number",
+        "optional": false,
+        "doc": "the number of onsets/beats"
+      },
+      {
+        "name": "steps",
+        "type": "number",
+        "optional": false,
+        "doc": "the number of steps to fill"
+      },
+      {
+        "name": "rotation",
+        "type": "number",
+        "optional": false,
+        "doc": "offset in steps"
+      }
+    ]
   },
   {
     "name": "euclidish",
@@ -2520,6 +3943,26 @@
     "signature": "euclidish(pulses: number, steps: number, groove: number)",
     "blurb": "A 'euclid' variant with an additional parameter that morphs the resulting rhythm from 0 (no morphing) to 1 (completely 'even'). For example sound(&quot;bd&quot;).euclidish(3,8,0) would be the same as sound(&quot;bd&quot;).euclid(3,8), and sound(&quot;bd&quot;).euclidish(3,8,1) would be the same as sound(&quot;bd bd bd&quot;). sound(&quot;bd&quot;).euclidish(3,8,0.5) would have a groove somewhere between. Inspired by the work of Malcom Braff.",
     "example": "sound(\"hh\").euclidish(7,12,sine.slow(8))\n.pan(sine.slow(8))",
+    "params": [
+      {
+        "name": "pulses",
+        "type": "number",
+        "optional": false,
+        "doc": "the number of onsets"
+      },
+      {
+        "name": "steps",
+        "type": "number",
+        "optional": false,
+        "doc": "the number of steps to fill"
+      },
+      {
+        "name": "groove",
+        "type": "number",
+        "optional": false,
+        "doc": "exists between the extremes of 0 (straight euclidian) and 1 (straight pulse)"
+      }
+    ],
     "synonyms": [
       "eish"
     ]
@@ -2536,7 +3979,15 @@
     "name": "Pattern",
     "kind": "transform",
     "signature": "Pattern(query: function)",
-    "blurb": "Create a pattern. As an end user, you will most likely not create a Pattern directly."
+    "blurb": "Create a pattern. As an end user, you will most likely not create a Pattern directly.",
+    "params": [
+      {
+        "name": "query",
+        "type": "function",
+        "optional": false,
+        "doc": "The function that maps a State to an array of Hap."
+      }
+    ]
   },
   {
     "name": "withValue",
@@ -2544,6 +3995,14 @@
     "signature": "withValue(func: function)",
     "blurb": "Returns a new pattern, with the function applied to the value of each hap. It has the alias fmap.",
     "example": "\"0 1 2\".withValue(v => v + 10).log()",
+    "params": [
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "to to apply to the value"
+      }
+    ],
     "synonyms": [
       "fmap"
     ]
@@ -2558,32 +4017,79 @@
     "name": "appWhole",
     "kind": "transform",
     "signature": "appWhole(whole_func: function, func: function)",
-    "blurb": "Assumes 'this' is a pattern of functions, and given a function to resolve wholes, applies a given pattern of values to that pattern of functions."
+    "blurb": "Assumes 'this' is a pattern of functions, and given a function to resolve wholes, applies a given pattern of values to that pattern of functions.",
+    "params": [
+      {
+        "name": "whole_func",
+        "type": "function",
+        "optional": false
+      },
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "appBoth",
     "kind": "transform",
     "signature": "appBoth(pat_val: Pattern)",
-    "blurb": "When this method is called on a pattern of functions, it matches its haps with those in the given pattern of values. A new pattern is returned, with each matching value applied to the corresponding function. In this _appBoth variant, where timespans of the function and value haps are not the same but do intersect, the resulting hap has a timespan of the intersection. This applies to both the part and the whole timespan."
+    "blurb": "When this method is called on a pattern of functions, it matches its haps with those in the given pattern of values. A new pattern is returned, with each matching value applied to the corresponding function. In this _appBoth variant, where timespans of the function and value haps are not the same but do intersect, the resulting hap has a timespan of the intersection. This applies to both the part and the whole timespan.",
+    "params": [
+      {
+        "name": "pat_val",
+        "type": "Pattern",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "appLeft",
     "kind": "transform",
     "signature": "appLeft(pat_val: Pattern)",
-    "blurb": "As with appBoth, but the whole timespan is not the intersection, but the timespan from the function of patterns that this method is called on. In practice, this means that the pattern structure, including onsets, are preserved from the pattern of functions (often referred to as the left hand or inner pattern)."
+    "blurb": "As with appBoth, but the whole timespan is not the intersection, but the timespan from the function of patterns that this method is called on. In practice, this means that the pattern structure, including onsets, are preserved from the pattern of functions (often referred to as the left hand or inner pattern).",
+    "params": [
+      {
+        "name": "pat_val",
+        "type": "Pattern",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "appRight",
     "kind": "transform",
     "signature": "appRight(pat_val: Pattern)",
-    "blurb": "As with appLeft, but whole timespans are instead taken from the pattern of values, i.e. structure is preserved from the right hand/outer pattern."
+    "blurb": "As with appLeft, but whole timespans are instead taken from the pattern of values, i.e. structure is preserved from the right hand/outer pattern.",
+    "params": [
+      {
+        "name": "pat_val",
+        "type": "Pattern",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "queryArc",
     "kind": "transform",
     "signature": "queryArc(begin: Fraction, end: Fraction)",
     "blurb": "Query haps inside the given time span.",
-    "example": "const pattern = sequence('a', ['b', 'c'])\nconst haps = pattern.queryArc(0, 1)\nconsole.log(haps)\nsilence"
+    "example": "const pattern = sequence('a', ['b', 'c'])\nconst haps = pattern.queryArc(0, 1)\nconsole.log(haps)\nsilence",
+    "params": [
+      {
+        "name": "begin",
+        "type": "Fraction",
+        "optional": false,
+        "doc": "from time"
+      },
+      {
+        "name": "end",
+        "type": "Fraction",
+        "optional": false,
+        "doc": "to time"
+      }
+    ]
   },
   {
     "name": "splitQueries",
@@ -2595,49 +4101,108 @@
     "name": "withQuerySpan",
     "kind": "transform",
     "signature": "withQuerySpan(func: function)",
-    "blurb": "Returns a new pattern, where the given function is applied to the query timespan before passing it to the original pattern."
+    "blurb": "Returns a new pattern, where the given function is applied to the query timespan before passing it to the original pattern.",
+    "params": [
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "the function to apply"
+      }
+    ]
   },
   {
     "name": "withQueryTime",
     "kind": "transform",
     "signature": "withQueryTime(func: function)",
-    "blurb": "As with withQuerySpan, but the function is applied to both the begin and end time of the query timespan."
+    "blurb": "As with withQuerySpan, but the function is applied to both the begin and end time of the query timespan.",
+    "params": [
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "the function to apply"
+      }
+    ]
   },
   {
     "name": "withHapSpan",
     "kind": "transform",
     "signature": "withHapSpan(func: function)",
-    "blurb": "Similar to withQuerySpan, but the function is applied to the timespans of all haps returned by pattern queries (both part timespans, and where present, whole timespans)."
+    "blurb": "Similar to withQuerySpan, but the function is applied to the timespans of all haps returned by pattern queries (both part timespans, and where present, whole timespans).",
+    "params": [
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "withHapTime",
     "kind": "transform",
     "signature": "withHapTime(func: function)",
-    "blurb": "As with withHapSpan, but the function is applied to both the begin and end time of the hap timespans."
+    "blurb": "As with withHapSpan, but the function is applied to both the begin and end time of the hap timespans.",
+    "params": [
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "the function to apply"
+      }
+    ]
   },
   {
     "name": "withHaps",
     "kind": "transform",
     "signature": "withHaps(func: function)",
-    "blurb": "Returns a new pattern with the given function applied to the list of haps returned by every query."
+    "blurb": "Returns a new pattern with the given function applied to the list of haps returned by every query.",
+    "params": [
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "withHap",
     "kind": "transform",
     "signature": "withHap(func: function)",
-    "blurb": "As with withHaps, but applies the function to every hap, rather than every list of haps."
+    "blurb": "As with withHaps, but applies the function to every hap, rather than every list of haps.",
+    "params": [
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "setContext",
     "kind": "transform",
     "signature": "setContext(context: *)",
-    "blurb": "Returns a new pattern with the context field set to every hap set to the given value."
+    "blurb": "Returns a new pattern with the context field set to every hap set to the given value.",
+    "params": [
+      {
+        "name": "context",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "withContext",
     "kind": "transform",
     "signature": "withContext(func: function)",
-    "blurb": "Returns a new pattern with the given function applied to the context field of every hap."
+    "blurb": "Returns a new pattern with the given function applied to the context field of every hap.",
+    "params": [
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "stripContext",
@@ -2649,19 +4214,48 @@
     "name": "withLoc",
     "kind": "transform",
     "signature": "withLoc(start: Number, end: Number)",
-    "blurb": "Returns a new pattern with the given location information added to the context of every hap."
+    "blurb": "Returns a new pattern with the given location information added to the context of every hap.",
+    "params": [
+      {
+        "name": "start",
+        "type": "Number",
+        "optional": false,
+        "doc": "start offset"
+      },
+      {
+        "name": "end",
+        "type": "Number",
+        "optional": false,
+        "doc": "end offset"
+      }
+    ]
   },
   {
     "name": "filterHaps",
     "kind": "transform",
     "signature": "filterHaps(hap_test: function)",
-    "blurb": "Returns a new Pattern, which only returns haps that meet the given test."
+    "blurb": "Returns a new Pattern, which only returns haps that meet the given test.",
+    "params": [
+      {
+        "name": "hap_test",
+        "type": "function",
+        "optional": false,
+        "doc": "a function which returns false for haps to be removed from the pattern"
+      }
+    ]
   },
   {
     "name": "filterValues",
     "kind": "transform",
     "signature": "filterValues(value_test: function)",
-    "blurb": "As with filterHaps, but the function is applied to values inside haps."
+    "blurb": "As with filterHaps, but the function is applied to values inside haps.",
+    "params": [
+      {
+        "name": "value_test",
+        "type": "function",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "removeUndefineds",
@@ -2691,7 +4285,15 @@
     "name": "firstCycle",
     "kind": "transform",
     "signature": "firstCycle(with_context: Boolean)",
-    "blurb": "Queries the pattern for the first cycle, returning Haps. Mainly of use when debugging a pattern."
+    "blurb": "Queries the pattern for the first cycle, returning Haps. Mainly of use when debugging a pattern.",
+    "params": [
+      {
+        "name": "with_context",
+        "type": "Boolean",
+        "optional": false,
+        "doc": "set to true, otherwise the context field will be stripped from the resulting haps."
+      }
+    ]
   },
   {
     "name": "firstCycleValues",
@@ -2809,7 +4411,14 @@
     "kind": "transform",
     "signature": "gap(steps: number)",
     "blurb": "Does absolutely nothing, but with a given metrical 'steps'",
-    "example": "gap(3) // \"~@3\""
+    "example": "gap(3) // \"~@3\"",
+    "params": [
+      {
+        "name": "steps",
+        "type": "number",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "silence",
@@ -2874,6 +4483,14 @@
     "signature": "cat(items: any)",
     "blurb": "The given items are concatenated, where each one takes one cycle.",
     "example": "cat(\"e5\", \"b4\", [\"d5\", \"c5\"]).note()\n// \"<e5 b4 [d5 c5]>\".note()",
+    "params": [
+      {
+        "name": "items",
+        "type": "any",
+        "optional": false,
+        "doc": "The items to concatenate"
+      }
+    ],
     "synonyms": [
       "slowcat"
     ]
@@ -2882,7 +4499,15 @@
     "name": "slowcatPrime",
     "kind": "transform",
     "signature": "slowcatPrime(items: any)",
-    "blurb": "Concatenation: combines a list of patterns, switching between them successively, one per cycle. Unlike slowcat, this version will skip cycles."
+    "blurb": "Concatenation: combines a list of patterns, switching between them successively, one per cycle. Unlike slowcat, this version will skip cycles.",
+    "params": [
+      {
+        "name": "items",
+        "type": "any",
+        "optional": false,
+        "doc": "The items to concatenate"
+      }
+    ]
   },
   {
     "name": "arrange",
@@ -2927,7 +4552,21 @@
     "name": "register",
     "kind": "transform",
     "signature": "register(name: string, func: function)",
-    "blurb": "Registers a new pattern method. The method is added to the Pattern class + the standalone function is returned from register."
+    "blurb": "Registers a new pattern method. The method is added to the Pattern class + the standalone function is returned from register.",
+    "params": [
+      {
+        "name": "name",
+        "type": "string",
+        "optional": false,
+        "doc": "name of the function, or an array of names to be used as synonyms"
+      },
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "function with 1 or more params, where last is the current pattern"
+      }
+    ]
   },
   {
     "name": "fast",
@@ -2935,6 +4574,14 @@
     "signature": "fast(factor: number)",
     "blurb": "Speed up a pattern by the given factor. Used by &quot;*&quot; in mini notation.",
     "example": "s(\"bd hh sd hh\").fast(2) // s(\"[bd hh sd hh]*2\")",
+    "params": [
+      {
+        "name": "factor",
+        "type": "number",
+        "optional": false,
+        "doc": "speed up factor"
+      }
+    ],
     "synonyms": [
       "density"
     ]
@@ -2970,6 +4617,26 @@
     "signature": "echoWith(times: number, time: number, func: function)",
     "blurb": "Superimpose and offset multiple times, applying the given function each time.",
     "example": "\"<0 [2 4]>\"\n.echoWith(4, 1/8, (p,n) => p.add(n*2))\n.scale(\"C:minor\").note()",
+    "params": [
+      {
+        "name": "times",
+        "type": "number",
+        "optional": false,
+        "doc": "how many times to repeat"
+      },
+      {
+        "name": "time",
+        "type": "number",
+        "optional": false,
+        "doc": "cycle offset between iterations"
+      },
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "function to apply, given the pattern and the iteration index"
+      }
+    ],
     "synonyms": [
       "echowith",
       "stutWith",
@@ -3006,6 +4673,20 @@
     "signature": "plyWith(factor: number, func: function)",
     "blurb": "The plyWith function repeats each event the given number of times, applying the given function to each event.\\n",
     "example": "\"<0 [2 4]>\"\n.plyWith(4, (p) => p.add(2))\n.scale(\"C:minor\").note()",
+    "params": [
+      {
+        "name": "factor",
+        "type": "number",
+        "optional": false,
+        "doc": "how many times to repeat"
+      },
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "function to apply, given the pattern"
+      }
+    ],
     "synonyms": [
       "plywith"
     ]
@@ -3024,6 +4705,20 @@
     "signature": "plyForEach(factor: number, func: function)",
     "blurb": "The plyForEach function repeats each event the given number of times, applying the given function to each event. This version of ply uses the iteration index as an argument to the function, similar to echoWith.",
     "example": "\"<0 [2 4]>\"\n.plyForEach(4, (p,n) => p.add(n*2))\n.scale(\"C:minor\").note()",
+    "params": [
+      {
+        "name": "factor",
+        "type": "number",
+        "optional": false,
+        "doc": "how many times to repeat"
+      },
+      {
+        "name": "func",
+        "type": "function",
+        "optional": false,
+        "doc": "function to apply, given the pattern and the iteration index"
+      }
+    ],
     "synonyms": [
       "plyforeach"
     ]
@@ -3128,7 +4823,15 @@
     "name": "tag",
     "kind": "transform",
     "signature": "tag(tag: string)",
-    "blurb": "Tags each Hap with an identifier. Good for filtering. The function populates Hap.context.tags (Array)."
+    "blurb": "Tags each Hap with an identifier. Good for filtering. The function populates Hap.context.tags (Array).",
+    "params": [
+      {
+        "name": "tag",
+        "type": "string",
+        "optional": false,
+        "doc": "anything unique"
+      }
+    ]
   },
   {
     "name": "polymeter",
@@ -3267,112 +4970,358 @@
     "name": "soft",
     "kind": "transform",
     "signature": "soft(distortion: number, volume: number)",
-    "blurb": "Soft-clipping distortion"
+    "blurb": "Soft-clipping distortion",
+    "params": [
+      {
+        "name": "distortion",
+        "type": "number",
+        "optional": false,
+        "doc": "amount of distortion to apply"
+      },
+      {
+        "name": "volume",
+        "type": "number",
+        "optional": false,
+        "doc": "linear postgain of the distortion"
+      }
+    ]
   },
   {
     "name": "hard",
     "kind": "transform",
     "signature": "hard(distortion: number, volume: number)",
-    "blurb": "Hard-clipping distortion"
+    "blurb": "Hard-clipping distortion",
+    "params": [
+      {
+        "name": "distortion",
+        "type": "number",
+        "optional": false,
+        "doc": "amount of distortion to apply"
+      },
+      {
+        "name": "volume",
+        "type": "number",
+        "optional": false,
+        "doc": "linear postgain of the distortion"
+      }
+    ]
   },
   {
     "name": "cubic",
     "kind": "transform",
     "signature": "cubic(distortion: number, volume: number)",
-    "blurb": "Cubic polynomial distortion"
+    "blurb": "Cubic polynomial distortion",
+    "params": [
+      {
+        "name": "distortion",
+        "type": "number",
+        "optional": false,
+        "doc": "amount of distortion to apply"
+      },
+      {
+        "name": "volume",
+        "type": "number",
+        "optional": false,
+        "doc": "linear postgain of the distortion"
+      }
+    ]
   },
   {
     "name": "diode",
     "kind": "transform",
     "signature": "diode(distortion: number, volume: number)",
-    "blurb": "Diode-emulating distortion"
+    "blurb": "Diode-emulating distortion",
+    "params": [
+      {
+        "name": "distortion",
+        "type": "number",
+        "optional": false,
+        "doc": "amount of distortion to apply"
+      },
+      {
+        "name": "volume",
+        "type": "number",
+        "optional": false,
+        "doc": "linear postgain of the distortion"
+      }
+    ]
   },
   {
     "name": "asym",
     "kind": "transform",
     "signature": "asym(distortion: number, volume: number)",
-    "blurb": "Asymmetrical diode distortion"
+    "blurb": "Asymmetrical diode distortion",
+    "params": [
+      {
+        "name": "distortion",
+        "type": "number",
+        "optional": false,
+        "doc": "amount of distortion to apply"
+      },
+      {
+        "name": "volume",
+        "type": "number",
+        "optional": false,
+        "doc": "linear postgain of the distortion"
+      }
+    ]
   },
   {
     "name": "fold",
     "kind": "transform",
     "signature": "fold(distortion: number, volume: number)",
-    "blurb": "Wavefolding distortion"
+    "blurb": "Wavefolding distortion",
+    "params": [
+      {
+        "name": "distortion",
+        "type": "number",
+        "optional": false,
+        "doc": "amount of distortion to apply"
+      },
+      {
+        "name": "volume",
+        "type": "number",
+        "optional": false,
+        "doc": "linear postgain of the distortion"
+      }
+    ]
   },
   {
     "name": "sinefold",
     "kind": "transform",
     "signature": "sinefold(distortion: number, volume: number)",
-    "blurb": "Wavefolding distortion composed with sinusoid"
+    "blurb": "Wavefolding distortion composed with sinusoid",
+    "params": [
+      {
+        "name": "distortion",
+        "type": "number",
+        "optional": false,
+        "doc": "amount of distortion to apply"
+      },
+      {
+        "name": "volume",
+        "type": "number",
+        "optional": false,
+        "doc": "linear postgain of the distortion"
+      }
+    ]
   },
   {
     "name": "chebyshev",
     "kind": "transform",
     "signature": "chebyshev(distortion: number, volume: number)",
-    "blurb": "Distortion via Chebyshev polynomials"
+    "blurb": "Distortion via Chebyshev polynomials",
+    "params": [
+      {
+        "name": "distortion",
+        "type": "number",
+        "optional": false,
+        "doc": "amount of distortion to apply"
+      },
+      {
+        "name": "volume",
+        "type": "number",
+        "optional": false,
+        "doc": "linear postgain of the distortion"
+      }
+    ]
   },
   {
     "name": "pick",
     "kind": "transform",
     "signature": "pick(pat: Pattern, xs: *)",
     "blurb": "Picks patterns (or plain values) either from a list (by index) or a lookup table (by name). Similar to inhabit, but maintains the structure of the original patterns.",
-    "example": "note(\"<0 1 2!2 3>\".pick([\"g a\", \"e f\", \"f g f g\" , \"g c d\"]))"
+    "example": "note(\"<0 1 2!2 3>\".pick([\"g a\", \"e f\", \"f g f g\" , \"g c d\"]))",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "pickmod",
     "kind": "transform",
     "signature": "pickmod(pat: Pattern, xs: *)",
-    "blurb": "The same as pick, but if you pick a number greater than the size of the list, it wraps around, rather than sticking at the maximum value. For example, if you pick the fifth pattern of a list of three, you'll get the second one."
+    "blurb": "The same as pick, but if you pick a number greater than the size of the list, it wraps around, rather than sticking at the maximum value. For example, if you pick the fifth pattern of a list of three, you'll get the second one.",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "pickF",
     "kind": "transform",
     "signature": "pickF(pat: Pattern, lookup: Pattern, funcs: Array.<function()>)",
     "blurb": "pickF lets you use a pattern of numbers to pick which function to apply to another pattern.",
-    "example": "s(\"bd [rim hh]\").pickF(\"<0 1 2>\", [rev,jux(rev),fast(2)])"
+    "example": "s(\"bd [rim hh]\").pickF(\"<0 1 2>\", [rev,jux(rev),fast(2)])",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "lookup",
+        "type": "Pattern",
+        "optional": false,
+        "doc": "a pattern of indices"
+      },
+      {
+        "name": "funcs",
+        "type": "Array.<function()>",
+        "optional": false,
+        "doc": "the array of functions from which to pull"
+      }
+    ]
   },
   {
     "name": "pickmodF",
     "kind": "transform",
     "signature": "pickmodF(pat: Pattern, lookup: Pattern, funcs: Array.<function()>)",
-    "blurb": "The same as pickF, but if you pick a number greater than the size of the functions list, it wraps around, rather than sticking at the maximum value."
+    "blurb": "The same as pickF, but if you pick a number greater than the size of the functions list, it wraps around, rather than sticking at the maximum value.",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "lookup",
+        "type": "Pattern",
+        "optional": false,
+        "doc": "a pattern of indices"
+      },
+      {
+        "name": "funcs",
+        "type": "Array.<function()>",
+        "optional": false,
+        "doc": "the array of functions from which to pull"
+      }
+    ]
   },
   {
     "name": "pickOut",
     "kind": "transform",
     "signature": "pickOut(pat: Pattern, xs: *)",
-    "blurb": "Similar to pick, but it applies an outerJoin instead of an innerJoin."
+    "blurb": "Similar to pick, but it applies an outerJoin instead of an innerJoin.",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "pickmodOut",
     "kind": "transform",
     "signature": "pickmodOut(pat: Pattern, xs: *)",
-    "blurb": "The same as pickOut, but if you pick a number greater than the size of the list, it wraps around, rather than sticking at the maximum value."
+    "blurb": "The same as pickOut, but if you pick a number greater than the size of the list, it wraps around, rather than sticking at the maximum value.",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "pickRestart",
     "kind": "transform",
     "signature": "pickRestart(pat: Pattern, xs: *)",
-    "blurb": "Similar to pick, but the choosen pattern is restarted when its index is triggered."
+    "blurb": "Similar to pick, but the choosen pattern is restarted when its index is triggered.",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "pickmodRestart",
     "kind": "transform",
     "signature": "pickmodRestart(pat: Pattern, xs: *)",
     "blurb": "The same as pickRestart, but if you pick a number greater than the size of the list, it wraps around, rather than sticking at the maximum value.",
-    "example": "\"<a@2 b@2 c@2 d@2>\".pickRestart({\n        a: n(\"0 1 2 0\"),\n        b: n(\"2 3 4 ~\"),\n        c: n(\"[4 5] [4 3] 2 0\"),\n        d: n(\"0 -3 0 ~\")\n      }).scale(\"C:major\").s(\"piano\")"
+    "example": "\"<a@2 b@2 c@2 d@2>\".pickRestart({\n        a: n(\"0 1 2 0\"),\n        b: n(\"2 3 4 ~\"),\n        c: n(\"[4 5] [4 3] 2 0\"),\n        d: n(\"0 -3 0 ~\")\n      }).scale(\"C:major\").s(\"piano\")",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "pickReset",
     "kind": "transform",
     "signature": "pickReset(pat: Pattern, xs: *)",
-    "blurb": "Similar to pick, but the choosen pattern is reset when its index is triggered."
+    "blurb": "Similar to pick, but the choosen pattern is reset when its index is triggered.",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "pickmodReset",
     "kind": "transform",
     "signature": "pickmodReset(pat: Pattern, xs: *)",
-    "blurb": "The same as pickReset, but if you pick a number greater than the size of the list, it wraps around, rather than sticking at the maximum value."
+    "blurb": "The same as pickReset, but if you pick a number greater than the size of the list, it wraps around, rather than sticking at the maximum value.",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "inhabit",
@@ -3380,6 +5329,18 @@
     "signature": "inhabit(pat: Pattern, xs: *)",
     "blurb": "Picks patterns (or plain values) either from a list (by index) or a lookup table (by name). Similar to pick, but cycles are squeezed into the target ('inhabited') pattern.",
     "example": "\"<a b [a,b]>\".inhabit({a: s(\"bd(3,8)\"),\n                            b: s(\"cp sd\")\n                           })",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ],
     "synonyms": [
       "pickSqueeze"
     ]
@@ -3397,6 +5358,18 @@
     "kind": "transform",
     "signature": "inhabitmod(pat: Pattern, xs: *)",
     "blurb": "The same as inhabit, but if you pick a number greater than the size of the list, it wraps around, rather than sticking at the maximum value. For example, if you pick the fifth pattern of a list of three, you'll get the second one.",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ],
     "synonyms": [
       "pickmodSqueeze"
     ]
@@ -3413,14 +5386,34 @@
     "kind": "transform",
     "signature": "squeeze(pat: Pattern, xs: *)",
     "blurb": "Pick from the list of values (or patterns of values) via the index using the given pattern of integers. The selected pattern will be compressed to fit the duration of the selecting event",
-    "example": "note(squeeze(\"<0@2 [1!2] 2>\", [\"g a\", \"f g f g\" , \"g a c d\"]))"
+    "example": "note(squeeze(\"<0@2 [1!2] 2>\", [\"g a\", \"f g f g\" , \"g a c d\"]))",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "setcpm",
     "kind": "transform",
     "signature": "setcpm(cpm: number)",
     "blurb": "Changes the global tempo to the given cycles per minute",
-    "example": "setcpm(140/4) // =140 bpm in 4/4\n$: s(\"bd*4,[- sd]*2\").bank('tr707')"
+    "example": "setcpm(140/4) // =140 bpm in 4/4\n$: s(\"bd*4,[- sd]*2\").bank('tr707')",
+    "params": [
+      {
+        "name": "cpm",
+        "type": "number",
+        "optional": false,
+        "doc": "cycles per minute"
+      }
+    ]
   },
   {
     "name": "allTransforms",
@@ -3557,14 +5550,36 @@
     "kind": "transform",
     "signature": "binary(n: number)",
     "blurb": "Creates a pattern from a binary number.",
-    "example": "\"hh\".s().struct(binary(5))\n// \"hh\".s().struct(\"1 0 1\")"
+    "example": "\"hh\".s().struct(binary(5))\n// \"hh\".s().struct(\"1 0 1\")",
+    "params": [
+      {
+        "name": "n",
+        "type": "number",
+        "optional": false,
+        "doc": "input number to convert to binary"
+      }
+    ]
   },
   {
     "name": "binaryN",
     "kind": "transform",
     "signature": "binaryN(n: number, nBits: number)",
     "blurb": "Creates a pattern from a binary number, padded to n bits long.",
-    "example": "\"hh\".s().struct(binaryN(55532, 16))\n// \"hh\".s().struct(\"1 1 0 1 1 0 0 0 1 1 1 0 1 1 0 0\")"
+    "example": "\"hh\".s().struct(binaryN(55532, 16))\n// \"hh\".s().struct(\"1 1 0 1 1 0 0 0 1 1 1 0 1 1 0 0\")",
+    "params": [
+      {
+        "name": "n",
+        "type": "number",
+        "optional": false,
+        "doc": "input number to convert to binary"
+      },
+      {
+        "name": "nBits",
+        "type": "number",
+        "optional": false,
+        "doc": "pattern length, defaults to 16"
+      }
+    ]
   },
   {
     "name": "shuffle",
@@ -3598,7 +5613,15 @@
     "kind": "transform",
     "signature": "brandBy(probability: number)",
     "blurb": "A continuous pattern of 0 or 1 (binary random), with a probability for the value being 1",
-    "example": "s(\"hh*10\").pan(brandBy(0.2))"
+    "example": "s(\"hh*10\").pan(brandBy(0.2))",
+    "params": [
+      {
+        "name": "probability",
+        "type": "number",
+        "optional": false,
+        "doc": "a number between 0 and 1"
+      }
+    ]
   },
   {
     "name": "brand",
@@ -3612,32 +5635,78 @@
     "kind": "transform",
     "signature": "irand(n: number)",
     "blurb": "A continuous pattern of random integers, between 0 and n-1.",
-    "example": "// randomly select scale notes from 0 - 7 (= C to C)\nn(irand(8)).struct(\"x x*2 x x*3\").scale(\"C:minor\")"
+    "example": "// randomly select scale notes from 0 - 7 (= C to C)\nn(irand(8)).struct(\"x x*2 x x*3\").scale(\"C:minor\")",
+    "params": [
+      {
+        "name": "n",
+        "type": "number",
+        "optional": false,
+        "doc": "max value (exclusive)"
+      }
+    ]
   },
   {
     "name": "chooseWith",
     "kind": "transform",
     "signature": "chooseWith(pat: Pattern, xs: *)",
     "blurb": "Choose from the list of values (or patterns of values) using the given pattern of numbers, which should be in the range of 0..1",
-    "example": "note(\"c2 g2!2 d2 f1\").s(chooseWith(sine.fast(2), [\"sawtooth\", \"triangle\", \"bd:6\"]))"
+    "example": "note(\"c2 g2!2 d2 f1\").s(chooseWith(sine.fast(2), [\"sawtooth\", \"triangle\", \"bd:6\"]))",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "chooseInWith",
     "kind": "transform",
     "signature": "chooseInWith(pat: Pattern, xs: *)",
-    "blurb": "As with {chooseWith}, but the structure comes from the chosen values, rather than the pattern you're using to choose with."
+    "blurb": "As with {chooseWith}, but the structure comes from the chosen values, rather than the pattern you're using to choose with.",
+    "params": [
+      {
+        "name": "pat",
+        "type": "Pattern",
+        "optional": false
+      },
+      {
+        "name": "xs",
+        "type": "*",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "choose",
     "kind": "transform",
     "signature": "choose(xs: any)",
-    "blurb": "Chooses from the given list of values (or patterns of values), according to the pattern that the method is called on. The pattern should be in the range 0 .. 1."
+    "blurb": "Chooses from the given list of values (or patterns of values), according to the pattern that the method is called on. The pattern should be in the range 0 .. 1.",
+    "params": [
+      {
+        "name": "xs",
+        "type": "any",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "choose2",
     "kind": "transform",
     "signature": "choose2(xs: any)",
-    "blurb": "As with choose, but the pattern that this method is called on should be in the range -1 .. 1"
+    "blurb": "As with choose, but the pattern that this method is called on should be in the range -1 .. 1",
+    "params": [
+      {
+        "name": "xs",
+        "type": "any",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "chooseCycles",
@@ -3662,7 +5731,15 @@
     "kind": "transform",
     "signature": "wchoose(pairs: any)",
     "blurb": "Chooses randomly from the given list of elements by giving a probability to each element",
-    "example": "note(\"c2 g2!2 d2 f1\").s(wchoose([\"sine\",10], [\"triangle\",1], [\"bd:6\",1]))"
+    "example": "note(\"c2 g2!2 d2 f1\").s(wchoose([\"sine\",10], [\"triangle\",1], [\"bd:6\",1]))",
+    "params": [
+      {
+        "name": "pairs",
+        "type": "any",
+        "optional": false,
+        "doc": "arrays of value and weight"
+      }
+    ]
   },
   {
     "name": "wchooseCycles",
@@ -3701,7 +5778,15 @@
     "kind": "transform",
     "signature": "degradeBy(amount: number)",
     "blurb": "Randomly removes events from the pattern by a given amount. 0 = 0% chance of removal 1 = 100% chance of removal",
-    "example": "s(\"hh*8\").degradeBy(0.2)"
+    "example": "s(\"hh*8\").degradeBy(0.2)",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false,
+        "doc": "a number between 0 and 1"
+      }
+    ]
   },
   {
     "name": "degrade",
@@ -3715,7 +5800,15 @@
     "kind": "transform",
     "signature": "undegradeBy(amount: number)",
     "blurb": "Inverse of degradeBy: Randomly removes events from the pattern by a given amount. 0 = 100% chance of removal 1 = 0% chance of removal Events that would be removed by degradeBy are let through by undegradeBy and vice versa (see second example).",
-    "example": "s(\"hh*8\").undegradeBy(0.2)"
+    "example": "s(\"hh*8\").undegradeBy(0.2)",
+    "params": [
+      {
+        "name": "amount",
+        "type": "number",
+        "optional": false,
+        "doc": "a number between 0 and 1"
+      }
+    ]
   },
   {
     "name": "undegrade",
@@ -3729,21 +5822,57 @@
     "kind": "transform",
     "signature": "sometimesBy(probability: number, function: function)",
     "blurb": "Randomly applies the given function by the given probability. Similar to someCyclesBy",
-    "example": "s(\"hh*8\").sometimesBy(.4, x=>x.speed(\"0.5\"))"
+    "example": "s(\"hh*8\").sometimesBy(.4, x=>x.speed(\"0.5\"))",
+    "params": [
+      {
+        "name": "probability",
+        "type": "number",
+        "optional": false,
+        "doc": "a number between 0 and 1"
+      },
+      {
+        "name": "function",
+        "type": "function",
+        "optional": false,
+        "doc": "the transformation to apply"
+      }
+    ]
   },
   {
     "name": "sometimes",
     "kind": "transform",
     "signature": "sometimes(function: function)",
     "blurb": "Applies the given function with a 50% chance",
-    "example": "s(\"hh*8\").sometimes(x=>x.speed(\"0.5\"))"
+    "example": "s(\"hh*8\").sometimes(x=>x.speed(\"0.5\"))",
+    "params": [
+      {
+        "name": "function",
+        "type": "function",
+        "optional": false,
+        "doc": "the transformation to apply"
+      }
+    ]
   },
   {
     "name": "someCyclesBy",
     "kind": "transform",
     "signature": "someCyclesBy(probability: number, function: function)",
     "blurb": "Randomly applies the given function by the given probability on a cycle by cycle basis. Similar to sometimesBy",
-    "example": "s(\"bd,hh*8\").someCyclesBy(.3, x=>x.speed(\"0.5\"))"
+    "example": "s(\"bd,hh*8\").someCyclesBy(.3, x=>x.speed(\"0.5\"))",
+    "params": [
+      {
+        "name": "probability",
+        "type": "number",
+        "optional": false,
+        "doc": "a number between 0 and 1"
+      },
+      {
+        "name": "function",
+        "type": "function",
+        "optional": false,
+        "doc": "the transformation to apply"
+      }
+    ]
   },
   {
     "name": "someCycles",
@@ -3830,6 +5959,158 @@
     "signature": "pianoroll(options: Object, cycles: integer, playhead: number, vertical: boolean, labels: boolean, flipTime: boolean, flipValues: boolean, overscan: number, hideNegative: boolean, smear: boolean, fold: boolean, active: string, inactive: string, background: string, playheadColor: string, fill: boolean, fillActive: boolean, stroke: boolean, strokeActive: boolean, hideInactive: boolean, colorizeInactive: boolean, fontFamily: string, minMidi: integer, maxMidi: integer, autorange: boolean)",
     "blurb": "Visualises a pattern as a scrolling 'pianoroll', displayed in the background of the editor. To show a pianoroll for all running patterns, use all(pianoroll). To have a pianoroll appear below a pattern instead, prefix with _, e.g.: sound(&quot;bd sd&quot;)._pianoroll().",
     "example": "note(\"c2 a2 eb2\")\n.euclid(5,8)\n.s('sawtooth')\n.lpenv(4).lpf(300)\n.pianoroll({ labels: 1 })",
+    "params": [
+      {
+        "name": "options",
+        "type": "Object",
+        "optional": false,
+        "doc": "Object containing all the optional following parameters as key value pairs:"
+      },
+      {
+        "name": "cycles",
+        "type": "integer",
+        "optional": false,
+        "doc": "number of cycles to be displayed at the same time - defaults to 4"
+      },
+      {
+        "name": "playhead",
+        "type": "number",
+        "optional": false,
+        "doc": "location of the active notes on the time axis - 0 to 1, defaults to 0.5"
+      },
+      {
+        "name": "vertical",
+        "type": "boolean",
+        "optional": false,
+        "doc": "displays the roll vertically - 0 by default"
+      },
+      {
+        "name": "labels",
+        "type": "boolean",
+        "optional": false,
+        "doc": "displays labels on individual notes (see the label function) - 0 by default"
+      },
+      {
+        "name": "flipTime",
+        "type": "boolean",
+        "optional": false,
+        "doc": "reverse the direction of the roll - 0 by default"
+      },
+      {
+        "name": "flipValues",
+        "type": "boolean",
+        "optional": false,
+        "doc": "reverse the relative location of notes on the value axis - 0 by default"
+      },
+      {
+        "name": "overscan",
+        "type": "number",
+        "optional": false,
+        "doc": "lookup X cycles outside of the cycles window to display notes in advance - 1 by default"
+      },
+      {
+        "name": "hideNegative",
+        "type": "boolean",
+        "optional": false,
+        "doc": "hide notes with negative time (before starting playing the pattern) - 0 by default"
+      },
+      {
+        "name": "smear",
+        "type": "boolean",
+        "optional": false,
+        "doc": "notes leave a solid trace - 0 by default"
+      },
+      {
+        "name": "fold",
+        "type": "boolean",
+        "optional": false,
+        "doc": "notes takes the full value axis width - 0 by default"
+      },
+      {
+        "name": "active",
+        "type": "string",
+        "optional": false,
+        "doc": "hexadecimal or CSS color of the active notes - defaults to #FFCA28"
+      },
+      {
+        "name": "inactive",
+        "type": "string",
+        "optional": false,
+        "doc": "hexadecimal or CSS color of the inactive notes - defaults to #7491D2"
+      },
+      {
+        "name": "background",
+        "type": "string",
+        "optional": false,
+        "doc": "hexadecimal or CSS color of the background - defaults to transparent"
+      },
+      {
+        "name": "playheadColor",
+        "type": "string",
+        "optional": false,
+        "doc": "hexadecimal or CSS color of the line representing the play head - defaults to white"
+      },
+      {
+        "name": "fill",
+        "type": "boolean",
+        "optional": false,
+        "doc": "notes are filled with color (otherwise only the label is displayed) - 0 by default"
+      },
+      {
+        "name": "fillActive",
+        "type": "boolean",
+        "optional": false,
+        "doc": "active notes are filled with color - 0 by default"
+      },
+      {
+        "name": "stroke",
+        "type": "boolean",
+        "optional": false,
+        "doc": "notes are shown with colored borders - 0 by default"
+      },
+      {
+        "name": "strokeActive",
+        "type": "boolean",
+        "optional": false,
+        "doc": "active notes are shown with colored borders - 0 by default"
+      },
+      {
+        "name": "hideInactive",
+        "type": "boolean",
+        "optional": false,
+        "doc": "only active notes are shown - 0 by default"
+      },
+      {
+        "name": "colorizeInactive",
+        "type": "boolean",
+        "optional": false,
+        "doc": "use note color for inactive notes - 1 by default"
+      },
+      {
+        "name": "fontFamily",
+        "type": "string",
+        "optional": false,
+        "doc": "define the font used by notes labels - defaults to 'monospace'"
+      },
+      {
+        "name": "minMidi",
+        "type": "integer",
+        "optional": false,
+        "doc": "minimum note value to display on the value axis - defaults to 10"
+      },
+      {
+        "name": "maxMidi",
+        "type": "integer",
+        "optional": false,
+        "doc": "maximum note value to display on the value axis - defaults to 90"
+      },
+      {
+        "name": "autorange",
+        "type": "boolean",
+        "optional": false,
+        "doc": "automatically calculate the minMidi and maxMidi parameters - 0 by default"
+      }
+    ],
     "synonyms": [
       "punchcard"
     ]
@@ -3853,14 +6134,154 @@
     "kind": "transform",
     "signature": "pitchwheel(hapcircles: number, circle: number, edo: number, root: string, thickness: number, hapRadius: number, mode: string, margin: number)",
     "blurb": "Renders a pitch circle to visualize frequencies within one octave",
-    "example": "n(\"0 .. 12\").scale(\"C:chromatic\")\n.s(\"sawtooth\")\n.lpf(500)\n._pitchwheel()"
+    "example": "n(\"0 .. 12\").scale(\"C:chromatic\")\n.s(\"sawtooth\")\n.lpf(500)\n._pitchwheel()",
+    "params": [
+      {
+        "name": "hapcircles",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "circle",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "edo",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "root",
+        "type": "string",
+        "optional": false
+      },
+      {
+        "name": "thickness",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "hapRadius",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "mode",
+        "type": "string",
+        "optional": false
+      },
+      {
+        "name": "margin",
+        "type": "number",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "spiral",
     "kind": "transform",
     "signature": "spiral(options: Object, stretch: number, size: number, thickness: number, cap: string, inset: string, playheadColor: string, playheadLength: number, playheadThickness: number, padding: number, steady: number, activeColor: number, inactiveColor: number, colorizeInactive: boolean, fade: boolean, logSpiral: boolean)",
     "blurb": "Displays a spiral visual.",
-    "example": "note(\"c2 a2 eb2\")\n.euclid(5,8)\n.s('sawtooth')\n.lpenv(4).lpf(300)\n._spiral({ steady: .96 })"
+    "example": "note(\"c2 a2 eb2\")\n.euclid(5,8)\n.s('sawtooth')\n.lpenv(4).lpf(300)\n._spiral({ steady: .96 })",
+    "params": [
+      {
+        "name": "options",
+        "type": "Object",
+        "optional": false,
+        "doc": "Object containing all the optional following parameters as key value pairs:"
+      },
+      {
+        "name": "stretch",
+        "type": "number",
+        "optional": false,
+        "doc": "controls the rotations per cycle ratio, where 1 = 1 cycle / 360 degrees"
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "optional": false,
+        "doc": "the diameter of the spiral"
+      },
+      {
+        "name": "thickness",
+        "type": "number",
+        "optional": false,
+        "doc": "line thickness"
+      },
+      {
+        "name": "cap",
+        "type": "string",
+        "optional": false,
+        "doc": "style of line ends: butt (default), round, square"
+      },
+      {
+        "name": "inset",
+        "type": "string",
+        "optional": false,
+        "doc": "number of rotations before spiral starts (default 3)"
+      },
+      {
+        "name": "playheadColor",
+        "type": "string",
+        "optional": false,
+        "doc": "color of playhead, defaults to white"
+      },
+      {
+        "name": "playheadLength",
+        "type": "number",
+        "optional": false,
+        "doc": "length of playhead in rotations, defaults to 0.02"
+      },
+      {
+        "name": "playheadThickness",
+        "type": "number",
+        "optional": false,
+        "doc": "thickness of playheadrotations, defaults to thickness"
+      },
+      {
+        "name": "padding",
+        "type": "number",
+        "optional": false,
+        "doc": "space around spiral"
+      },
+      {
+        "name": "steady",
+        "type": "number",
+        "optional": false,
+        "doc": "steadyness of spiral vs playhead. 1 = spiral doesn't move, playhead does."
+      },
+      {
+        "name": "activeColor",
+        "type": "number",
+        "optional": false,
+        "doc": "color of active segment. defaults to foreground of theme"
+      },
+      {
+        "name": "inactiveColor",
+        "type": "number",
+        "optional": false,
+        "doc": "color of inactive segments. defaults to gutterForeground of theme"
+      },
+      {
+        "name": "colorizeInactive",
+        "type": "boolean",
+        "optional": false,
+        "doc": "wether or not to colorize inactive segments, defaults to 0"
+      },
+      {
+        "name": "fade",
+        "type": "boolean",
+        "optional": false,
+        "doc": "wether or not past and future should fade out. defaults to 1"
+      },
+      {
+        "name": "logSpiral",
+        "type": "boolean",
+        "optional": false,
+        "doc": "wether or not the spiral should be logarithmic. defaults to 0"
+      }
+    ]
   },
   {
     "name": "defaultmidimap",
@@ -3881,14 +6302,36 @@
     "kind": "transform",
     "signature": "midi(midiport: string, options: object)",
     "blurb": "MIDI output: Opens a MIDI output port.",
-    "example": "note(\"c4\").midichan(1).midi('IAC Driver Bus 1')"
+    "example": "note(\"c4\").midichan(1).midi('IAC Driver Bus 1')",
+    "params": [
+      {
+        "name": "midiport",
+        "type": "string",
+        "optional": false,
+        "doc": "MIDI device name or index defaulting to 0"
+      },
+      {
+        "name": "options",
+        "type": "object",
+        "optional": false,
+        "doc": "Additional MIDI configuration options"
+      }
+    ]
   },
   {
     "name": "midin",
     "kind": "transform",
     "signature": "midin(input: string)",
     "blurb": "MIDI input: Opens a MIDI input port to receive MIDI control change messages.",
-    "example": "let cc = await midin('IAC Driver Bus 1')\nnote(\"c a f e\").lpf(cc(0).range(0, 1000)).lpq(cc(1).range(0, 10)).sound(\"sawtooth\")"
+    "example": "let cc = await midin('IAC Driver Bus 1')\nnote(\"c a f e\").lpf(cc(0).range(0, 1000)).lpq(cc(1).range(0, 10)).sound(\"sawtooth\")",
+    "params": [
+      {
+        "name": "input",
+        "type": "string",
+        "optional": false,
+        "doc": "MIDI device name or index defaulting to 0"
+      }
+    ]
   },
   {
     "name": "accelerationX",
@@ -4379,24 +6822,105 @@
     "name": "generateReverb",
     "kind": "transform",
     "signature": "generateReverb(params: Object, callback: function)",
-    "blurb": "Generates a reverb impulse response."
+    "blurb": "Generates a reverb impulse response.",
+    "params": [
+      {
+        "name": "params",
+        "type": "Object",
+        "optional": false,
+        "doc": "TODO: Document the properties."
+      },
+      {
+        "name": "callback",
+        "type": "function",
+        "optional": false,
+        "doc": "Function to call when the impulse response has been generated. The impulse response is passed to this function as its parameter. May be called immediately within the current execution context, or later."
+      }
+    ]
   },
   {
     "name": "generateGraph",
     "kind": "transform",
     "signature": "generateGraph(data: Float32Array, width: number, height: number, min: number, max: number)",
-    "blurb": "Creates a canvas element showing a graph of the given data."
+    "blurb": "Creates a canvas element showing a graph of the given data.",
+    "params": [
+      {
+        "name": "data",
+        "type": "Float32Array",
+        "optional": false,
+        "doc": "An array of numbers, or a Float32Array."
+      },
+      {
+        "name": "width",
+        "type": "number",
+        "optional": false,
+        "doc": "Width in pixels of the canvas."
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "optional": false,
+        "doc": "Height in pixels of the canvas."
+      },
+      {
+        "name": "min",
+        "type": "number",
+        "optional": false,
+        "doc": "Minimum value of data for the graph (lower edge)."
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "optional": false,
+        "doc": "Maximum value of data in the graph (upper edge)."
+      }
+    ]
   },
   {
     "name": "applyGradualLowpass",
     "kind": "transform",
     "signature": "applyGradualLowpass(input: AudioBuffer, lpFreqStart: number, lpFreqEnd: number, lpFreqEndAt: number, callback: function)",
-    "blurb": "Applies a constantly changing lowpass filter to the given sound."
+    "blurb": "Applies a constantly changing lowpass filter to the given sound.",
+    "params": [
+      {
+        "name": "input",
+        "type": "AudioBuffer",
+        "optional": false
+      },
+      {
+        "name": "lpFreqStart",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "lpFreqEnd",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "lpFreqEndAt",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "callback",
+        "type": "function",
+        "optional": false,
+        "doc": "May be called immediately within the current execution context, or later."
+      }
+    ]
   },
   {
     "name": "getAllChannelData",
     "kind": "transform",
-    "signature": "getAllChannelData(buffer: AudioBuffer)"
+    "signature": "getAllChannelData(buffer: AudioBuffer)",
+    "params": [
+      {
+        "name": "buffer",
+        "type": "AudioBuffer",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "randomSample",
@@ -4414,13 +6938,41 @@
     "name": "aliasBank",
     "kind": "transform",
     "signature": "aliasBank(bank: string, alias: string)",
-    "blurb": "Register an alias for a bank of sounds. Optionally accepts a single argument map of bank aliases. Optionally accepts a single argument string of a path to a JSON file containing bank aliases."
+    "blurb": "Register an alias for a bank of sounds. Optionally accepts a single argument map of bank aliases. Optionally accepts a single argument string of a path to a JSON file containing bank aliases.",
+    "params": [
+      {
+        "name": "bank",
+        "type": "string",
+        "optional": false,
+        "doc": "The bank to alias"
+      },
+      {
+        "name": "alias",
+        "type": "string",
+        "optional": false,
+        "doc": "The alias to use for the bank"
+      }
+    ]
   },
   {
     "name": "soundAlias",
     "kind": "transform",
     "signature": "soundAlias(original: string, alias: string)",
-    "blurb": "Register an alias for a sound."
+    "blurb": "Register an alias for a sound.",
+    "params": [
+      {
+        "name": "original",
+        "type": "string",
+        "optional": false,
+        "doc": "The original sound name"
+      },
+      {
+        "name": "alias",
+        "type": "string",
+        "optional": false,
+        "doc": "The alias to use for the sound"
+      }
+    ]
   },
   {
     "name": "tables",
@@ -4462,7 +7014,27 @@
     "name": "crossfade",
     "kind": "transform",
     "signature": "crossfade(a: number, b: number, m: number)",
-    "blurb": "Equal Power Crossfade function. Smoothly transitions between signals A and B, maintaining consistent perceived loudness."
+    "blurb": "Equal Power Crossfade function. Smoothly transitions between signals A and B, maintaining consistent perceived loudness.",
+    "params": [
+      {
+        "name": "a",
+        "type": "number",
+        "optional": false,
+        "doc": "Signal A (can be a single value or an array value in buffer processing)."
+      },
+      {
+        "name": "b",
+        "type": "number",
+        "optional": false,
+        "doc": "Signal B (can be a single value or an array value in buffer processing)."
+      },
+      {
+        "name": "m",
+        "type": "number",
+        "optional": false,
+        "doc": "Crossfade parameter (0.0 = all A, 1.0 = all B, 0.5 = equal mix)."
+      }
+    ]
   },
   {
     "name": "id",
@@ -4577,7 +7149,14 @@
   {
     "name": "DoughVoice",
     "kind": "transform",
-    "signature": "DoughVoice(value: DoughVoice)"
+    "signature": "DoughVoice(value: DoughVoice)",
+    "params": [
+      {
+        "name": "value",
+        "type": "DoughVoice",
+        "optional": false
+      }
+    ]
   },
   {
     "name": "transpose",
@@ -4585,6 +7164,14 @@
     "signature": "transpose(amount: string)",
     "blurb": "Change the pitch of each value by the given amount. Expects numbers or note strings as values. The amount can be given as a number of semitones or as a string in interval short notation. If you don't care about enharmonic correctness, just use numbers. Otherwise, pass the interval of the form: ST where S is the degree number and T the type of interval with M = major m = minor P = perfect A = augmented d = diminished Examples intervals: 1P = unison 3M = major third 3m = minor third 4P = perfect fourth 4A = augmented fourth 5P = perfect fifth 5d = diminished fifth",
     "example": "\"c2 c3\".fast(2).transpose(\"<0 -2 5 3>\".slow(2)).note()",
+    "params": [
+      {
+        "name": "amount",
+        "type": "string",
+        "optional": false,
+        "doc": "Either number of semitones or interval string."
+      }
+    ],
     "synonyms": [
       "trans"
     ]
@@ -4603,6 +7190,14 @@
     "signature": "scaleTranspose(offset: offset)",
     "blurb": "Transposes notes inside the scale by the number of steps. Expected to be called on a Pattern which already has a {@link Pattern#scale}",
     "example": "\"-8 [2,4,6]\"\n.scale('C4 bebop major')\n.scaleTranspose(\"<0 -1 -2 -3 -4 -5 -6 -4>\")\n.note()",
+    "params": [
+      {
+        "name": "offset",
+        "type": "offset",
+        "optional": false,
+        "doc": "number of steps inside the scale"
+      }
+    ],
     "synonyms": [
       "scaleTrans",
       "strans"
@@ -4629,28 +7224,72 @@
     "kind": "transform",
     "signature": "scale(scale: string)",
     "blurb": "Turns numbers into notes in the scale (zero indexed) or quantizes notes to a scale. When describing notes via numbers, note that negative numbers can be used to wrap backwards in the scale as well as sharps or flats (but not both) to produce notes outside of the scale. Also sets scale for other scale operations, like {@link Pattern#scaleTranspose}. A scale consists of a root note (e.g. c4, c, f#, bb4) followed by semicolon (':') and then a scale type. The root note defaults to octave 3, if no octave number is given.",
-    "example": "n(\"0 2 4 6 4 2\").scale(\"C:major\")"
+    "example": "n(\"0 2 4 6 4 2\").scale(\"C:major\")",
+    "params": [
+      {
+        "name": "scale",
+        "type": "string",
+        "optional": false,
+        "doc": "Name of scale"
+      }
+    ]
   },
   {
     "name": "addVoicings",
     "kind": "transform",
     "signature": "addVoicings(name: string, dictionary: Object, range: Array)",
     "blurb": "Adds a new custom voicing dictionary.",
-    "example": "addVoicings('cookie', {\n  7: ['3M 7m 9M 12P 15P', '7m 10M 13M 16M 19P'],\n  '^7': ['3M 6M 9M 12P 14M', '7M 10M 13M 16M 19P'],\n  m7: ['8P 11P 14m 17m 19P', '5P 8P 11P 14m 17m'],\n  m7b5: ['3m 5d 8P 11P 14m', '5d 8P 11P 14m 17m'],\n  o7: ['3m 6M 9M 11A 15P'],\n  '7alt': ['3M 7m 10m 13m 15P'],\n  '7#11': ['7m 10m 13m 15P 17m'],\n}, ['C3', 'C6'])\n\"<C^7 A7 Dm7 G7>\".voicings('cookie').note()"
+    "example": "addVoicings('cookie', {\n  7: ['3M 7m 9M 12P 15P', '7m 10M 13M 16M 19P'],\n  '^7': ['3M 6M 9M 12P 14M', '7M 10M 13M 16M 19P'],\n  m7: ['8P 11P 14m 17m 19P', '5P 8P 11P 14m 17m'],\n  m7b5: ['3m 5d 8P 11P 14m', '5d 8P 11P 14m 17m'],\n  o7: ['3m 6M 9M 11A 15P'],\n  '7alt': ['3M 7m 10m 13m 15P'],\n  '7#11': ['7m 10m 13m 15P 17m'],\n}, ['C3', 'C6'])\n\"<C^7 A7 Dm7 G7>\".voicings('cookie').note()",
+    "params": [
+      {
+        "name": "name",
+        "type": "string",
+        "optional": false,
+        "doc": "identifier for the voicing dictionary"
+      },
+      {
+        "name": "dictionary",
+        "type": "Object",
+        "optional": false,
+        "doc": "maps chord symbol to possible voicings"
+      },
+      {
+        "name": "range",
+        "type": "Array",
+        "optional": false,
+        "doc": "min, max note"
+      }
+    ]
   },
   {
     "name": "voicings",
     "kind": "transform",
     "signature": "voicings(dictionary: string)",
     "blurb": "DEPRECATED: still works, but it is recommended you use .voicing instead (without s). Turns chord symbols into voicings, using the smoothest voice leading possible. Uses chord-voicings package.",
-    "example": "stack(\"<C^7 A7 Dm7 G7>\".voicings('lefthand'), \"<C3 A2 D3 G2>\").note()"
+    "example": "stack(\"<C^7 A7 Dm7 G7>\".voicings('lefthand'), \"<C3 A2 D3 G2>\").note()",
+    "params": [
+      {
+        "name": "dictionary",
+        "type": "string",
+        "optional": false,
+        "doc": "which voicing dictionary to use."
+      }
+    ]
   },
   {
     "name": "rootNotes",
     "kind": "transform",
     "signature": "rootNotes(octave: octave)",
     "blurb": "Maps the chords of the incoming pattern to root notes in the given octave.",
-    "example": "\"<C^7 A7 Dm7 G7>\".rootNotes(2).note()"
+    "example": "\"<C^7 A7 Dm7 G7>\".rootNotes(2).note()",
+    "params": [
+      {
+        "name": "octave",
+        "type": "octave",
+        "optional": false,
+        "doc": "octave to use"
+      }
+    ]
   },
   {
     "name": "voicing",
@@ -4664,7 +7303,45 @@
     "kind": "transform",
     "signature": "fscope(color: string, scale: number, pos: number, lean: number, min: number, max: number)",
     "blurb": "Renders an oscilloscope for the frequency domain of the audio signal.",
-    "example": "s(\"sawtooth\").fscope()"
+    "example": "s(\"sawtooth\").fscope()",
+    "params": [
+      {
+        "name": "color",
+        "type": "string",
+        "optional": false,
+        "doc": "line color as hex or color name. defaults to white."
+      },
+      {
+        "name": "scale",
+        "type": "number",
+        "optional": false,
+        "doc": "scales the y-axis. Defaults to 0.25"
+      },
+      {
+        "name": "pos",
+        "type": "number",
+        "optional": false,
+        "doc": "y-position relative to screen height. 0 = top, 1 = bottom of screen"
+      },
+      {
+        "name": "lean",
+        "type": "number",
+        "optional": false,
+        "doc": "y-axis alignment where 0 = top and 1 = bottom"
+      },
+      {
+        "name": "min",
+        "type": "number",
+        "optional": false,
+        "doc": "min value"
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "optional": false,
+        "doc": "max value"
+      }
+    ]
   },
   {
     "name": "scope",
@@ -4672,6 +7349,50 @@
     "signature": "scope(config: object, align: boolean, color: string, thickness: number, scale: number, pos: number, trigger: number)",
     "blurb": "Renders an oscilloscope for the time domain of the audio signal.",
     "example": "s(\"sawtooth\")._scope()",
+    "params": [
+      {
+        "name": "config",
+        "type": "object",
+        "optional": false,
+        "doc": "optional config with options:"
+      },
+      {
+        "name": "align",
+        "type": "boolean",
+        "optional": false,
+        "doc": "if 1, the scope will be aligned to the first zero crossing. defaults to 1"
+      },
+      {
+        "name": "color",
+        "type": "string",
+        "optional": false,
+        "doc": "line color as hex or color name. defaults to white."
+      },
+      {
+        "name": "thickness",
+        "type": "number",
+        "optional": false,
+        "doc": "line thickness. defaults to 3"
+      },
+      {
+        "name": "scale",
+        "type": "number",
+        "optional": false,
+        "doc": "scales the y-axis. Defaults to 0.25"
+      },
+      {
+        "name": "pos",
+        "type": "number",
+        "optional": false,
+        "doc": "y-position relative to screen height. 0 = top, 1 = bottom of screen"
+      },
+      {
+        "name": "trigger",
+        "type": "number",
+        "optional": false,
+        "doc": "amplitude value that is used to align the scope. defaults to 0."
+      }
+    ],
     "synonyms": [
       "tscope"
     ]
@@ -4689,6 +7410,38 @@
     "kind": "transform",
     "signature": "spectrum(config: object, thickness: integer, speed: integer, min: integer, max: integer)",
     "blurb": "Renders a spectrum analyzer for the incoming audio signal.",
-    "example": "n(\"<0 4 <2 3> 1>*3\")\n.off(1/8, add(n(5)))\n.off(1/5, add(n(7)))\n.scale(\"d3:minor:pentatonic\")\n.s('sine')\n.dec(.3).room(.5)\n._spectrum()"
+    "example": "n(\"<0 4 <2 3> 1>*3\")\n.off(1/8, add(n(5)))\n.off(1/5, add(n(7)))\n.scale(\"d3:minor:pentatonic\")\n.s('sine')\n.dec(.3).room(.5)\n._spectrum()",
+    "params": [
+      {
+        "name": "config",
+        "type": "object",
+        "optional": false,
+        "doc": "optional config with options:"
+      },
+      {
+        "name": "thickness",
+        "type": "integer",
+        "optional": false,
+        "doc": "line thickness in px (default 3)"
+      },
+      {
+        "name": "speed",
+        "type": "integer",
+        "optional": false,
+        "doc": "scroll speed (default 1)"
+      },
+      {
+        "name": "min",
+        "type": "integer",
+        "optional": false,
+        "doc": "min db (default -80)"
+      },
+      {
+        "name": "max",
+        "type": "integer",
+        "optional": false,
+        "doc": "max db (default 0)"
+      }
+    ]
   }
 ]

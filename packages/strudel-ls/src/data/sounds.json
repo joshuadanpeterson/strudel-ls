@@ -244,6 +244,9 @@
       "packs": [
         "uzu-drumkit"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
+      ],
       "desc": "Kick drum · from AJKPercusyn/AkaiLinn… · (uzu-drumkit) · 428 samples"
     },
     "cb": {
@@ -291,6 +294,9 @@
       "category": "cowbell",
       "packs": [
         "uzu-drumkit"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
       ],
       "desc": "Cowbell · from AJKPercusyn/AkaiLinn… · (uzu-drumkit) · 50 samples"
     },
@@ -353,6 +359,9 @@
       "category": "high tom",
       "packs": [
         "uzu-drumkit"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
       ],
       "desc": "High tom · from AJKPercusyn/AkaiLinn… · (uzu-drumkit) · 124 samples"
     },
@@ -433,6 +442,9 @@
       "packs": [
         "uzu-drumkit"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
+      ],
       "desc": "Snare drum · from AJKPercusyn/AkaiLinn… · (uzu-drumkit) · 451 samples"
     },
     "cp": {
@@ -487,6 +499,9 @@
       "category": "clap",
       "packs": [
         "uzu-drumkit"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
       ],
       "desc": "Clap · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 59 samples"
     },
@@ -543,6 +558,9 @@
       "category": "crash cymbal",
       "packs": [
         "uzu-drumkit"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
       ],
       "desc": "Crash cymbal · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 102 samples"
     },
@@ -616,6 +634,9 @@
       "packs": [
         "uzu-drumkit"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
+      ],
       "desc": "Hi-hat (closed) · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 125 samples"
     },
     "lt": {
@@ -675,6 +696,9 @@
       "packs": [
         "uzu-drumkit"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
+      ],
       "desc": "Low tom · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 151 samples"
     },
     "mt": {
@@ -725,6 +749,9 @@
       "category": "mid tom",
       "packs": [
         "uzu-drumkit"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
       ],
       "desc": "Mid tom · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 114 samples"
     },
@@ -797,6 +824,9 @@
       "packs": [
         "uzu-drumkit"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
+      ],
       "desc": "Hi-hat (open) · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 106 samples"
     },
     "rd": {
@@ -843,6 +873,9 @@
       "packs": [
         "uzu-drumkit"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
+      ],
       "desc": "Ride cymbal · from AkaiLinn/AkaiMPC60… · (uzu-drumkit) · 60 samples"
     },
     "sh": {
@@ -883,6 +916,9 @@
       "packs": [
         "uzu-drumkit"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
+      ],
       "desc": "from AkaiLinn/AkaiXR10… · (uzu-drumkit) · 53 samples"
     },
     "tb": {
@@ -922,6 +958,9 @@
       "packs": [
         "uzu-drumkit"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
+      ],
       "desc": "Tambourine · from AkaiLinn/AkaiXR10… · (uzu-drumkit) · 33 samples"
     },
     "misc": {
@@ -956,6 +995,9 @@
       "category": "misc",
       "packs": [
         "uzu-drumkit"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
       ],
       "desc": "Misc · from AkaiMPC60/AkaiXR10… · (uzu-drumkit) · 135 samples"
     },
@@ -1061,6 +1103,9 @@
       "packs": [
         "uzu-drumkit"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
+      ],
       "desc": "Rim · from AkaiMPC60/AkaiXR10… · (uzu-drumkit) · 61 samples"
     },
     "fx": {
@@ -1093,6 +1138,9 @@
       "packs": [
         "uzu-drumkit"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/main/"
+      ],
       "count": 1,
       "desc": "(uzu-drumkit) · 1 sample"
     },
@@ -1102,6 +1150,9 @@
       ],
       "packs": [
         "mridangam"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
       ],
       "category": "Percussion",
       "count": 14,
@@ -1114,6 +1165,9 @@
       "packs": [
         "mridangam"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
+      ],
       "category": "Percussion",
       "count": 12,
       "desc": "Percussion · (mridangam) · 12 samples"
@@ -1124,6 +1178,9 @@
       ],
       "packs": [
         "mridangam"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
       ],
       "category": "Percussion",
       "count": 8,
@@ -1136,6 +1193,9 @@
       "packs": [
         "mridangam"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
+      ],
       "category": "Percussion",
       "count": 9,
       "desc": "Percussion · (mridangam) · 9 samples"
@@ -1146,6 +1206,9 @@
       ],
       "packs": [
         "mridangam"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
       ],
       "category": "Percussion",
       "count": 7,
@@ -1158,6 +1221,9 @@
       "packs": [
         "mridangam"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
+      ],
       "category": "Percussion",
       "count": 8,
       "desc": "Percussion · (mridangam) · 8 samples"
@@ -1168,6 +1234,9 @@
       ],
       "packs": [
         "mridangam"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
       ],
       "category": "Percussion",
       "count": 12,
@@ -1180,6 +1249,9 @@
       "packs": [
         "mridangam"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
+      ],
       "category": "Percussion",
       "count": 13,
       "desc": "Percussion · (mridangam) · 13 samples"
@@ -1190,6 +1262,9 @@
       ],
       "packs": [
         "mridangam"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
       ],
       "category": "Percussion",
       "count": 7,
@@ -1202,6 +1277,9 @@
       "packs": [
         "mridangam"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
+      ],
       "category": "Percussion",
       "count": 20,
       "desc": "Percussion · (mridangam) · 20 samples"
@@ -1212,6 +1290,9 @@
       ],
       "packs": [
         "mridangam"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
       ],
       "category": "Percussion",
       "count": 7,
@@ -1224,6 +1305,9 @@
       "packs": [
         "mridangam"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
+      ],
       "category": "Percussion",
       "count": 7,
       "desc": "Percussion · (mridangam) · 7 samples"
@@ -1235,6 +1319,9 @@
       "packs": [
         "mridangam"
       ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/yaxu/mrid/main/"
+      ],
       "category": "Percussion",
       "count": 7,
       "desc": "Percussion · (mridangam) · 7 samples"
@@ -1245,6 +1332,9 @@
       ],
       "packs": [
         "piano"
+      ],
+      "baseUrls": [
+        "https://raw.githubusercontent.com/felixroos/dough-samples/main/piano/"
       ],
       "category": "Keyboard",
       "count": 29,
