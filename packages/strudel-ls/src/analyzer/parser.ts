@@ -26,6 +26,19 @@ function getParser(): Parser {
   return parserInstance;
 }
 
+export function getTree(doc: TextDocument): Parser.Tree | undefined {
+  try {
+    const parser = getParser();
+    // @ts-ignore
+    if ((parser as any).setLanguage) {
+      return parser.parse(doc.getText());
+    }
+  } catch {
+    return undefined;
+  }
+  return undefined;
+}
+
 export function parseStrudel(doc: TextDocument, builtins: Map<string, Builtin>): ParseResult {
   const text = doc.getText();
   const errors: ParseError[] = [];

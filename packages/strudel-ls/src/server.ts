@@ -18,6 +18,10 @@ import { provideHover } from './providers/hover';
 import { provideSignatureHelp } from './providers/signature';
 import { computeDiagnostics } from './analyzer/diagnostics';
 import { provideCodeActions } from './providers/codeActions';
+import { provideDocumentSymbols } from './providers/documentSymbols';
+import { provideDefinition } from './providers/definition';
+import { provideReferences } from './providers/references';
+import { formatDocument } from './analyzer/formatting';
 import type { Builtin } from './data/types';
 import builtinsData from './data/builtins.json' assert { type: 'json' };
 
@@ -86,6 +90,32 @@ connection.onCodeAction((params: CodeActionParams) => {
   const doc = documents.get(params.textDocument.uri);
   if (!doc) return [];
   return provideCodeActions(params, doc, builtins);
+});
+
+connection.onDocumentSymbol((params) => {
+  const doc = documents.get(params.textDocument.uri);
+  if (!doc) return null;
+  return provideDocumentSymbols(doc, params);
+});
+
+connection.onDefinition((params) => {
+  const doc = documents.get(params.textDocument.uri);
+  if (!doc) return null;
+  return provideDefinition(doc, params);
+});
+
+connection.onReferences((params) => {
+  const doc = documents.get(params.textDocument.uri);
+  if (!doc) return null;
+  return provideReferences(doc, params);
+});
+
+connection.onDocumentFormatting((params) => {
+  const doc = documents.get(params.textDocument.uri);
+  if (!doc) return null;
+  // Default to 100 or use config if available; simplistic for now
+  const lineWidth = (settings.formatting && settings.formatting.lineWidth) || 100;
+  return formatDocument(doc, lineWidth);
 });
 
 connection.onShutdown(() => {
