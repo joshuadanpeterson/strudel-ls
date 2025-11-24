@@ -106,8 +106,7 @@ export function provideCompletions(
 
   // Context-aware: inside s("...") suggest sounds
   if (isInsideSoundCall(doc, position)) {
-    // Require at least one typed character to avoid flooding suggestions
-    if (!prefix || prefix.length < 1) return [];
+    // Allow empty prefix (e.g. inside "") to suggest all sounds
     let items: CompletionItem[] = [];
     const list = (soundsData as any).sounds as string[];
     const meta = (soundsData as any).meta || {};
