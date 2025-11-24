@@ -21,6 +21,8 @@ import { provideCodeActions } from './providers/codeActions';
 import { provideDocumentSymbols } from './providers/documentSymbols';
 import { provideDefinition } from './providers/definition';
 import { provideReferences } from './providers/references';
+import { provideRename, prepareRename } from './providers/rename';
+import { provideSemanticTokens } from './providers/semanticTokens';
 import { formatDocument } from './analyzer/formatting';
 import type { Builtin } from './data/types';
 import builtinsData from './data/builtins.json' assert { type: 'json' };
@@ -108,6 +110,24 @@ connection.onReferences((params) => {
   const doc = documents.get(params.textDocument.uri);
   if (!doc) return null;
   return provideReferences(doc, params);
+});
+
+connection.onPrepareRename((params) => {
+  const doc = documents.get(params.textDocument.uri);
+  if (!doc) return null;
+  return prepareRename(doc, params.position);
+});
+
+connection.onRenameRequest((params) => {
+  const doc = documents.get(params.textDocument.uri);
+  if (!doc) return null;
+  return provideRename(doc, params);
+});
+
+connection.languages.semanticTokens.on((params) => {
+  const doc = documents.get(params.textDocument.uri);
+  if (!doc) return { data: [] };
+  return provideSemanticTokens(doc, params) ?? { data: [] };
 });
 
 connection.onDocumentFormatting((params) => {

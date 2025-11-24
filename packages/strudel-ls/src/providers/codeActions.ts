@@ -42,3 +42,30 @@ export function provideCodeActions(
   }
   return actions;
 }
+
+function getRefactorActions(doc: TextDocument, range: import('vscode-languageserver').Range): CodeAction[] {
+  const text = doc.getText(range);
+  if (!text.trim()) return [];
+
+  const wrappers = ['fast', 'slow', 'jux', 'stack', 'every'];
+  const actions: CodeAction[] = [];
+
+  for (const w of wrappers) {
+    actions.push({
+      title: `Wrap with "${w}"`,
+      kind: 'refactor.rewrite',
+      edit: {
+        changes: {
+          [doc.uri]: [
+            {
+              range: range,
+              newText: `${w}(${text})`,
+            },
+          ],
+        },
+      },
+    });
+  }
+
+  return actions;
+}

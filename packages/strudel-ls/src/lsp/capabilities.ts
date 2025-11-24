@@ -1,3 +1,4 @@
+import { semanticTokensLegend } from '../providers/semanticTokens';
 import type { InitializeResult, ServerCapabilities } from 'vscode-languageserver';
 
 export function getServerCapabilities(): ServerCapabilities {
@@ -15,10 +16,14 @@ export function getServerCapabilities(): ServerCapabilities {
     signatureHelpProvider: { triggerCharacters: ['(', ','] },
     definitionProvider: true,
     referencesProvider: true,
-    renameProvider: { prepareProvider: false },
+    renameProvider: { prepareProvider: true },
     documentSymbolProvider: true,
     codeActionProvider: { codeActionKinds: ['quickfix', 'refactor.rewrite'] },
     documentFormattingProvider: true,
+    semanticTokensProvider: {
+      legend: semanticTokensLegend,
+      full: true,
+    },
   } as ServerCapabilities;
 }
 
