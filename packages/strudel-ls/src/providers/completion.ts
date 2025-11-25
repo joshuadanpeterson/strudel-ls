@@ -4,6 +4,7 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 import { getWordAtPosition } from '../analyzer/utils';
 import type { Builtin } from '../data/types';
 import soundsData from '../data/sounds.json' assert { type: 'json' };
+import { SoundDescriptions, BankDescriptions } from '../data/descriptions';
 
 function isInsideSoundCall(doc: TextDocument, position: Position): boolean {
   const text = doc.getText();
@@ -87,10 +88,46 @@ export function provideCompletions(
       }
       banks = Array.from(set).sort();
     }
+    // ...
     const items: CompletionItem[] = [];
     const lcPrefix = prefix.toLowerCase();
     for (const b of banks) {
       if (lcPrefix && !b.toLowerCase().startsWith(lcPrefix)) continue;
+      
+      // Find sounds that use this bank
+      const usedBy: string[] = [];
+      const categories = new Set<string>();
+      for (const k of Object.keys(meta)) {
+         const m = (meta as any)[k];
+         const bs = m?.banks;
+         if (Array.isArray(bs) && bs.includes(b)) {
+           usedBy.push(k);
+           if (m.category) categories.add(m.category);
+         }
+      }
+      usedBy.sort();
+      
+      // Prioritize categories
+      const priority = ['kick drum', 'snare drum', 'hi-hat', 'piano', 'bass', 'synth', 'percussion'];
+      const sortedCats = Array.from(categories).sort((a, b) => {
+           const pa = priority.findIndex(p => a.toLowerCase().includes(p));
+           const pb = priority.findIndex(p => b.toLowerCase().includes(p));
+           if (pa > -1 && pb > -1) return pa - pb;
+           if (pa > -1) return -1;
+           if (pb > -1) return 1;
+           return a.localeCompare(b);
+      });
+
+      const catDesc = sortedCats.length > 0 
+        ? sortedCats.length > 3 ? `${sortedCats.slice(0, 3).join(', ')}...` : sortedCats.join(', ')
+        : 'various';
+      const summary = sortedCats.length === 1 ? `**${sortedCats[0]}** bank` : `Bank containing **${catDesc}** sounds`;
+      
+      // Humanize bank name
+      const humanName = b.replace(/([A-Z]+)/g, ' $1').trim().replace(/([0-9]+)/g, ' $1').trim();
+      const bankDesc = BankDescriptions[b];
+      const descPart = bankDesc ? `\n\n${bankDesc}\n\n` : `\n\n`;
+
       items.push({
         label: b,
         kind: CompletionItemKind.EnumMember,
@@ -98,7 +135,13 @@ export function provideCompletions(
         insertTextFormat: InsertTextFormat.Snippet,
         sortText: b,
         detail: `Bank for ${sound}`,
-        documentation: info.baseUrls?.length ? { kind: 'markdown', value: `Source: ${info.baseUrls[0]}` } as any : undefined,
+        documentation: { 
+            kind: 'markdown', 
+            value: (info.baseUrls?.length ? `Source: ${info.baseUrls[0]}\n\n` : '') + 
+                   `_${humanName}_${descPart}` +
+                   summary + '\n\n' +
+                   (usedBy.length ? `Used by: ${usedBy.join(', ')}` : '')
+        } as any,
       });
     }
     return items;
@@ -114,41 +157,62 @@ export function provideCompletions(
     function soundDoc(name: string): string | undefined {
       const m = meta[name] || {};
       const parts: string[] = [];
-      const sectionLines: string[] = [];
-      // If we have a synthesized description (shown in detail), avoid repeating it here; keep only Tags and Aliases
-      if (m.desc) {
-        const tags  = Array.isArray(m.tags)  && m.tags.length  ? `Tags: ${m.tags.join(', ')}`   : '';
-        const aliases = Array.isArray(m.aliases) && m.aliases.length ? `Aliases: ${m.aliases.join(', ')}` : '';
-        // Optional source line (first pack + base URL if available)
-        const source = (() => {
-          const pack = Array.isArray(m.packs) && m.packs[0];
-          const url = Array.isArray(m.baseUrls) && m.baseUrls[0];
-          if (pack && url) return `Source: [${pack}](${url})`;
-          if (pack) return `Source: ${pack}`;
-          return '';
-        })();
-        for (const l of [source, tags, aliases]) if (l) sectionLines.push(l);
-      } else {
-        const banks = Array.isArray(m.banks) && m.banks.length ? `Banks: ${m.banks.join(', ')}` : '';
-        const packs = Array.isArray(m.packs) && m.packs.length ? `Packs: ${m.packs.join(', ')}` : '';
-        const category = m.category ? `Category: ${m.category}${m.family ? ` (${m.family})` : ''}` : '';
-        const count = typeof m.count === 'number' ? `Samples: ${m.count}` : '';
-        const tags  = Array.isArray(m.tags)  && m.tags.length  ? `Tags: ${m.tags.join(', ')}`   : '';
-        const aliases = Array.isArray(m.aliases) && m.aliases.length ? `Aliases: ${m.aliases.join(', ')}` : '';
-        // Optional source line (first pack + base URL if available)
-        const source = (() => {
-          const pack = Array.isArray(m.packs) && m.packs[0];
-          const url = Array.isArray(m.baseUrls) && m.baseUrls[0];
-          if (pack && url) return `Source: [${pack}](${url})`;
-          if (pack) return `Source: ${pack}`;
-          return '';
-        })();
-        for (const l of [category, banks, packs, count, source, tags, aliases]) if (l) sectionLines.push(l);
+      
+      // Description
+      const manualDesc = SoundDescriptions[name];
+      if (manualDesc) {
+        parts.push(manualDesc);
       }
 
+      if (m.desc) {
+        let d = m.desc;
+        if (m.category && d.toLowerCase().startsWith(m.category.toLowerCase())) {
+           const idx = d.indexOf('·');
+           if (idx > -1) d = d.slice(idx + 1).trim();
+        }
+        if (!manualDesc || !d.includes(manualDesc)) {
+           parts.push(d);
+        }
+      }
+
+      // Usage
+      const examples: string[] = [];
+      // Basic
+      examples.push(`s("${name}")`);
+      // Bank usage if available (show one example)
+      if (Array.isArray(m.banks) && m.banks.length > 0) {
+        const b = m.banks.find((x: string) => x.includes('909')) || m.banks[0];
+        examples.push(`s("${name}").bank("${b}")`);
+      }
+      // Melodic usage heuristic
+      const melodicCats = ['piano', 'guitar', 'bass', 'strings', 'winds', 'brass', 'keyboard', 'synth', 'voice'];
+      const isMelodic = m.category && melodicCats.some(c => m.category.toLowerCase().includes(c));
+      if (isMelodic) {
+        examples.push(`note("c3").s("${name}")`);
+      }
+      
+      if (examples.length) {
+        parts.push(`\n\`\`\`strudel\n${examples.join('\n')}\n\`\`\``);
+      }
+
+      const sectionLines: string[] = [];
+      // Source/Tags
+      const tags  = Array.isArray(m.tags)  && m.tags.length  ? `Tags: ${m.tags.join(', ')}`   : '';
+      const aliases = Array.isArray(m.aliases) && m.aliases.length ? `Aliases: ${m.aliases.join(', ')}` : '';
+      const source = (() => {
+          const pack = Array.isArray(m.packs) && m.packs[0];
+          const url = Array.isArray(m.baseUrls) && m.baseUrls[0];
+          if (pack && url) return `Source: [${pack}](${url})`;
+          if (pack) return `Source: ${pack}`;
+          return '';
+      })();
+      
+      if (source) sectionLines.push(source);
+      if (tags) sectionLines.push(tags);
+      if (aliases) sectionLines.push(aliases);
+
       if (sectionLines.length) {
-        if (parts.length) parts.push(''); // blank line between desc and sections
-        parts.push(sectionLines.join('\n'));
+        parts.push('\n' + sectionLines.join('\n'));
       }
       return parts.length ? parts.join('\n') : undefined;
     }
@@ -185,13 +249,30 @@ export function provideCompletions(
     
     for (const b of banks) {
        if (prefix && !b.toLowerCase().startsWith(prefix)) continue;
+       
+       // Find sounds that use this bank
+       const usedBy: string[] = [];
+       for (const k of Object.keys(meta)) {
+         const bs = (meta as any)[k]?.banks;
+         if (Array.isArray(bs) && bs.includes(b)) {
+           usedBy.push(k);
+         }
+       }
+       usedBy.sort();
+
        items.push({
          label: b,
-         kind: CompletionItemKind.Class, // Different kind for banks
+         kind: CompletionItemKind.EnumMember, // Better icon for banks? EnumMember or Class
          insertText: b,
          insertTextFormat: InsertTextFormat.Snippet,
-         sortText: `1_${b}`, // 1_ to list after sounds (or mix if desired, but let's keep distinct)
+         sortText: `1_${b}`,
          detail: 'Bank',
+         documentation: {
+            kind: 'markdown',
+            value: usedBy.length 
+              ? `**Bank**\n\nUsed by: ${usedBy.join(', ')}`
+              : `**Bank**`
+         },
        });
     }
 
