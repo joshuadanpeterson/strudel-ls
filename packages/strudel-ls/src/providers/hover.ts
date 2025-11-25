@@ -84,21 +84,7 @@ export function provideHover(
     }
   }
 
-  // 3) Function call hover: show parameter docs and choices for the called function
-  {
-    const text = doc.getText().slice(0, doc.offsetAt(position));
-    const m = /([A-Za-z_][A-Za-z0-9_]*)\s*\([^)]*$/m.exec(text);
-    if (m) {
-      const fname = m[1];
-      const b = builtins.get(fname);
-      if (b) {
-        const val = buildFnHover(b);
-        if (val) return { contents: { kind: 'markdown', value: val }, range };
-      }
-    }
-  }
-
-  // 4) Sound-name hover when inside s("…") or sound("…")
+  // 3) Sound-name hover when inside s("…") or sound("…")
   if (isInsideSoundCall(doc, position)) {
     const meta = (soundsData as any).meta || {};
     const m = meta[word];
@@ -130,6 +116,20 @@ export function provideHover(
         parts.push(lines.join('\n'));
       }
       if (parts.length) return { contents: { kind: 'markdown', value: parts.join('\n') }, range };
+    }
+  }
+
+  // 4) Function call hover: show parameter docs and choices for the called function
+  {
+    const text = doc.getText().slice(0, doc.offsetAt(position));
+    const m = /([A-Za-z_][A-Za-z0-9_]*)\s*\([^)]*$/m.exec(text);
+    if (m) {
+      const fname = m[1];
+      const b = builtins.get(fname);
+      if (b) {
+        const val = buildFnHover(b);
+        if (val) return { contents: { kind: 'markdown', value: val }, range };
+      }
     }
   }
 

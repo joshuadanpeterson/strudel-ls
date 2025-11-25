@@ -72,6 +72,8 @@ export function provideCompletions(
   const prefixRaw = getWordAtPosition(doc, position) || '';
   const prefix = prefixRaw.toLowerCase();
 
+  // console.log('provideCompletions', { prefix, pos: position, insideSound: isInsideSoundCall(doc, position) });
+
   // Context-aware: inside bank("...") suggest banks available for the nearest sound
   if (isInsideBankArg(doc, position)) {
     const meta = (soundsData as any).meta || {};
@@ -153,8 +155,9 @@ export function provideCompletions(
       return parts.length ? parts.join('\n') : undefined;
     }
 
+    // 1. Add Sounds
     for (const s of list) {
-      if (!s.toLowerCase().startsWith(prefix)) continue;
+      if (!s || (prefix && !s.toLowerCase().startsWith(prefix))) continue;
       const docStr = soundDoc(s);
       const m = (meta as any)[s] || {};
       items.push({
@@ -162,22 +165,40 @@ export function provideCompletions(
         kind: CompletionItemKind.Constant,
         insertText: s,
         insertTextFormat: InsertTextFormat.Snippet,
-        sortText: `${m.category ? m.category + '~' : ''}${s}`,
+        sortText: `0_${m.category ? m.category + '~' : ''}${s}`, // 0_ to prioritize sounds
         detail: (() => {
           if (typeof m.desc === 'string' && m.desc.length > 0) {
             const d = m.desc as string;
             return d.length > 80 ? d.slice(0, 79) + '…' : d;
           }
-          // fallback minimal summary
           if (m.category) return m.category as string;
           return undefined;
         })(),
         documentation: docStr ? { kind: 'markdown', value: docStr } as any : undefined,
       });
-      // Do not cap sound results; return all prefix matches
     }
+
+    // 2. Add Banks (aggregated from meta)
+    const banks = new Set<string>();
+    for (const k of Object.keys(meta)) {
+      const bs = (meta as any)[k]?.banks as string[] | undefined;
+      if (Array.isArray(bs)) for (const b of bs) banks.add(b);
+    }
+    
+    for (const b of banks) {
+       if (prefix && !b.toLowerCase().startsWith(prefix)) continue;
+       items.push({
+         label: b,
+         kind: CompletionItemKind.Class, // Different kind for banks
+         insertText: b,
+         insertTextFormat: InsertTextFormat.Snippet,
+         sortText: `1_${b}`, // 1_ to list after sounds (or mix if desired, but let's keep distinct)
+         detail: 'Bank',
+       });
+    }
+
     // Fuzzy fallback if no prefix matches
-    if (items.length === 0) {
+    if (items.length === 0 && prefix) {
       function subseqScore(name: string, q: string): number | null {
         let i = 0, j = 0, gaps = 0;
         const n = name.toLowerCase(), qq = q.toLowerCase();
