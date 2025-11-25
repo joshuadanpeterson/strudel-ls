@@ -78,12 +78,18 @@ export function provideHover(
     if (word) {
       const usedBy: string[] = [];
       const categories = new Set<string>();
+      let canonicalName = word;
+
       for (const k of Object.keys(meta)) {
         const m = (meta as any)[k];
         const bs = m?.banks;
-        if (Array.isArray(bs) && bs.includes(word)) {
-           usedBy.push(k);
-           if (m.category) categories.add(m.category);
+        if (Array.isArray(bs)) {
+           const match = bs.find((b: string) => b.toLowerCase() === word.toLowerCase());
+           if (match) {
+             usedBy.push(k);
+             if (m.category) categories.add(m.category);
+             canonicalName = match;
+           }
         }
       }
       
@@ -115,10 +121,26 @@ export function provideHover(
           : `Bank containing **${catDesc}** sounds`;
 
         // Humanize bank name (e.g. RolandTR909 -> Roland TR 909)
-        const humanName = word.replace(/([A-Z]+)/g, ' $1').trim().replace(/([0-9]+)/g, ' $1').trim();
-        const bankDesc = BankDescriptions[word];
+        const humanName = canonicalName.replace(/([A-Z]+)/g, ' $1').trim().replace(/([0-9]+)/g, ' $1').trim();
+        let bankDesc = BankDescriptions[canonicalName];
 
-        let content = `**${word}**\n\n_${humanName}_\n\n`;
+        // Fallback: case-insensitive lookup if exact match fails
+        if (!bankDesc) {
+           // Try exact key lookup first in case canonicalName is correct
+           bankDesc = BankDescriptions[canonicalName];
+           
+           // If still missing, try finding a key that matches case-insensitively
+           if (!bankDesc) {
+             const key = Object.keys(BankDescriptions).find(k => k.toLowerCase() === canonicalName.toLowerCase());
+             if (key) {
+               bankDesc = BankDescriptions[key];
+               // Prefer the key from descriptions as canonical name for display
+               canonicalName = key;
+             }
+           }
+        }
+
+        let content = `**${canonicalName}**\n\n_${humanName}_\n\n`;
         if (bankDesc) content += `${bankDesc}\n\n`;
         content += `${summary}\n\nUsed by **${usedBy.length}** instruments: ${usedBy.slice(0, 10).join(', ')}${usedBy.length > 10 ? ', ...' : ''}`;
 

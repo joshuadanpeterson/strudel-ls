@@ -27,7 +27,7 @@ import { formatDocument } from './analyzer/formatting';
 import type { Builtin } from './data/types';
 import builtinsData from './data/builtins.json' assert { type: 'json' };
 import soundsData from './data/sounds.json' assert { type: 'json' };
-import { SoundDescriptions } from './data/descriptions';
+import { SoundDescriptions, BankDescriptions } from './data/descriptions';
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -40,6 +40,7 @@ const builtins: Map<string, Builtin> = new Map((builtinsData as Builtin[]).map((
 console.error(`Strudel LS: Loaded ${builtins.size} builtins and ${(soundsData as any).sounds.length} sounds.`);
 console.error(`Strudel LS: Build Timestamp ${new Date().toISOString()}`);
 console.error(`Strudel LS: Sound Descriptions Loaded: ${Object.keys(SoundDescriptions || {}).length}`);
+console.error(`Strudel LS: Bank Descriptions Loaded: ${Object.keys(BankDescriptions || {}).length}`);
 
 connection.onInitialize((_params: InitializeParams) => {
   return makeInitializeResult();

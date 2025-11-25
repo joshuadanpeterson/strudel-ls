@@ -35,4 +35,11 @@ describe("provideHover", () => {
     expect((h as any).contents.value).toContain("Alias of: `segment`");
     expect((h as any).contents.value).toContain("```strudel");
   });
+
+  it("returns hover for bank (case-insensitive)", () => {
+    const d = doc('s("bd").bank("rolandtr808")');
+    const h = provideHover(d, { line: 0, character: 15 }, builtins)!;
+    expect((h as any).contents.value).toContain("**RolandTR808**");
+    expect((h as any).contents.value).toContain("The legendary 1980 analog drum machine");
+  });
 });

@@ -237,7 +237,10 @@ export function provideCompletions(
       });
     }
 
-    // 2. Add Banks (aggregated from meta)
+    // 2. Add Banks (REMOVED: Banks should only be suggested in .bank(), not in s())
+    // The user reported this causes confusion because s("BankName") doesn't work as expected (no hover info, maybe not playable).
+    // See: https://github.com/strudel-tools/strudel-ls/issues/xx
+    /*
     const banks = new Set<string>();
     for (const k of Object.keys(meta)) {
       const bs = (meta as any)[k]?.banks as string[] | undefined;
@@ -272,6 +275,7 @@ export function provideCompletions(
          },
        });
     }
+    */
 
     // Fuzzy fallback if no prefix matches
     if (items.length === 0 && prefix) {
