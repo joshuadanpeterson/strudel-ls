@@ -166,19 +166,20 @@ export function provideHover(
       }
 
       if (m.desc) {
-        // Strip the "Category · " prefix if it's redundant
-        let d = m.desc;
-        if (m.category && d.toLowerCase().startsWith(m.category.toLowerCase())) {
-           const idx = d.indexOf('·');
-           if (idx > -1) d = d.slice(idx + 1).trim();
-        }
-        // Only append if different from manual desc
-        if (!manualDesc || !d.includes(manualDesc)) {
+        // Only show m.desc if we DON'T have a manual description
+        // because m.desc typically contains banks/packs/counts which are already in "Details"
+        if (!manualDesc) {
+           // Strip the "Category · " prefix if it's redundant
+           let d = m.desc;
+           if (m.category && d.toLowerCase().startsWith(m.category.toLowerCase())) {
+              const idx = d.indexOf('·');
+              if (idx > -1) d = d.slice(idx + 1).trim();
+           }
            parts.push(d);
         }
+      } else if (!manualDesc) {
+        parts.push(`Standard **${word}** sound.`);
       }
-
-      // Usage Example
       parts.push('### Usage');
       const examples: string[] = [];
       // 1. Basic usage

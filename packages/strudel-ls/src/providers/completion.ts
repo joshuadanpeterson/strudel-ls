@@ -162,17 +162,14 @@ export function provideCompletions(
       const manualDesc = SoundDescriptions[name];
       if (manualDesc) {
         parts.push(manualDesc);
-      }
-
-      if (m.desc) {
+      } else if (m.desc) {
+        // Fallback to auto-desc if no manual one
         let d = m.desc;
         if (m.category && d.toLowerCase().startsWith(m.category.toLowerCase())) {
            const idx = d.indexOf('·');
            if (idx > -1) d = d.slice(idx + 1).trim();
         }
-        if (!manualDesc || !d.includes(manualDesc)) {
-           parts.push(d);
-        }
+        parts.push(d);
       }
 
       // Usage
