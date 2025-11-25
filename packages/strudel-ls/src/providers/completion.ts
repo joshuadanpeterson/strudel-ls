@@ -72,8 +72,6 @@ export function provideCompletions(
   const prefixRaw = getWordAtPosition(doc, position) || '';
   const prefix = prefixRaw.toLowerCase();
 
-  // console.log('provideCompletions', { prefix, pos: position, insideSound: isInsideSoundCall(doc, position) });
-
   // Context-aware: inside bank("...") suggest banks available for the nearest sound
   if (isInsideBankArg(doc, position)) {
     const meta = (soundsData as any).meta || {};

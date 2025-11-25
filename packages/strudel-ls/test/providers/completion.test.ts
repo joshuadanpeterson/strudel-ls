@@ -22,11 +22,11 @@ describe("provideCompletions", () => {
     expect(labels).toContain("slow");
   });
 
-  it("requires 1+ typed char for sounds inside s(\"...\")", () => {
-    const d = doc('s("")');
+  it("allows empty prefix for sounds inside s(\"...\")", () => {
+    const d = doc('s(\"\")');
     // cursor inside quotes, with no prefix
     const items = provideCompletions(d, { line: 0, character: 3 }, builtins, true, 200);
-    expect(items.length).toBe(0);
+    expect(items.length).toBeGreaterThan(0);
   });
 
   it("returns all matching sounds for a 1-char prefix (no cap)", () => {
@@ -37,12 +37,12 @@ describe("provideCompletions", () => {
     for (const it of items) expect((it.label as string).toLowerCase().startsWith('k')).toBe(true);
   });
 
-  it("sound(...) behaves like s(...) gating (no prefix => none)", () => {
-    const d = doc('sound("")');
+  it("sound(...) allows empty prefix (all sounds)", () => {
+    const d = doc('sound(\"\")');
     // position inside quotes with no prefix
-    const pos = { line: 0, character: d.getText().indexOf('""') + 1 } as any;
+    const pos = { line: 0, character: d.getText().indexOf('\"\"') + 1 } as any;
     const items = provideCompletions(d, pos, builtins, true, 200);
-    expect(items.length).toBe(0);
+    expect(items.length).toBeGreaterThan(0);
   });
 
   it("sound(...) returns matches for 1-char prefix", () => {
