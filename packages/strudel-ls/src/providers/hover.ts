@@ -88,6 +88,8 @@ export function provideHover(
       }
       
       if (usedBy.length > 0) {
+        // Debug logging removed
+        
         usedBy.sort();
         // Prioritize categories by frequency or importance
         const priority = ['kick drum', 'snare drum', 'hi-hat', 'piano', 'bass', 'synth', 'percussion'];
