@@ -26,6 +26,7 @@ import { provideSemanticTokens } from './providers/semanticTokens';
 import { formatDocument } from './analyzer/formatting';
 import type { Builtin } from './data/types';
 import builtinsData from './data/builtins.json' assert { type: 'json' };
+import soundsData from './data/sounds.json' assert { type: 'json' };
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -34,6 +35,8 @@ let settings = DefaultSettings;
 
 // Load builtins into a Map for quick lookup
 const builtins: Map<string, Builtin> = new Map((builtinsData as Builtin[]).map((b) => [b.name, b]));
+
+console.error(`Strudel LS: Loaded ${builtins.size} builtins and ${(soundsData as any).sounds.length} sounds.`);
 
 connection.onInitialize((_params: InitializeParams) => {
   return makeInitializeResult();
