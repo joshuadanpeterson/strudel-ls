@@ -227,14 +227,7 @@ export function provideCompletions(
         insertText: s,
         insertTextFormat: InsertTextFormat.Snippet,
         sortText: `0_${m.category ? m.category + '~' : ''}${s}`, // 0_ to prioritize sounds
-        detail: (() => {
-          if (typeof m.desc === 'string' && m.desc.length > 0) {
-            const d = m.desc as string;
-            return d.length > 80 ? d.slice(0, 79) + '…' : d;
-          }
-          if (m.category) return m.category as string;
-          return undefined;
-        })(),
+        detail: 'Sound',
         documentation: docStr ? { kind: 'markdown', value: docStr } as any : undefined,
       });
     }
@@ -268,7 +261,7 @@ export function provideCompletions(
           insertText: s,
           insertTextFormat: InsertTextFormat.Snippet,
           sortText: `${m.category ? m.category + '~' : ''}${s}`,
-          detail: (m.category as string) || undefined,
+          detail: 'Sound',
           documentation: docStr ? { kind: 'markdown', value: docStr } as any : undefined,
         });
       }
@@ -346,7 +339,7 @@ export function provideCompletions(
          label: s,
          kind: CompletionItemKind.Constant,
          insertText: s,
-         detail: (m.category as string) || 'Sound',
+         detail: 'Sound',
          sortText: `0_${s}`, // Sounds first
          documentation: { kind: 'markdown', value: soundDoc(s) || '' } as any,
        });

@@ -151,10 +151,8 @@ export function provideHover(
       const parts: string[] = [];
       
       // Title / Category
-      const cat = m.category ? m.category.charAt(0).toUpperCase() + m.category.slice(1) : 'Sound';
-      const family = m.family ? ` (${m.family})` : '';
       parts.push(`**${word}**`);
-      parts.push(`_${cat}${family}_`);
+      parts.push(`_Sound_`);
 
       // Description
       const catName = m.category || 'sound';
