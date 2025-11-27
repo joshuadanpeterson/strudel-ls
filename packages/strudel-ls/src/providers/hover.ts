@@ -1,5 +1,6 @@
 import type { Hover, Position } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
+import { buildBuiltinDoc } from '../analyzer/documentation';
 import type { Builtin } from '../data/types';
 import { getWordRangeAtPosition } from '../analyzer/utils';
 import soundsData from '../data/sounds.json' assert { type: 'json' };
@@ -47,7 +48,7 @@ export function provideHover(
   // 1) Builtin hover (enhanced)
   const b = builtins.get(word);
   if (b) {
-    const val = buildFnHover(b);
+    const val = buildBuiltinDoc(b);
     if (val) return { contents: { kind: 'markdown', value: val }, range };
   }
 
@@ -220,7 +221,7 @@ export function provideHover(
       // Double check if it wasn't caught by 1) (e.g. inside parens?)
       const b = builtins.get(fname);
       if (b) {
-        const val = buildFnHover(b);
+        const val = buildBuiltinDoc(b);
         if (val) return { contents: { kind: 'markdown', value: val }, range };
       }
     }

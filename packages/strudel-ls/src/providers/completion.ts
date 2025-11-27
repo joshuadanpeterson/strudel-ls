@@ -2,6 +2,7 @@ import type { CompletionItem, Position } from 'vscode-languageserver';
 import { CompletionItemKind, InsertTextFormat } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { getWordAtPosition } from '../analyzer/utils';
+import { buildBuiltinDoc, buildSnippet } from '../analyzer/documentation';
 import type { Builtin } from '../data/types';
 import soundsData from '../data/sounds.json' assert { type: 'json' };
 import { SoundDescriptions, BankDescriptions } from '../data/descriptions';
@@ -469,7 +470,7 @@ export function provideCompletions(
       label: name,
       kind: (kindMap as any)[b.kind] ?? CompletionItemKind.Text,
       detail: b.signature,
-      documentation: { kind: 'markdown', value: buildMarkdownDoc(b) },
+      documentation: { kind: 'markdown', value: buildBuiltinDoc(b) },
       sortText: `${b.aliasOf ? 'z~' : 'a~'}${name}`,
     };
     if (snippets) {
