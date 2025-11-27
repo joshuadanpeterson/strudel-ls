@@ -466,19 +466,31 @@ export function provideCompletions(
       combinator: CompletionItemKind.Function,
       other: CompletionItemKind.Text,
     };
+    
+    const isSingle = name.length === 1;
+    const aliasPrefix = b.aliasOf ? 'z~' : 'a~';
+    const sortPrefix = isSingle ? '0' : '1';
+
     const item: CompletionItem = {
       label: name,
       kind: (kindMap as any)[b.kind] ?? CompletionItemKind.Text,
       detail: b.signature,
       documentation: { kind: 'markdown', value: buildBuiltinDoc(b) },
-      sortText: `${b.aliasOf ? 'z~' : 'a~'}${name}`,
+      sortText: `${sortPrefix}_${aliasPrefix}${name}`,
     };
     if (snippets) {
       item.insertTextFormat = InsertTextFormat.Snippet;
       item.insertText = buildSnippet(name, b.signature);
     }
     builtinItems.push(item);
-    if (builtinItems.length >= maxItems) break;
+  }
+  
+  // Sort by sortText (prioritizing single letters 0_, then 1_)
+  builtinItems.sort((a, b) => (a.sortText || a.label).localeCompare(b.sortText || b.label));
+  
+  // Truncate to maxItems
+  if (builtinItems.length > maxItems) {
+    builtinItems.length = maxItems;
   }
 
   // B. Suggest Sounds/Banks with quotes (if we are not inside a string/sound call)
