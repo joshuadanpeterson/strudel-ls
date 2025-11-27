@@ -5,53 +5,34 @@ import { getWordRangeAtPosition } from '../analyzer/utils';
 import soundsData from '../data/sounds.json' assert { type: 'json' };
 import { SoundDescriptions, BankDescriptions } from '../data/descriptions';
 
-function isInsideSoundCall(doc: TextDocument, position: Position): boolean {
+function isInsideString(doc: TextDocument, position: Position): boolean {
   const text = doc.getText();
   const offset = doc.offsetAt(position);
   const before = text.slice(0, offset);
-  return /(?:^|[^A-Za-z0-9_])(s|sound)\s*\(\s*["'][^"']*$/.test(before);
+  const after = text.slice(offset);
+  
+  const lastDouble = before.lastIndexOf('"');
+  const lastSingle = before.lastIndexOf("'");
+  
+  const lastQuoteIndex = Math.max(lastDouble, lastSingle);
+  if (lastQuoteIndex === -1) return false;
+  
+  const quoteChar = before[lastQuoteIndex];
+  const segment = before.slice(lastQuoteIndex + 1);
+  if (segment.includes(quoteChar)) {
+     return false; // Closed before
+  }
+  
+  if (!after.includes(quoteChar)) return false;
+  
+  return true;
 }
 
 function isInsideBankArg(doc: TextDocument, position: Position): boolean {
   const text = doc.getText();
   const offset = doc.offsetAt(position);
   const before = text.slice(0, offset);
-  return /\.bank\s*\(\s*["'][^"']*$/.test(before);
-}
-
-function getNearestSound(doc: TextDocument, position: Position): string | undefined {
-  const textBefore = doc.getText().slice(0, doc.offsetAt(position));
-  const re = /(s|sound)\s*\(\s*['"]([^'"\)]+)['"]/g;
-  let m: RegExpExecArray | null;
-  let last: string | undefined;
-  while ((m = re.exec(textBefore))) last = m[2];
-  if (!last) return undefined;
-  const parts = last.trim().split(/[^A-Za-z0-9_]+/).filter(Boolean);
-  return parts.length ? parts[parts.length - 1] : undefined;
-}
-
-function buildFnHover(b: Builtin): string | undefined {
-  const parts: string[] = [];
-  parts.push(b.signature ? `\`\`${b.signature}\`\`` : `\`\`${b.name}\`\``);
-  if (b.blurb) parts.push(`\n\n${b.blurb}`);
-  if (b.params && b.params.length) {
-    parts.push('\n\nParameters:\n');
-    for (const p of b.params) {
-      const line = `- \`${p.name}\`${p.type ? `: ${p.type}` : ''}${p.optional ? ' (optional)' : ''}${p.doc ? ` — ${p.doc}` : ''}`;
-      parts.push(line);
-    }
-  }
-  if (b.enums && b.enums.length) {
-    parts.push('\n\nChoices:\n');
-    parts.push(b.enums.map((e: string) => `- \`${e}\``).join('\n'));
-  }
-  if (b.example) parts.push(`\n\nExample:\n\n\`\`\`strudel\n${b.example}\n\`\`\``);
-  if (b.aliasOf) {
-    parts.push(`\n\nAlias of: \`${b.aliasOf}\``);
-  } else if (b.synonyms && b.synonyms.length) {
-    parts.push(`\n\nAliases: ${b.synonyms.join(', ')}`);
-  }
-  return parts.join('');
+  return /\.bank\s*\([^)]*$/.test(before);
 }
 
 export function provideHover(
@@ -70,16 +51,34 @@ export function provideHover(
     if (val) return { contents: { kind: 'markdown', value: val }, range };
   }
 
-  // 2) bank("…") hover: list available banks for the nearest sound, or info about hovered bank
-  if (isInsideBankArg(doc, position)) {
-    const meta = (soundsData as any).meta || {};
-    
-    // If hovering a specific bank name, show which sounds use it
-    if (word) {
+  // 2) Check if word is a Bank or Sound inside ANY string literal
+  // (Relaxed from previous strict isInsideBankArg check)
+  // We only do this if it matches a known Bank or Sound to avoid noise.
+  
+  // Check for Bank
+  // If hovering a specific bank name, show which sounds use it
+  // WE ONLY DO THIS if it's actually inside a string OR a bank arg
+  // Relaxed logic: checking isInsideString OR isInsideBankArg
+  // But we MUST verify it is one of those. If it's just code (e.g. variable name), we skip.
+  
+  const inString = isInsideString(doc, position) || isInsideBankArg(doc, position);
+  
+  if (word && inString) {
+      const meta = (soundsData as any).meta || {};
+      let canonicalName = word;
+      let foundBank = false;
+
+      // Check if it is a known bank
+      // Optimization: Check if word matches a known bank in BankDescriptions directly first?
+      // Or check against the meta list.
+      
+      // 1. Direct BankDescriptions lookup (fastest)
+      // 2. Scan meta for bank existence (slower but complete)
+      
+      // Let's try to find it in meta first, as before, to gather usage info.
       const usedBy: string[] = [];
       const categories = new Set<string>();
-      let canonicalName = word;
-
+      
       for (const k of Object.keys(meta)) {
         const m = (meta as any)[k];
         const bs = m?.banks;
@@ -89,25 +88,20 @@ export function provideHover(
              usedBy.push(k);
              if (m.category) categories.add(m.category);
              canonicalName = match;
+             foundBank = true;
            }
         }
       }
       
-      if (usedBy.length > 0) {
-        // Debug logging removed
-        
+      if (foundBank && usedBy.length > 0) {
         usedBy.sort();
-        // Prioritize categories by frequency or importance
         const priority = ['kick drum', 'snare drum', 'hi-hat', 'piano', 'bass', 'synth', 'percussion'];
         const sortedCats = Array.from(categories).sort((a, b) => {
            const pa = priority.findIndex(p => a.toLowerCase().includes(p));
            const pb = priority.findIndex(p => b.toLowerCase().includes(p));
-           // If both in priority list, sort by index (lower is better)
            if (pa > -1 && pb > -1) return pa - pb;
-           // If one is priority, it comes first
            if (pa > -1) return -1;
            if (pb > -1) return 1;
-           // Otherwise alphabetical
            return a.localeCompare(b);
         });
         const catDesc = sortedCats.length > 0 
@@ -120,21 +114,15 @@ export function provideHover(
           ? `**${sortedCats[0]}** bank` 
           : `Bank containing **${catDesc}** sounds`;
 
-        // Humanize bank name (e.g. RolandTR909 -> Roland TR 909)
         const humanName = canonicalName.replace(/([A-Z]+)/g, ' $1').trim().replace(/([0-9]+)/g, ' $1').trim();
         let bankDesc = BankDescriptions[canonicalName];
 
-        // Fallback: case-insensitive lookup if exact match fails
         if (!bankDesc) {
-           // Try exact key lookup first in case canonicalName is correct
            bankDesc = BankDescriptions[canonicalName];
-           
-           // If still missing, try finding a key that matches case-insensitively
            if (!bankDesc) {
              const key = Object.keys(BankDescriptions).find(k => k.toLowerCase() === canonicalName.toLowerCase());
              if (key) {
                bankDesc = BankDescriptions[key];
-               // Prefer the key from descriptions as canonical name for display
                canonicalName = key;
              }
            }
@@ -152,24 +140,13 @@ export function provideHover(
            range 
         };
       }
-    }
-
-    const sound = getNearestSound(doc, position);
-    if (sound) {
-      const info = (meta as any)[sound] || {};
-      const banks: string[] = Array.isArray(info.banks) ? info.banks : [];
-      if (banks.length) {
-        const list = banks.map((b: string) => `- ${b}`).join('\n');
-        const header = `Banks for \`${sound}\`:`;
-        return { contents: { kind: 'markdown', value: `${header}\n\n${list}` }, range };
-      }
-    }
   }
 
-  // 3) Sound-name hover when inside s("…") or sound("…")
-  if (isInsideSoundCall(doc, position)) {
+  // 3) Check for Sound (meta key)
+  // We do this if it wasn't a bank.
+  if (word && inString) {
     const meta = (soundsData as any).meta || {};
-    const m = meta[word];
+    const m = meta[word]; // Exact match first
     if (m) {
       const parts: string[] = [];
       
@@ -190,10 +167,7 @@ export function provideHover(
       }
 
       if (m.desc) {
-        // Only show m.desc if we DON'T have a manual description
-        // because m.desc typically contains banks/packs/counts which are already in "Details"
         if (!manualDesc) {
-           // Strip the "Category · " prefix if it's redundant
            let d = m.desc;
            if (m.category && d.toLowerCase().startsWith(m.category.toLowerCase())) {
               const idx = d.indexOf('·');
@@ -206,15 +180,11 @@ export function provideHover(
       }
       parts.push('### Usage');
       const examples: string[] = [];
-      // 1. Basic usage
       examples.push(`s("${word}")`);
-      // 2. Bank usage if available
       if (Array.isArray(m.banks) && m.banks.length > 0) {
-        // Pick a bank (e.g. RolandTR909 or first one)
         const b = m.banks.find((x: string) => x.includes('909')) || m.banks[0];
         examples.push(`s("${word}").bank("${b}")`);
       }
-      // 3. Melodic usage heuristic (if not purely drums, or if known melodic category)
       const melodicCats = ['piano', 'guitar', 'bass', 'strings', 'winds', 'brass', 'keyboard', 'synth', 'voice'];
       const isMelodic = m.category && melodicCats.some(c => m.category.toLowerCase().includes(c));
       if (isMelodic) {
@@ -223,7 +193,6 @@ export function provideHover(
       
       parts.push('```strudel\n' + examples.join('\n') + '\n```');
 
-      // Metadata / Details
       const lines: string[] = [];
       if (typeof m.count === 'number') lines.push(`- **Samples**: ${m.count}`);
       if (Array.isArray(m.banks) && m.banks.length) {
@@ -244,12 +213,13 @@ export function provideHover(
     }
   }
 
-  // 4) Function call hover: show parameter docs and choices for the called function
+  // 4) Function call hover (legacy fallback if needed, but builtins check at top covers most)
   {
     const text = doc.getText().slice(0, doc.offsetAt(position));
     const m = /([A-Za-z_][A-Za-z0-9_]*)\s*\([^)]*$/m.exec(text);
     if (m) {
       const fname = m[1];
+      // Double check if it wasn't caught by 1) (e.g. inside parens?)
       const b = builtins.get(fname);
       if (b) {
         const val = buildFnHover(b);
