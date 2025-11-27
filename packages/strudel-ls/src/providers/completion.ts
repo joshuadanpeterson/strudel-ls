@@ -22,6 +22,29 @@ function isInsideBankArg(doc: TextDocument, position: Position): boolean {
   return /\.bank\s*\([^)]*$/.test(before);
 }
 
+function isInsideString(doc: TextDocument, position: Position): boolean {
+  const text = doc.getText();
+  const offset = doc.offsetAt(position);
+  const before = text.slice(0, offset);
+  const after = text.slice(offset);
+  
+  const lastDouble = before.lastIndexOf('"');
+  const lastSingle = before.lastIndexOf("'");
+  
+  const lastQuoteIndex = Math.max(lastDouble, lastSingle);
+  if (lastQuoteIndex === -1) return false;
+  
+  const quoteChar = before[lastQuoteIndex];
+  const segment = before.slice(lastQuoteIndex + 1);
+  if (segment.includes(quoteChar)) {
+     return false; // Closed before
+  }
+  
+  if (!after.includes(quoteChar)) return false; // Never closed after? (could be mid-typing)
+  
+  return true;
+}
+
 function getNearestSound(doc: TextDocument, position: Position): string | undefined {
   const textBefore = doc.getText().slice(0, doc.offsetAt(position));
   const re = /(s|sound)\s*\(\s*['"]([^'"\)]+)['"]/g;
@@ -29,38 +52,15 @@ function getNearestSound(doc: TextDocument, position: Position): string | undefi
   let last: string | undefined;
   while ((m = re.exec(textBefore))) last = m[2];
   if (!last) return undefined;
-  // Heuristic: take the last token-like segment
+  
   const parts = last.trim().split(/[^A-Za-z0-9_]+/).filter(Boolean);
+  // Prefer a part that exists in the sound library
+  const meta = (soundsData as any).meta || {};
+  for (const part of parts) {
+    if (meta[part]) return part;
+  }
+  // Fallback to last part if no known sound found (legacy behavior)
   return parts.length ? parts[parts.length - 1] : undefined;
-}
-
-function buildSnippet(name: string, signature?: string): string {
-  if (!signature || !signature.includes('(')) return name;
-  const paramsPart = signature.match(/\((.*)\)/)?.[1] ?? '';
-  const params = paramsPart.split(',').map((p) => p.trim()).filter(Boolean);
-  if (params.length === 0) return `${name}($1)`; // best-effort
-  const snips = params.map((p, i) => `\${${i + 1}:${p}}`).join(', ');
-  return `${name}(${snips})`;
-}
-
-function buildMarkdownDoc(b: Builtin): string {
-  const parts: string[] = [];
-  if (b.blurb) parts.push(b.blurb);
-  if (b.params && b.params.length) {
-    parts.push('\n\nParameters:\n');
-    for (const p of b.params) {
-      const line = `- \`${p.name}\`${p.type ? `: ${p.type}` : ''}${p.optional ? ' (optional)' : ''}${p.doc ? ` — ${p.doc}` : ''}`;
-      parts.push(line);
-    }
-  }
-  if (b.enums && b.enums.length) {
-    parts.push('\n\nChoices:\n');
-    parts.push(b.enums.map((e: string) => `- \`${e}\``).join('\n'));
-  }
-  if (b.example) parts.push(`\n\n\`\`\`strudel\n${b.example}\n\`\`\``);
-  if (b.aliasOf) parts.push(`\n\nAlias of: \`${b.aliasOf}\``);
-  else if (b.synonyms && b.synonyms.length) parts.push(`\n\nAliases: ${b.synonyms.join(', ')}`);
-  return parts.join('');
 }
 
 export function provideCompletions(
@@ -73,8 +73,9 @@ export function provideCompletions(
   const prefixRaw = getWordAtPosition(doc, position) || '';
   const prefix = prefixRaw.toLowerCase();
 
-  // Context-aware: inside bank("...") suggest banks available for the nearest sound
+  // 1. Context-aware: inside bank("...") suggest banks available for the nearest sound
   if (isInsideBankArg(doc, position)) {
+    // ... (keep existing bank logic)
     const meta = (soundsData as any).meta || {};
     const sound = getNearestSound(doc, position);
     const info = sound ? (meta as any)[sound] || {} : {};
@@ -147,8 +148,9 @@ export function provideCompletions(
     return items;
   }
 
-  // Context-aware: inside s("...") suggest sounds
+  // 2. Context-aware: inside s("...") suggest sounds
   if (isInsideSoundCall(doc, position)) {
+    // ... (keep existing sound logic, effectively blocking generic strings later due to return)
     // Allow empty prefix (e.g. inside "") to suggest all sounds
     let items: CompletionItem[] = [];
     const list = (soundsData as any).sounds as string[];
@@ -237,45 +239,8 @@ export function provideCompletions(
       });
     }
 
-    // 2. Add Banks (REMOVED: Banks should only be suggested in .bank(), not in s())
-    // The user reported this causes confusion because s("BankName") doesn't work as expected (no hover info, maybe not playable).
-    // See: https://github.com/strudel-tools/strudel-ls/issues/xx
-    /*
-    const banks = new Set<string>();
-    for (const k of Object.keys(meta)) {
-      const bs = (meta as any)[k]?.banks as string[] | undefined;
-      if (Array.isArray(bs)) for (const b of bs) banks.add(b);
-    }
-    
-    for (const b of banks) {
-       if (prefix && !b.toLowerCase().startsWith(prefix)) continue;
-       
-       // Find sounds that use this bank
-       const usedBy: string[] = [];
-       for (const k of Object.keys(meta)) {
-         const bs = (meta as any)[k]?.banks;
-         if (Array.isArray(bs) && bs.includes(b)) {
-           usedBy.push(k);
-         }
-       }
-       usedBy.sort();
-
-       items.push({
-         label: b,
-         kind: CompletionItemKind.EnumMember, // Better icon for banks? EnumMember or Class
-         insertText: b,
-         insertTextFormat: InsertTextFormat.Snippet,
-         sortText: `1_${b}`,
-         detail: 'Bank',
-         documentation: {
-            kind: 'markdown',
-            value: usedBy.length 
-              ? `**Bank**\n\nUsed by: ${usedBy.join(', ')}`
-              : `**Bank**`
-         },
-       });
-    }
-    */
+    // 2. Add Banks (REMOVED from s(), see previous change)
+    // ...
 
     // Fuzzy fallback if no prefix matches
     if (items.length === 0 && prefix) {
@@ -311,7 +276,146 @@ export function provideCompletions(
     return items;
   }
 
-  // Inside function call with known enums: propose enum choices
+  // 3. Inside generic string (e.g. const x = "..."): Suggest BOTH sounds and banks
+  if (isInsideString(doc, position)) {
+     const items: CompletionItem[] = [];
+     const list = (soundsData as any).sounds as string[];
+     const meta = (soundsData as any).meta || {};
+
+     // Helper from sound completion (duplicated for now, or hoisted if refactored)
+     // To keep diff minimal, I will inline simplified logic or reuse shared functions if I hoist them.
+     // I'll hoist `soundDoc` logic conceptually by repeating the loop structure.
+     
+     function soundDoc(name: string): string | undefined {
+      const m = meta[name] || {};
+      const parts: string[] = [];
+      
+      // Description
+      const manualDesc = SoundDescriptions[name];
+      if (manualDesc) {
+        parts.push(manualDesc);
+      } else if (m.desc) {
+        // Fallback to auto-desc if no manual one
+        let d = m.desc;
+        if (m.category && d.toLowerCase().startsWith(m.category.toLowerCase())) {
+           const idx = d.indexOf('·');
+           if (idx > -1) d = d.slice(idx + 1).trim();
+        }
+        parts.push(d);
+      }
+
+      // Usage
+      const examples: string[] = [];
+      examples.push(`s("${name}")`);
+      if (Array.isArray(m.banks) && m.banks.length > 0) {
+        const b = m.banks.find((x: string) => x.includes('909')) || m.banks[0];
+        examples.push(`s("${name}").bank("${b}")`);
+      }
+      
+      if (examples.length) {
+        parts.push(`\n\`\`\`strudel\n${examples.join('\n')}\n\`\`\``);
+      }
+
+      const sectionLines: string[] = [];
+      const tags  = Array.isArray(m.tags)  && m.tags.length  ? `Tags: ${m.tags.join(', ')}`   : '';
+      const aliases = Array.isArray(m.aliases) && m.aliases.length ? `Aliases: ${m.aliases.join(', ')}` : '';
+      const source = (() => {
+          const pack = Array.isArray(m.packs) && m.packs[0];
+          const url = Array.isArray(m.baseUrls) && m.baseUrls[0];
+          if (pack && url) return `Source: [${pack}](${url})`;
+          if (pack) return `Source: ${pack}`;
+          return '';
+      })();
+      
+      if (source) sectionLines.push(source);
+      if (tags) sectionLines.push(tags);
+      if (aliases) sectionLines.push(aliases);
+
+      if (sectionLines.length) {
+        parts.push('\n' + sectionLines.join('\n'));
+      }
+      return parts.length ? parts.join('\n') : undefined;
+    }
+
+     // Suggest Sounds
+     for (const s of list) {
+       if (!s || (prefix && !s.toLowerCase().startsWith(prefix))) continue;
+       // Simplified detail for generic string
+       const m = (meta as any)[s] || {};
+       items.push({
+         label: s,
+         kind: CompletionItemKind.Constant,
+         insertText: s,
+         detail: (m.category as string) || 'Sound',
+         sortText: `0_${s}`, // Sounds first
+         documentation: { kind: 'markdown', value: soundDoc(s) || '' } as any,
+       });
+     }
+
+     // Suggest Banks
+     const banks = new Set<string>();
+     for (const k of Object.keys(meta)) {
+       const bs = (meta as any)[k]?.banks as string[] | undefined;
+       if (Array.isArray(bs)) for (const b of bs) banks.add(b);
+     }
+     
+     for (const b of banks) {
+        if (prefix && !b.toLowerCase().startsWith(prefix)) continue;
+        
+        // Rich documentation for banks (reusing logic)
+        const usedBy: string[] = [];
+        const categories = new Set<string>();
+        for (const k of Object.keys(meta)) {
+           const m = (meta as any)[k];
+           const bs = m?.banks;
+           if (Array.isArray(bs) && bs.includes(b)) {
+             usedBy.push(k);
+             if (m.category) categories.add(m.category);
+           }
+        }
+        usedBy.sort();
+        
+        const priority = ['kick drum', 'snare drum', 'hi-hat', 'piano', 'bass', 'synth', 'percussion'];
+        const sortedCats = Array.from(categories).sort((a, b) => {
+             const pa = priority.findIndex(p => a.toLowerCase().includes(p));
+             const pb = priority.findIndex(p => b.toLowerCase().includes(p));
+             if (pa > -1 && pb > -1) return pa - pb;
+             if (pa > -1) return -1;
+             if (pb > -1) return 1;
+             return a.localeCompare(b);
+        });
+        const catDesc = sortedCats.length > 0 
+          ? sortedCats.length > 3 ? `${sortedCats.slice(0, 3).join(', ')}...` : sortedCats.join(', ')
+          : 'various';
+        const summary = sortedCats.length === 1 ? `**${sortedCats[0]}** bank` : `Bank containing **${catDesc}** sounds`;
+        
+        const humanName = b.replace(/([A-Z]+)/g, ' $1').trim().replace(/([0-9]+)/g, ' $1').trim();
+        const bankDesc = BankDescriptions[b];
+        const descPart = bankDesc ? `\n\n${bankDesc}\n\n` : `\n\n`;
+
+        items.push({
+          label: b,
+          kind: CompletionItemKind.EnumMember,
+          insertText: b,
+          detail: 'Bank',
+          sortText: `1_${b}`, // Banks second
+          documentation: {
+             kind: 'markdown',
+             value: `_${humanName}_${descPart}` +
+                    summary + '\n\n' +
+                    (usedBy.length ? `Used by: ${usedBy.join(', ')}` : '')
+          } as any,
+        });
+     }
+     
+     // If we have matches, return them. Otherwise fall through?
+     // Actually, if we are in a string, we probably ONLY want string-relevant things (sounds/banks/samples).
+     // We definitely don't want function calls like `fast(..)` inside a string usually.
+     // So we return here.
+     return items;
+  }
+
+  // 4. Inside function call with known enums: propose enum choices
   {
     const text = doc.getText().slice(0, doc.offsetAt(position));
     const m = /([A-Za-z_][A-Za-z0-9_]*)\s*\([^)]*$/m.exec(text);
@@ -339,8 +443,10 @@ export function provideCompletions(
     }
   }
 
-  // Elsewhere: suggest transforms/functions from builtins
-  const items: CompletionItem[] = [];
+  // 5. Elsewhere: suggest transforms/functions AND quoted sounds/banks
+  const builtinItems: CompletionItem[] = [];
+  
+  // A. Builtins
   for (const [name, b] of builtins) {
     if (prefix && !name.toLowerCase().startsWith(prefix)) continue;
     const kindMap: Record<string, number> = {
@@ -360,8 +466,45 @@ export function provideCompletions(
       item.insertTextFormat = InsertTextFormat.Snippet;
       item.insertText = buildSnippet(name, b.signature);
     }
-    items.push(item);
-    if (items.length >= maxItems) break;
+    builtinItems.push(item);
+    if (builtinItems.length >= maxItems) break;
   }
-  return items;
+
+  // B. Suggest Sounds/Banks with quotes (if we are not inside a string/sound call)
+  // This addresses `const test = |`
+  if (!isInsideSoundCall(doc, position) && !isInsideBankArg(doc, position) && !isInsideString(doc, position)) {
+     const list = (soundsData as any).sounds as string[];
+     const meta = (soundsData as any).meta || {};
+     
+     // Sounds (Quoted)
+     for (const s of list) {
+       if (!s || (prefix && !s.toLowerCase().startsWith(prefix))) continue;
+       builtinItems.push({
+         label: `"${s}"`, // Show with quotes
+         kind: CompletionItemKind.Constant,
+         insertText: `"${s}"`, // Insert with quotes
+         detail: 'Sound (String)',
+         sortText: `y_0_${s}`, // After builtins (a~), before z~ aliases?
+       });
+     }
+     
+     // Banks (Quoted)
+     const banks = new Set<string>();
+     for (const k of Object.keys(meta)) {
+       const bs = (meta as any)[k]?.banks as string[] | undefined;
+       if (Array.isArray(bs)) for (const b of bs) banks.add(b);
+     }
+     for (const b of banks) {
+        if (prefix && !b.toLowerCase().startsWith(prefix)) continue;
+        builtinItems.push({
+          label: `"${b}"`,
+          kind: CompletionItemKind.EnumMember,
+          insertText: `"${b}"`,
+          detail: 'Bank (String)',
+          sortText: `y_1_${b}`,
+        });
+     }
+  }
+
+  return builtinItems;
 }
