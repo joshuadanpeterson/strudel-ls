@@ -7,42 +7,59 @@ import soundsData from '../data/sounds.json' assert { type: 'json' };
 import { SoundDescriptions, BankDescriptions } from '../data/descriptions';
 
 function isInsideSoundCall(doc: TextDocument, position: Position): boolean {
-  const text = doc.getText();
-  const offset = doc.offsetAt(position);
-  const before = text.slice(0, offset);
-  // heuristics: last unmatched s(" or sound(") pattern
-  return /(?:^|[^A-Za-z0-9_])(s|sound)\s*\(\s*["'][^"']*$/.test(before);
+  const text = doc.getText({
+    start: { line: position.line, character: 0 },
+    end: position
+  });
+  // heuristics: last unmatched s(" or sound(") pattern on the same line
+  return /(?:^|[^A-Za-z0-9_])(s|sound)\s*\(\s*["'][^"']*$/.test(text);
 }
 
 function isInsideBankArg(doc: TextDocument, position: Position): boolean {
-  const text = doc.getText();
-  const offset = doc.offsetAt(position);
-  const before = text.slice(0, offset);
+  const text = doc.getText({
+    start: { line: position.line, character: 0 },
+    end: position
+  });
   // Consider inside bank if we're after ".bank(" and before its closing ")" (quotes optional)
-  return /\.bank\s*\([^)]*$/.test(before);
+  // on the same line
+  return /\.bank\s*\([^)]*$/.test(text);
 }
 
 function isInsideString(doc: TextDocument, position: Position): boolean {
-  const text = doc.getText();
-  const offset = doc.offsetAt(position);
-  const before = text.slice(0, offset);
-  const after = text.slice(offset);
+  const lineText = doc.getText({
+    start: { line: position.line, character: 0 },
+    end: { line: position.line + 1, character: 0 }
+  });
+  const lineOffset = position.character;
+  const before = lineText.slice(0, lineOffset);
+  const after = lineText.slice(lineOffset);
   
+  // Simple check: count quotes before. Odd number = inside.
+  const doubleQuotes = (before.match(/"/g) || []).length;
+  const singleQuotes = (before.match(/'/g) || []).length;
+  
+  // We assume single-line strings.
+  // If odd number of quotes before, we are likely inside a string.
+  // We should also check if the quote is closed *after* the cursor?
+  // Actually, just odd count before is a decent heuristic for "inside string" on a single line.
+  
+  // But we need to distinguish between " inside " and ' inside '.
   const lastDouble = before.lastIndexOf('"');
   const lastSingle = before.lastIndexOf("'");
   
   const lastQuoteIndex = Math.max(lastDouble, lastSingle);
   if (lastQuoteIndex === -1) return false;
   
-  const quoteChar = before[lastQuoteIndex];
-  const segment = before.slice(lastQuoteIndex + 1);
-  if (segment.includes(quoteChar)) {
-     return false; // Closed before
-  }
+  // If the last quote was effectively "closed" by another quote before cursor?
+  // "foo" | -> quotes=2. Even.
+  // "foo | -> quotes=1. Odd.
+  // "foo" "bar | -> quotes=3. Odd.
   
-  if (!after.includes(quoteChar)) return false; // Never closed after? (could be mid-typing)
+  const quoteChar = before[lastQuoteIndex]; // The most recent quote char
   
-  return true;
+  // Count occurrences of THAT specific char
+  const count = (before.split(quoteChar).length - 1);
+  return count % 2 === 1;
 }
 
 function getNearestSound(doc: TextDocument, position: Position): string | undefined {

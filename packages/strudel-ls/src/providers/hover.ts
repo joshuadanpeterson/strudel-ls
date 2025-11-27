@@ -6,10 +6,15 @@ import soundsData from '../data/sounds.json' assert { type: 'json' };
 import { SoundDescriptions, BankDescriptions } from '../data/descriptions';
 
 function isInsideString(doc: TextDocument, position: Position): boolean {
-  const text = doc.getText();
-  const offset = doc.offsetAt(position);
-  const before = text.slice(0, offset);
-  const after = text.slice(offset);
+  const lineText = doc.getText({
+    start: { line: position.line, character: 0 },
+    end: { line: position.line + 1, character: 0 }
+  });
+  const lineOffset = position.character;
+  const before = lineText.slice(0, lineOffset);
+  
+  // Simple check: count quotes before. Odd number = inside.
+  // We only check single line.
   
   const lastDouble = before.lastIndexOf('"');
   const lastSingle = before.lastIndexOf("'");
@@ -18,21 +23,16 @@ function isInsideString(doc: TextDocument, position: Position): boolean {
   if (lastQuoteIndex === -1) return false;
   
   const quoteChar = before[lastQuoteIndex];
-  const segment = before.slice(lastQuoteIndex + 1);
-  if (segment.includes(quoteChar)) {
-     return false; // Closed before
-  }
-  
-  if (!after.includes(quoteChar)) return false;
-  
-  return true;
+  const count = (before.split(quoteChar).length - 1);
+  return count % 2 === 1;
 }
 
 function isInsideBankArg(doc: TextDocument, position: Position): boolean {
-  const text = doc.getText();
-  const offset = doc.offsetAt(position);
-  const before = text.slice(0, offset);
-  return /\.bank\s*\([^)]*$/.test(before);
+  const text = doc.getText({
+    start: { line: position.line, character: 0 },
+    end: position
+  });
+  return /\.bank\s*\([^)]*$/.test(text);
 }
 
 export function provideHover(
