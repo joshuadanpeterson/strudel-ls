@@ -1,11 +1,13 @@
 {
   "name": "@strudel-tools/prettier-plugin-strudel",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Prettier plugin (no-op) for Strudel files: .strudel, .strdl, .str, .std",
   "license": "MIT",
   "type": "module",
   "main": "./src/index.js",
-  "files": ["src"],
+  "files": [
+    "src"
+  ],
   "scripts": {
     "test": "node ./test/test.mjs"
   },
